@@ -1,0 +1,83 @@
+/* NavBar.css */
+.logo {
+  width: 150px;
+}
+
+.navbar-dark {
+  background-color: var(
+    --color-background1
+  ); /* Ensure this uses the theme color */
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: var(--color-text);
+  font-family: var(--font-main);
+  font-size: 16px; /* Ensure this is the same as the text size */
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: white;
+}
+
+.navbar-dark .navbar-nav .nav-link .icon {
+  font-size: 24px; /* Adjust the size to match the text height */
+  vertical-align: middle; /* Align the icon with the text */
+  line-height: 1; /* Ensure the icon and text are vertically centered */
+}
+
+.btn-create {
+  background-color: var(--color-button);
+  color: var(--color-text);
+  border: none;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn-create .icon {
+  font-size: 24px; /* Ensure this matches the text size */
+  margin-right: 8px; /* Adjust spacing between icon and text */
+}
+
+.btn-create:hover {
+  background-color: var(--color-primary1); /* Update to use theme color */
+  color: white;
+}
+
+.navbar-nav {
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link.active {
+  color: white;
+  font-weight: bold;
+}
+
+@media (max-width: var(--breakpoint-lg)) {
+  .navbar-nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-item {
+    margin-bottom: 10px;
+  }
+
+  .nav-item:last-child {
+    margin-bottom: 0;
+  }
+}

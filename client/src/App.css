@@ -1,3 +1,22 @@
+/* Importing Montserrat font */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+/* Applying Montserrat globally */
+body,
+html {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.nav-link {
+  font-weight: 300;
+}
+
+.btn {
+  font-weight: 500;
+}
+
+/* DEFAULTS BELOW THIS LINE */
+
 .App {
   text-align: center;
 }
