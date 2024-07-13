@@ -1,4 +1,4 @@
-name: Build
+name: Continuous Integration on main
 
 on:
   pull_request:
@@ -6,23 +6,77 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  setup_dependencies:
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Check if Node.js is installed
+        run: node --version || echo 'Node.js is not installed'
+        id: check_node_installed
+        continue-on-error: true
+
+      - name: Install Node.js and npm
+        if: steps.check_node_installed.outcome == 'failure'
+        uses: actions/setup-node@v2
         with:
-          node-version: 20.x
+          node-version: "20"
 
-      - name: Install dependencies
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20
+
+      - name: Install client dependencies
         run: npm install
+        working-directory: client/
 
-      - name: Build
+      - name: Install server dependencies
+        run: npm install
+        working-directory: server/
+
+  build:
+    runs-on: self-hosted
+    needs: setup_dependencies
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build Client
         run: npm run build
+        working-directory: client/
 
-      - name: Run tests
-        run: npm test
+  jest_tests:
+    runs-on: self-hosted
+    needs: [setup_dependencies, build]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check if Node.js is installed
+        run: node --version || echo 'Node.js is not installed'
+        id: check_node_installed
+        continue-on-error: true
+
+      - name: Install Node.js and npm
+        if: steps.check_node_installed.outcome == 'failure'
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Install dependencies in server directory
+        run: npm install
+        working-directory: server/
+
+      - name: Install dependencies in client directory
+        run: npm install
+        working-directory: client/
+
+      - name: Start the Client
+        run: npm start &
+        working-directory: client/
+
+      - name: Kill the node server process
+        run: kill $(lsof -t -i:8000) || true
