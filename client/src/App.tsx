@@ -1,3 +1,4 @@
+// App.tsx
 import React from 'react';
 import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
@@ -14,14 +15,17 @@ import Collection from './components/main/Collections/Collection';
 import Reviews from './components/main/Reviews';
 import Review from './components/main/Reviews/Review';
 import CreateCollection from './components/main/Collections/CreateCollection';
-import CreateReview from './components/main/Reviews/CreateReview'; // Updated path
+import CreateReview from './components/main/Reviews/CreateReview';
+import NavBar from './components/header/NavBar';
 
+// TODO: add routes for film and TV
 function App() {
   return (
     <HashRouter>
       <div className="h-100">
+        <NavBar />
         <Routes>
-          <Route path="/" element={<Navigate to="home" />} /> {/* Changed "Home" to "home" */}
+          <Route path="/" element={<Navigate to="home" />} />
           <Route path="home" element={<Home />} />
           <Route path="search" element={<Search />} />
           <Route path="login" element={<Login />} />
