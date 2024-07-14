@@ -1,5 +1,5 @@
 # Netlify Link
-https://app-cinematiq.netlify.app/
+[Cinematiq](https://app-cinematiq.netlify.app/)
 
 
 # Getting Started with Create React App
