@@ -1,3 +1,7 @@
+# Netlify Link
+https://app.netlify.com/sites/app-cinematiq/deploys/6692b7a09d6c410008b360f0
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
