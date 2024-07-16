@@ -1,0 +1,47 @@
+
+body {
+    background-color: black;
+    color: white; /* Set text color to contrast with black background */
+}
+  
+.sub-header-container {
+    max-width: 900px;
+    margin-top: 20px;
+    margin-bottom: 5px; 
+    margin-right: 80px ; 
+    
+}
+
+
+.sub-header-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.5rem;
+    background-color: #910012; 
+    border-radius: 50px; 
+}
+  
+.sub-header-nav .btn {
+    background-color: #1e98d7;
+    color: white;
+    border-radius: 50px; 
+    padding: 0.3rem 1rem;
+    margin-left: 15px;
+}
+  
+.sub-header-nav .nav-link {
+    color: white;
+    text-decoration: none;
+    margin-left: 5rem;
+}
+  
+.sub-header-nav .nav-link:hover {
+    text-decoration: underline;
+}
+  
+.sub-header-nav .icon {
+    font-size: 1.5rem;
+    color: white;
+    margin-left: 1rem;
+}
