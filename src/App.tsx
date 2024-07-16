@@ -17,6 +17,7 @@ import Review from './components/main/Reviews/Review';
 import CreateCollection from './components/main/Collections/CreateCollection';
 import CreateReview from './components/main/Reviews/CreateReview';
 import NavBar from './components/header/NavBar';
+import Movie from './components/main/Movie';
 
 // TODO: add routes for film and TV
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/" element={<Navigate to="home" />} />
           <Route path="home" element={<Home />} />
           <Route path="search" element={<Search />} />
+          <Route path="search/:mid" element={<Movie />} />
           <Route path="login" element={<Login />} />
           <Route path="registration" element={<Registration />} />
           <Route path="discussions" element={<Discussions />} />
