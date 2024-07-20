@@ -1,11 +1,16 @@
+// src/components/main/Reviews/Create/index.tsx
+
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Form, Button, Modal, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
+import ValidationAlert from '../../Alerts/ValidationAlert';
 import * as reviewClient from '../../../../services/reviewService';
 import * as movieClient from '../../../../services/movieService';
 import { addReview } from '../reducer';
 import { setMovies } from '../../Movies/reducer';
-import { useDispatch } from 'react-redux';
+import { CiSquareChevLeft } from 'react-icons/ci';
 import './index.css';
 
 export default function CreateReview({
@@ -13,14 +18,19 @@ export default function CreateReview({
 }: {
   handleClose: () => void;
 }) {
+  const [show, setShow] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState<any | null>(null);
-  const shortReview = true;
 
+  const shortReview = true;
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
   const [watchDate, setWatchDate] = useState('');
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [nextText, setNextText] = useState('NEXT');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -42,46 +52,100 @@ export default function CreateReview({
   }, []);
 
   const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-    const results = await movieClient.findMoviesForTitle(e.target.value);
-    setSearchResults(results);
+    const value = e.target.value;
+    setSearchTerm(value);
+    setShowAlert(false);
+
+    if (value.trim() === '') {
+      setSearchResults([]);
+      return;
+    }
+
+    try {
+      const results = await movieClient.findMoviesForTitle(value);
+      setSearchResults(results);
+    } catch (error) {
+      console.error('Error fetching movie results:', error);
+      setSearchResults([]);
+    }
   };
 
   const handleSelectMovie = (movie: any) => {
     setSelectedMovie(movie);
   };
 
+  const validateReview = () => {
+    if (!selectedMovie) {
+      setAlertMessage('What movie do you want to review?');
+      return false;
+    }
+    if (!watchDate) {
+      setAlertMessage('When did you watch this movie?');
+      return false;
+    }
+    if (dayjs(watchDate).isAfter(dayjs())) {
+      setAlertMessage('Time traveler? Watch date cannot be in the future.');
+      return false;
+    }
+    if (rating === 0) {
+      setAlertMessage("Don't be shy! Tell us your rating!");
+      return false;
+    }
+    if (!shortReview && !reviewText) {
+      setAlertMessage('Tell us more!');
+      return false;
+    }
+    setNextText('PUBLISH');
+    return true;
+  };
+
   const handleSaveReview = () => {
-    const newReview = {
-      type: 'SHORT', // TODO: add state for changing between short and long reviews
-      author: username, // Replace with actual user data
-      movie: selectedMovie,
-      rating,
-      watch_date: watchDate,
-      review_date: new Date(),
-      text: reviewText,
-    };
-    createReview(newReview);
-    handleClose();
-    navigate('/reviews');
+    if (validateReview()) {
+      const newReview = {
+        _id: dayjs().format(),
+        type: 'SHORT', // TODO: add state for changing between short and long reviews
+        author: username, // TODO: replace with actual user data
+        movie: selectedMovie,
+        rating,
+        watch_date: watchDate,
+        review_date: new Date(),
+        text: reviewText,
+      };
+      createReview(newReview);
+      handleClose();
+      navigate(`/reviews/${newReview._id}`);
+    } else {
+      setShowAlert(true);
+    }
   };
 
   return (
     <Modal
-      show
+      show={show}
       onHide={handleClose}
       backdrop="static"
       centered
       className="custom-modal"
     >
-      <Modal.Header closeButton>
-        <Modal.Title>Write a Review...</Modal.Title>
-      </Modal.Header>
       <Modal.Body className={selectedMovie ? 'expanded-body' : ''}>
+        <Button
+          variant="outline-secondary"
+          className="close-button"
+          onClick={handleClose}
+        >
+          &times;
+        </Button>
+        {showAlert && (
+          <ValidationAlert
+            message={alertMessage}
+            onClose={() => setShowAlert(false)}
+          />
+        )}
         {!selectedMovie ? (
           <Form.Group controlId="searchMovie">
             <Form.Label>Movie Title</Form.Label>
             <Form.Control
+              size="lg"
               type="text"
               value={searchTerm}
               onChange={handleSearchChange}
@@ -109,7 +173,7 @@ export default function CreateReview({
                 className="back-button"
                 onClick={() => setSelectedMovie(null)}
               >
-                Back
+                <CiSquareChevLeft className="icon back-icon" />
               </Button>
               <div className="movie-poster">
                 <img src={selectedMovie.poster} alt={selectedMovie.title} />
@@ -125,7 +189,10 @@ export default function CreateReview({
                   <Form.Control
                     type="date"
                     value={watchDate}
-                    onChange={(e) => setWatchDate(e.target.value)}
+                    onChange={(e) => {
+                      setShowAlert(false);
+                      setWatchDate(dayjs(e.target.value).format('YYYY-MM-DD'));
+                    }}
                   />
                 </Form.Group>
                 <Form.Group controlId="rating">
@@ -133,7 +200,11 @@ export default function CreateReview({
                   <Form.Control
                     as="select"
                     value={rating}
-                    onChange={(e) => setRating(Number(e.target.value))}
+                    onChange={(e) => {
+                      setShowAlert(false);
+                      setRating(Number(e.target.value));
+                    }}
+                    isInvalid={showAlert && rating === 0}
                   >
                     {[...Array(10)].map((_, i) => (
                       <option key={i + 1} value={i + 1}>
@@ -149,7 +220,11 @@ export default function CreateReview({
                       as="textarea"
                       rows={6}
                       value={reviewText}
-                      onChange={(e) => setReviewText(e.target.value)}
+                      onChange={(e) => {
+                        setShowAlert(false);
+                        setReviewText(e.target.value);
+                      }}
+                      isInvalid={showAlert && !reviewText}
                     />
                   </Form.Group>
                 )}
@@ -157,15 +232,15 @@ export default function CreateReview({
             </Col>
           </Row>
         )}
+        <div className="review-actions">
+          <Button variant="outline-secondary" onClick={handleClose}>
+            cancel
+          </Button>
+          <Button className="btn-create" onClick={handleSaveReview}>
+            {nextText}
+          </Button>
+        </div>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="outline-secondary" onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button className="btn-create" onClick={handleSaveReview}>
-          Save
-        </Button>
-      </Modal.Footer>
     </Modal>
   );
 }

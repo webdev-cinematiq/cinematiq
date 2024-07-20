@@ -9,12 +9,14 @@ export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
   const [show, setShow] = useState(false);
   const [postType, setPostType] = useState('Review');
   const [showCreateReview, setShowCreateReview] = useState(false);
-  const navigateTo = useNavigate();
+
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setShow(false);
     setShowCreateReview(false);
   };
+
   const handleShow = () => setShow(true);
 
   const handleNext = () => {
@@ -22,7 +24,7 @@ export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
       setShowCreateReview(true);
     } else {
       handleClose();
-      navigateTo('/discussion/create');
+      navigate('/discussion/create');
     }
   };
 
@@ -66,6 +68,8 @@ export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
           )}
         </Modal.Footer>
       </Modal>
+
+      {showCreateReview && <CreateReview handleClose={handleClose} />}
     </>
   );
 }
