@@ -77,7 +77,7 @@ export default function CollectionCreate() {
   };
 
   const validateCollection = () => {
-    if (!title) {
+    if (title.trim() === '') {
       setAlertMessage(
         'Every collection needs a name. What should we call this one?'
       );
@@ -138,7 +138,10 @@ export default function CollectionCreate() {
               <Form.Control
                 type="text"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => {
+                  setShowAlert(false);
+                  setTitle(e.target.value);
+                }}
                 placeholder="Enter collection name"
               />
             </Form.Group>
