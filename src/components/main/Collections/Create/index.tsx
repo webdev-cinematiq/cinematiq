@@ -90,6 +90,13 @@ export default function CollectionCreate() {
     return true;
   };
 
+  const formatTitleForUrl = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/[\s_]+/g, '-')
+      .replace(/[^\w\-]+/g, '');
+  };
+
   const handleSaveCollection = async () => {
     if (validateCollection()) {
       const newCollection = {
@@ -102,7 +109,8 @@ export default function CollectionCreate() {
       };
       try {
         createCollection(newCollection);
-        navigate(`/reviews/${newCollection._id}`);
+        const formattedTitle = formatTitleForUrl(newCollection.title);
+        navigate(`/${username}/collection/${formattedTitle}`);
       } catch (error) {
         console.error('Error creating collection:', error);
         setAlertMessage('Failed to create collection. Please try again.');

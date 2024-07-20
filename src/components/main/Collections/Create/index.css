@@ -140,7 +140,7 @@ html {
 }
 
 .collection-actions .btn-create:hover {
-  background-color: var(--color-button-hover);
+  background-color: var(--color-button);
 }
 
 /* Adaptive Views */
