@@ -10,7 +10,7 @@ const ValidationAlert = ({
   onClose: () => void;
 }) => {
   return (
-    <Alert variant="danger" onClose={onClose} dismissible>
+    <Alert className="alert" variant="danger" onClose={onClose} dismissible>
       {message}
     </Alert>
   );

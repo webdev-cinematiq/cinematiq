@@ -82,12 +82,12 @@ export default function CollectionCreate() {
         'Every collection needs a name. What should we call this one?'
       );
       return false;
-    }
-    if (!selectedMovies) {
+    } else if (selectedMovies.length === 0) {
       setAlertMessage('A collection must have at least one film!');
       return false;
+    } else {
+      return true;
     }
-    return true;
   };
 
   const formatTitleForUrl = (title: string) => {
@@ -134,7 +134,7 @@ export default function CollectionCreate() {
         <Row>
           <Col>
             <Form.Group controlId="collectionName">
-              <Form.Label>Collection Name</Form.Label>
+              <Form.Label> Title</Form.Label>
               <Form.Control
                 type="text"
                 value={title}
@@ -162,7 +162,8 @@ export default function CollectionCreate() {
             type="text"
             value={searchTerm}
             onChange={handleSearchChange}
-            placeholder="Enter name of film..."
+            placeholder="Enter the name of a film..."
+            className="search-input"
           />
           {searchResults.length > 0 && (
             <div className="search-results">
