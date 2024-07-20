@@ -3,6 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { CiSquarePlus } from 'react-icons/ci';
 import '../../header/NavBar.css';
+import './CreatePost.css';
 import CreateReview from '../Reviews/Create';
 
 export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
@@ -22,6 +23,7 @@ export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
   const handleNext = () => {
     if (postType === 'Review') {
       setShowCreateReview(true);
+      setShow(false);
     } else {
       handleClose();
       navigate('/discussion/create');
@@ -34,39 +36,55 @@ export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
         <CiSquarePlus className="icon" /> CREATE
       </Button>
 
-      <Modal show={show} onHide={handleClose} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{dialogTitle}</Modal.Title>
-        </Modal.Header>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        centered
+        className="create-post-modal"
+      >
         <Modal.Body>
+          <Button
+            variant="outline-secondary"
+            className="close-button"
+            onClick={handleClose}
+          >
+            &times;
+          </Button>
+          <h3 className="modal-title-custom">{dialogTitle}</h3>
           {showCreateReview ? (
             <CreateReview handleClose={handleClose} />
           ) : (
             <Form>
-              <Form.Group controlId="postType">
-                <Form.Label>Select Post Type</Form.Label>
+              <Form.Group controlId="postType" className="form-group-custom">
+                <Form.Label className="form-label-custom">
+                  Let's create a...
+                </Form.Label>
                 <Form.Control
                   as="select"
                   value={postType}
                   onChange={(e) => setPostType(e.target.value)}
+                  className="form-control-custom"
                 >
                   <option value="Review">Review</option>
                   <option value="Discussion">Discussion</option>
                 </Form.Control>
               </Form.Group>
+              <div className="modal-actions">
+                <Button
+                  variant="outline-secondary"
+                  onClick={handleClose}
+                  className="me-2"
+                >
+                  Cancel
+                </Button>
+                <Button className="btn-create" onClick={handleNext}>
+                  Next
+                </Button>
+              </div>
             </Form>
           )}
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="outline-secondary" onClick={handleClose}>
-            Cancel
-          </Button>
-          {!showCreateReview && (
-            <Button className="btn-create" onClick={handleNext}>
-              Next
-            </Button>
-          )}
-        </Modal.Footer>
       </Modal>
 
       {showCreateReview && <CreateReview handleClose={handleClose} />}

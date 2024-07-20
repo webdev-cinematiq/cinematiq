@@ -1,16 +1,19 @@
-.custom-modal .modal-dialog {
-  max-width: 1100px; /* Increase the modal width */
+.create-review-modal .modal-dialog {
+  max-width: 800px;
+  margin: auto; /* Center the modal */
 }
 
-.custom-modal .modal-body {
+.create-review-modal .modal-body {
   background-color: var(--color-background1);
   color: var(--color-text);
-  min-height: 500px; /* Increase the modal height */
+  min-height: 200px; /* Set a minimum height */
   position: relative;
   padding-top: 40px;
+  padding: 70px 20px 40px 20px;
+  overflow-y: auto; /* Ensure no unnecessary scroll bars */
 }
 
-.custom-modal .modal-body.expanded-body {
+.create-review-modal .modal-body.expanded-body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -18,19 +21,24 @@
   width: 100%;
 }
 
-.left-column {
+.create-review-modal .left-column {
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 30%;
+  padding-top: 0;
+  margin-top: 0;
 }
 
-.right-column {
+.create-review-modal .right-column {
   flex: 1;
   padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.search-results {
+.create-review-modal .search-results {
   background-color: var(--color-background1);
   color: var(--color-text);
   border: 1px solid var(--color-text);
@@ -40,45 +48,49 @@
   overflow-y: auto;
 }
 
-.search-result-item {
+.create-review-modal .search-result-item {
   padding: 5px 10px;
   cursor: pointer;
 }
 
-.search-result-item:hover {
+.create-review-modal .search-result-item:hover {
   background-color: var(--color-primary1);
 }
 
-/* create review form */
-.back-icon {
+.create-review-modal .back-icon {
   font-size: 48px; /* Adjust the size as needed */
 }
 
-.movie-poster img {
+.create-review-modal .movie-poster img {
   width: 100%;
   height: auto;
   max-height: 400px; /* Adjust the image height */
   border-radius: 8px;
 }
 
-.movie-title {
-  margin-top: 50px; /* Add margin to the top of the title */
+.create-review-modal .movie-title {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  margin-top: 0; /* Adjust margin to align with the button */
+  padding-top: 0;
 }
 
-.review-form {
+.create-review-modal .review-form {
   display: flex;
   width: 100%;
 }
 
-.review-details {
+.create-review-modal .review-details {
   width: 100%;
 }
 
-.alert {
+.create-review-modal .alert {
   width: 100%;
 }
 
-.review-actions {
+.create-review-modal .review-actions {
   display: flex;
   justify-content: flex-end;
   width: 100%;
@@ -86,23 +98,30 @@
   padding: 12px;
 }
 
-.review-actions .btn-create {
+.create-review-modal .review-actions .btn-create {
   margin-left: 12px; /* Add margin to the left of the save button */
   padding: 8px;
 }
 
-.back-button {
-  align-self: flex-start;
-  margin-bottom: 10px;
-  font-size: 60px;
+.create-review-modal .back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px; /* Move the back button further to the left */
+  font-size: 24px;
   color: var(--color-text);
+  background: none;
+  border: none;
 }
 
-.back-button:hover .back-icon {
+.create-review-modal .back-icon {
+  font-size: 48px; /* Adjust the size as needed */
+}
+
+.create-review-modal .back-button:hover .back-icon {
   color: var(--color-button-hover);
 }
 
-.close-button {
+.create-review-modal .close-button {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -112,72 +131,111 @@
   border: none;
 }
 
-.btn-create {
+.create-review-modal .back-button {
+  left: 10px;
+}
+
+.create-review-modal .close-button {
+  right: 10px;
+}
+
+.create-review-modal .btn-create {
   background-color: var(--color-button);
   color: var(--color-text);
   border: none;
 }
 
-.btn-create:hover {
+.create-review-modal .btn-create:hover {
   background-color: var(--color-button-hover);
 }
 
-.modal-footer {
+.create-review-modal .modal-footer {
   display: flex;
   justify-content: flex-end;
 }
 
+.create-review-modal .form-label-custom {
+  font-family: var(--font-main);
+  font-size: 1rem;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.create-review-modal .form-control {
+  font-family: var(--font-main);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  color: var(--color-text);
+  background-color: var(--color-background1);
+  border: 1px solid var(--color-text);
+}
+
+.create-review-modal .form-group-custom {
+  margin-bottom: 1.5rem;
+}
+
+.create-review-modal .form-control::placeholder {
+  color: var(--color-text);
+  opacity: 0.6;
+}
+
+.create-review-modal .form-control:focus {
+  border-color: var(--color-primary1);
+  box-shadow: 0 0 0 0.2rem rgba(128, 0, 0, 0.25);
+}
+
 /* Adaptive Views */
 @media (max-width: 768px) {
-  .custom-modal .modal-dialog {
+  .create-review-modal .modal-dialog {
     max-width: 90%;
   }
 
-  .left-column {
+  .create-review-modal .left-column {
     margin-bottom: 20px;
   }
 
-  .right-column {
+  .create-review-modal .right-column {
     padding-left: 0;
   }
 
-  .movie-poster img {
+  .create-review-modal .movie-poster img {
     max-height: 300px; /* Reduce the image height */
   }
 }
 
 @media (max-width: 576px) {
-  .custom-modal .modal-dialog {
+  .create-review-modal .modal-dialog {
     max-width: 95%;
   }
 
-  .left-column {
+  .create-review-modal .left-column {
     margin-bottom: 20px;
   }
 
-  .right-column {
+  .create-review-modal .right-column {
     padding-left: 0;
   }
 
-  .movie-poster img {
+  .create-review-modal .movie-poster img {
     max-height: 250px; /* Further reduce the image height */
   }
 
-  .form-control {
+  .create-review-modal .form-control {
     font-size: 0.875rem;
   }
 
-  .btn-create {
+  .create-review-modal .btn-create {
     font-size: 0.875rem;
   }
 
-  .modal-footer {
+  .create-review-modal .modal-footer {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .modal-footer .btn-create,
-  .modal-footer .btn-secondary {
+  .create-review-modal .modal-footer .btn-create,
+  .create-review-modal .modal-footer .btn-secondary {
     width: 100%;
     margin-bottom: 10px;
   }

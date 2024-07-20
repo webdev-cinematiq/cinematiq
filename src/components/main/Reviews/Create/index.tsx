@@ -10,6 +10,7 @@ import * as reviewClient from '../../../../services/reviewService';
 import * as movieClient from '../../../../services/movieService';
 import { addReview } from '../reducer';
 import { setMovies } from '../../Movies/reducer';
+import Rating from '../rating';
 import { CiSquareChevLeft } from 'react-icons/ci';
 import './index.css';
 
@@ -125,7 +126,7 @@ export default function CreateReview({
       onHide={handleClose}
       backdrop="static"
       centered
-      className="custom-modal"
+      className="create-review-modal"
     >
       <Modal.Body className={selectedMovie ? 'expanded-body' : ''}>
         <Button
@@ -143,13 +144,13 @@ export default function CreateReview({
         )}
         {!selectedMovie ? (
           <Form.Group controlId="searchMovie">
-            <Form.Label>Movie Title</Form.Label>
+            <h3 className="movie-title">Movie Title</h3>
             <Form.Control
               size="lg"
               type="text"
               value={searchTerm}
               onChange={handleSearchChange}
-              placeholder="Search for a movie..."
+              placeholder="I watched..."
             />
             {searchResults.length > 0 && (
               <div className="search-results">
@@ -169,11 +170,11 @@ export default function CreateReview({
           <Row className="review-form">
             <Col xs={12} md={4} className="left-column">
               <Button
-                variant="link"
+                variant="outline-secondary"
                 className="back-button"
                 onClick={() => setSelectedMovie(null)}
               >
-                <CiSquareChevLeft className="icon back-icon" />
+                &#8592; {/* Long left arrow */}
               </Button>
               <div className="movie-poster">
                 <img src={selectedMovie.poster} alt={selectedMovie.title} />
@@ -184,8 +185,10 @@ export default function CreateReview({
                 {selectedMovie.title} ({selectedMovie.year})
               </h3>
               <Form>
-                <Form.Group controlId="watchedOn">
-                  <Form.Label>Watched on</Form.Label>
+                <Form.Group controlId="watchedOn" className="form-group-custom">
+                  <Form.Label className="form-label-custom">
+                    Watched on
+                  </Form.Label>
                   <Form.Control
                     type="date"
                     value={watchDate}
@@ -195,27 +198,18 @@ export default function CreateReview({
                     }}
                   />
                 </Form.Group>
-                <Form.Group controlId="rating">
-                  <Form.Label>Rating</Form.Label>
-                  <Form.Control
-                    as="select"
-                    value={rating}
-                    onChange={(e) => {
-                      setShowAlert(false);
-                      setRating(Number(e.target.value));
-                    }}
-                    isInvalid={showAlert && rating === 0}
-                  >
-                    {[...Array(10)].map((_, i) => (
-                      <option key={i + 1} value={i + 1}>
-                        {i + 1}
-                      </option>
-                    ))}
-                  </Form.Control>
+                <Form.Group controlId="rating" className="form-group-custom">
+                  <Form.Label className="form-label-custom">Rating</Form.Label>
+                  <Rating rating={rating} setRating={setRating} />
                 </Form.Group>
                 {!shortReview && (
-                  <Form.Group controlId="reviewText">
-                    <Form.Label>Add a review...</Form.Label>
+                  <Form.Group
+                    controlId="reviewText"
+                    className="form-group-custom"
+                  >
+                    <Form.Label className="form-label-custom">
+                      Add a review...
+                    </Form.Label>
                     <Form.Control
                       as="textarea"
                       rows={6}
