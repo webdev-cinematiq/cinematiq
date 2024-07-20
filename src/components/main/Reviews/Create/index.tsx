@@ -11,7 +11,6 @@ import * as movieClient from '../../../../services/movieService';
 import { addReview } from '../reducer';
 import { setMovies } from '../../Movies/reducer';
 import Rating from '../rating';
-import { CiSquareChevLeft } from 'react-icons/ci';
 import './index.css';
 
 export default function CreateReview({
@@ -19,12 +18,11 @@ export default function CreateReview({
 }: {
   handleClose: () => void;
 }) {
-  const [show, setShow] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState<any | null>(null);
 
-  const shortReview = true;
+  const shortReview = false;
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
   const [watchDate, setWatchDate] = useState('');
@@ -93,7 +91,7 @@ export default function CreateReview({
       return false;
     }
     if (!shortReview && !reviewText) {
-      setAlertMessage('Tell us more!');
+      setAlertMessage('Tell us more! Be sure to complete the review section.');
       return false;
     }
     setNextText('PUBLISH');
@@ -122,7 +120,7 @@ export default function CreateReview({
 
   return (
     <Modal
-      show={show}
+      show
       onHide={handleClose}
       backdrop="static"
       centered
@@ -190,6 +188,7 @@ export default function CreateReview({
                     Watched on
                   </Form.Label>
                   <Form.Control
+                    className="date-input"
                     type="date"
                     value={watchDate}
                     onChange={(e) => {
@@ -198,10 +197,7 @@ export default function CreateReview({
                     }}
                   />
                 </Form.Group>
-                <Form.Group controlId="rating" className="form-group-custom">
-                  <Form.Label className="form-label-custom">Rating</Form.Label>
-                  <Rating rating={rating} setRating={setRating} />
-                </Form.Group>
+
                 {!shortReview && (
                   <Form.Group
                     controlId="reviewText"
@@ -212,7 +208,8 @@ export default function CreateReview({
                     </Form.Label>
                     <Form.Control
                       as="textarea"
-                      rows={6}
+                      rows={3}
+                      placeholder="Tell us what you thought..."
                       value={reviewText}
                       onChange={(e) => {
                         setShowAlert(false);
@@ -222,6 +219,11 @@ export default function CreateReview({
                     />
                   </Form.Group>
                 )}
+
+                <Form.Group controlId="rating" className="form-group-custom">
+                  <Form.Label className="form-label-custom">Rating</Form.Label>
+                  <Rating rating={rating} setRating={setRating} />
+                </Form.Group>
               </Form>
             </Col>
           </Row>

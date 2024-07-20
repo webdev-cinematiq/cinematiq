@@ -72,7 +72,7 @@
   font-family: var(--font-title);
   font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   margin-top: 0;
   padding-top: 0;
 }
@@ -159,6 +159,7 @@
   font-size: 1rem;
   color: var(--color-text);
   margin-bottom: 0.5rem;
+  margin-right: 10px;
 }
 
 .create-review-modal .form-control {
@@ -183,6 +184,16 @@
 .create-review-modal .form-control:focus {
   border-color: var(--color-primary1);
   box-shadow: 0 0 0 0.2rem rgba(128, 0, 0, 0.25);
+}
+
+.create-review-modal .form-control.date-input {
+  width: auto;
+  min-width: 100px;
+  display: inline-block;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
 
 /* Adaptive Views */
