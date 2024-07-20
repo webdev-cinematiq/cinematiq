@@ -18,13 +18,15 @@ export const findCollectionsForTitle = async (title: string) => {
 };
 
 export const findCollectionsForUserName = async (username: string) => {
-  const response = await axios.get(`${REMOTE_SERVER}/api/${username}/collections`);
+  const response = await axios.get(
+    `${REMOTE_SERVER}/api/${username}/collections`
+  );
   return response.data;
 };
 
-export const createCollection = async (username: string, collection: any) => {
+export const createCollection = async (name: string, collection: any) => {
   const response = await axios.post(
-    `${REMOTE_SERVER}/${username}/collections`,
+    `${REMOTE_SERVER}/api/${name}/collection`,
     collection
   );
   return response.data;

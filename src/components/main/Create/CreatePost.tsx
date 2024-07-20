@@ -24,6 +24,9 @@ export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
     if (postType === 'Review') {
       setShowCreateReview(true);
       setShow(false);
+    } else if (postType === 'Collection') {
+      handleClose();
+      navigate('/collection/create');
     } else {
       handleClose();
       navigate('/discussion/create');
@@ -68,6 +71,7 @@ export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
                 >
                   <option value="Review">Review</option>
                   <option value="Discussion">Discussion</option>
+                  <option value="Collection">Collection</option>
                 </Form.Control>
               </Form.Group>
               <div className="modal-actions">
