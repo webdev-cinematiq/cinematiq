@@ -1,111 +1,120 @@
 .collection-detail-container {
-  background-color: var(--color-background1);
-  color: var(--color-text);
-  text-align: center;
-  padding-bottom: 20px; /* Add some padding to the bottom */
-}
-
-.collection-backdrop {
-  width: 100%;
-  max-width: 1200px;
-  height: auto;
-  margin: 0 auto;
-}
-
-.horizontal-line {
-  width: 100%;
-  max-width: 1200px;
-  height: 2px; /* Adjusted to match the image */
-  background-color: var(--color-button);
-  margin: 20px auto;
-}
-
-.collection-header {
-  margin-bottom: 20px;
-}
-
-.collection-info {
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
-  border-radius: 8px;
-  display: inline-block;
-  text-align: left;
-}
-
-.collection-title {
-  font-family: var(--font-title);
-  font-size: 2.5rem; /* Slightly larger to match the image */
-  font-weight: bold;
-}
-
-.collection-author {
-  font-family: var(--font-main);
-  font-size: 1rem;
-  color: var(--color-secondary);
-  display: flex;
-  align-items: center;
-}
-
-.collection-author img {
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.collection-description {
-  font-family: var(--font-main);
-  font-size: 1.1rem; /* Slightly larger */
-  margin-top: 10px;
-}
-
-.movie-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
-
-.movie-item {
-  position: relative;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.movie-poster-container {
-  position: relative;
-  display: inline-block;
-}
-
-.movie-poster {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-}
-
-.movie-index {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background-color: var(--color-primary1);
-  color: var(--color-text);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-title);
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.movie-title {
-  font-family: var(--font-main);
-  font-size: 1rem;
-  margin-top: 10px;
-  max-width: 150px; /* Limit the width for better alignment */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center; /* Center align text */
-  margin: 0 auto; /* Center the title block */
-}
+    background-color: var(--color-background1);
+    color: var(--color-text);
+    text-align: center;
+    padding-bottom: 20px; /* Add some padding to the bottom */
+  }
+  
+  .collection-backdrop-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .fade-left,
+  .fade-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    background: linear-gradient(to right, var(--color-background1), transparent);
+    z-index: 1;
+  }
+  
+  .fade-right {
+    right: 0;
+    left: auto;
+    background: linear-gradient(to left, var(--color-background1), transparent);
+  }
+  
+  .horizontal-line {
+    width: 100%;
+    max-width: 1200px;
+    height: 2px;
+    background-color: var(--color-button);
+    margin: 20px auto;
+  }
+  
+  .collection-header {
+    margin-bottom: 20px;
+  }
+  
+  .collection-info {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    display: inline-block;
+    text-align: left;
+  }
+  
+  .collection-title {
+    font-family: var(--font-title);
+    font-size: 2.5rem; /* Slightly larger to match the image */
+    font-weight: bold;
+  }
+  
+  .collection-author {
+    font-family: var(--font-main);
+    font-size: 1rem;
+    color: var(--color-secondary);
+    display: flex;
+    align-items: center;
+  }
+  
+  .collection-author img {
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .collection-description {
+    font-family: var(--font-main);
+    font-size: 1.1rem; /* Slightly larger */
+    margin-top: 10px;
+  }
+  
+  .movie-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .movie-item {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .movie-poster-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .movie-poster {
+    width: 100px; /* Smaller size */
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .movie-index {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: var(--color-primary1);
+    color: var(--color-text);
+    border-radius: 50%;
+    width: 24px; /* Smaller size */
+    height: 24px; /* Smaller size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-title);
+    font-size: 1rem; /* Smaller size */
+    font-weight: bold;
+  }
+  
