@@ -24,6 +24,16 @@ export const findCollectionsForUserName = async (username: string) => {
   return response.data;
 };
 
+export const findUserCollectionByTitle = async (
+  username: string,
+  titleId: string
+) => {
+  const response = await axios.get(
+    `${REMOTE_SERVER}/api/${username}/collection/${titleId}`
+  );
+  return response.data;
+};
+
 export const createCollection = async (name: string, collection: any) => {
   const response = await axios.post(
     `${REMOTE_SERVER}/api/${name}/collection`,

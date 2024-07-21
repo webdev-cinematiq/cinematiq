@@ -34,7 +34,7 @@ function App() {
           <Route path="discussion/create" element={<CreateDiscussion />} />
           <Route path="admin" element={<Admin />} />
           <Route path="collections" element={<Collections />} />
-          <Route path="/:author/collection/:title" element={<Collection />} />
+          <Route path="/:name/collection/:titleId" element={<Collection />} />
           <Route path="collection/create" element={<CreateCollection />} />
           <Route path="reviews" element={<Reviews />} />
           <Route path="reviews/:rid" element={<Review />} />

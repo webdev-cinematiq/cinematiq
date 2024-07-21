@@ -99,9 +99,11 @@ export default function CollectionCreate() {
 
   const handleSaveCollection = async () => {
     if (validateCollection()) {
+      const titleId = formatTitleForUrl(title);
       const newCollection = {
         _id: dayjs().format(),
         title: title,
+        titleId: titleId,
         author: username,
         movies: selectedMovies,
         description,
@@ -109,8 +111,7 @@ export default function CollectionCreate() {
       };
       try {
         createCollection(newCollection);
-        const formattedTitle = formatTitleForUrl(newCollection.title);
-        navigate(`/${username}/collection/${formattedTitle}`);
+        navigate(`/${username}/collection/${titleId}`);
       } catch (error) {
         console.error('Error creating collection:', error);
         setAlertMessage('Failed to create collection. Please try again.');
