@@ -6,7 +6,7 @@ import * as collectionClient from '../../../../services/collectionService';
 import { setCollections } from '../reducer';
 import './index.css';
 
-const CollectionDetail: React.FC = () => {
+export default function CollectionDetail() {
   const { name, titleId } = useParams<{ name: string; titleId: string }>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -45,19 +45,26 @@ const CollectionDetail: React.FC = () => {
         </div>
       )}
       <div className="horizontal-line"></div>
+      <div className="collection-header">
+        <p className="collection-author">
+          <img src={collection.author.avatar} alt="Author avatar" />
+          collection by&nbsp;
+          <span className="collection-author-name">
+            {collection.author.name}
+          </span>
+        </p>
+      </div>
+      <div className="horizontal-line"></div>
       <Container>
         <Row className="collection-header">
           <Col>
             <div className="collection-info">
               <h2 className="collection-title">{collection.title}</h2>
-              <p className="collection-author">
-                <img src={collection.author.avatar} alt="Author avatar" />
-                collection by {collection.author.name}
-              </p>
               <p className="collection-description">{collection.description}</p>
             </div>
           </Col>
         </Row>
+
         <Row className="movie-grid">
           {collection.movies.map((movie: any, index: any) => (
             <Col
@@ -78,6 +85,4 @@ const CollectionDetail: React.FC = () => {
       </Container>
     </div>
   );
-};
-
-export default CollectionDetail;
+}
