@@ -11,11 +11,10 @@ import Discussions from './components/main/Discussions';
 import CreateDiscussion from './components/main/Discussions/CreateDiscussion';
 import Admin from './components/main/Admin';
 import Collections from './components/main/Collections';
-import Collection from './components/main/Collections/Collection';
+import Collection from './components/main/Collections/Detail';
 import Review from './components/main/Reviews/Detail';
 import Reviews from './components/main/Reviews';
-import CreateCollection from './components/main/Collections/CreateCollection';
-import CreateReview from './components/main/Reviews/Create';
+import CreateCollection from './components/main/Collections/Create';
 import NavBar from './components/header/NavBar';
 import Movie from './components/main/Movie';
 
@@ -37,8 +36,8 @@ function App() {
           <Route path="discussion/create" element={<CreateDiscussion />} />
           <Route path="admin" element={<Admin />} />
           <Route path="collections" element={<Collections />} />
-          <Route path="collections/:cid" element={<Collection />} />
-          <Route path="collections/create" element={<CreateCollection />} />
+          <Route path="/:name/collection/:titleId" element={<Collection />} />
+          <Route path="collection/create" element={<CreateCollection />} />
           <Route path="reviews" element={<Reviews />} />
           <Route path="reviews/:rid" element={<Review />} />
         </Routes>

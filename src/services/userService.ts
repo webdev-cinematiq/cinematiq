@@ -13,7 +13,7 @@ export const findUserForId = async (userId: any) => {
 };
 
 export const findUsersForUsername = async (name: string) => {
-  const response = await axios.get(`${USERS_API}/${name}`);
+  const response = await axios.get(`${REMOTE_SERVER}/api/${name}`);
   return response.data;
 };
 
