@@ -12,6 +12,8 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
+
+  --input-text-padding: 15px;
 }
 
 body,
