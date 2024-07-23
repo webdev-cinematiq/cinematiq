@@ -1,11 +1,17 @@
 import Subheader from "./Subheader";
 import './Profile.css'
 import { useState } from "react";
+import { FaTrash } from "react-icons/fa";
 
 export default function Profile() {
 
   const [isEditing, setIsEditing] = useState(false);
-
+  const [showMore, setShowMore] = useState(false); // collections visible
+  const [showMoreReviews, setShowMoreReviews] = useState(false); // reviews visible
+  const [showMoreFollowers, setShowMoreFollowers] = useState(false); // followers  visible
+  const [showMoreFollowing, setShowMoreFollowing] = useState(false); // following visible
+  const [showMoreDiscussions, setShowMoreDiscussions] = useState(false); // discussions visible
+ 
 
   const user = {
     profilePicture: '/images/judi-dench.jpg', 
@@ -19,21 +25,125 @@ export default function Profile() {
       id: 1,
       title: "Action Classics",
       description: "A collection of all-time great action movies. Packed with thrilling sequences and high-octane stunts.",
-      image: "/images/action-classics.jpg",
+      images: ["/images/reacher2012.jpg", "/images/reacher2016.jpg", "/images/avengersIF.jpg"],
     },
     {
       id: 2,
-      title: "Romantic Favorites",
-      description: "Heartwarming love stories and romantic films to bring a smile to your face.",
-      image: "/images/romantic-favorites.jpg",
+      title: "Dune Movies",
+      description: "A collection of the movies of the planet Dune.",
+      images: ["/images/dune.jpg", "/images/dune2.jpg"],
     },
     {
       id: 3,
       title: "Sci-Fi Adventures",
       description: "Explore the universe with a selection of the best science fiction movies.",
-      image: "/images/sci-fi-adventures.jpg",
+      images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
+    },
+    {id: 4,
+      title: "More Action/Sci-Fi Adventures",
+      description: "Explore the universe with a selection of the best science fiction movies.",
+      images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
     }
   ];
+
+
+
+  const reviews = [
+    {
+      id: 1,
+      movieTitle: "Dune Part Two",
+      releaseYear: 2023,
+      reviewBy: "nanabanana",
+      starRating: 5,
+      watchedDate: "2023-07-20",
+      reviewText: "An epic continuation of the Dune saga. Stunning visuals and gripping storytelling.",
+      poster: "/images/dune2.jpg"
+    },
+    {
+      id: 2,
+      movieTitle: "Dune",
+      releaseYear: 2021,
+      reviewBy: "nanabanana",
+      starRating: 4.5,
+      watchedDate: "2021-12-15",
+      reviewText: "A fantastic introduction to the world of Dune. Exceptional performances and a faithful adaptation.",
+      poster: "/images/dune.jpg"
+    },
+    {
+      id: 3,
+      movieTitle: "Inception",
+      releaseYear: 2010,
+      reviewBy: "nanabanana",
+      starRating: 5,
+      watchedDate: "2010-07-22",
+      reviewText: "A mind-bending masterpiece. Nolan at his best, with a stellar cast and groundbreaking visuals.",
+      poster: "/images/inception.jpg"
+    }
+  ];
+
+  const discussions = [
+    {
+      id: 1,
+      image: '/images/judi-dench.jpg',
+      title: 'Dune Best Action Scene?',
+      author: 'nanabanana',
+      date: '2024-07-22',
+      text: 'My favorite scene is when Duncan Idaho...',
+    },
+    {
+      id: 2,
+      image: '/images/judi-dench.jpg',
+      title: 'The Evolution of Sci-Fi',
+      author: 'nanabanana',
+      date: '2024-07-20',
+      text: 'Some of the first really known Sci-Fi was the Dune series, but we didnt get a good Dune movie until...',
+    },
+    {
+      id: 3,
+      image: '/images/judi-dench.jpg',
+      title: 'Directorial Styles',
+      author: 'nanabanana',
+      date: '2024-07-18',
+      text: 'Lets talk about directorial styles and their influence on modern filmmaking. My favorite...',
+    }
+  ];
+
+  const followers = [
+    { id: 1, username: 'JohnO10', image: '/images/mMcconaughey.jpg' },
+    { id: 2, username: 'samuelLJ', image: '/images/sLJackson.jpg' },
+    { id: 3, username: 'IAlb20', image: '/images/iElba.jpg' },
+  ];
+
+  const following = [
+    { id: 1, username: 'johnO10', image: '/images/mMcconaughey.jpg' },
+    { id: 2, username: 'cinemaLvr07', image: '/images/kWinslet.jpg' },
+    { id: 3, username: 'IAlb20', image: '/images/iElba.jpg' },
+  ];
+
+  const generateStars = (rating: number) => {
+    const fullStars = Math.floor(rating);
+    const emptyStars = 5 - fullStars;
+  
+    const stars = [];
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<span key={`full-${i}`} className="star full">★</span>);
+    }
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(<span key={`empty-${i}`} className="star empty">☆</span>);
+    }
+  
+    return stars;
+  };
+
+  const visibleCollections = showMore ? collections : collections.slice(0, 3);
+  
+  const visibleReviews = showMoreReviews ? reviews : reviews.slice(0, 2);
+
+  const visibleFollowers = showMoreFollowers ? followers : followers.slice(0, 2);
+
+  const visibleFollowing = showMoreFollowing ? following : following.slice(0, 2);
+
+  const visibleDiscussions = showMoreDiscussions ? discussions : discussions.slice(0, 2);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -45,7 +155,27 @@ export default function Profile() {
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
   };
+
+  const toggleShowMore = () => {
+    setShowMore(!showMore);
+  };
+
+  const toggleShowMoreReviews = () => {
+    setShowMoreReviews(!showMoreReviews);
+  };
   
+  const toggleShowMoreFollowers = () => {
+    setShowMoreFollowers(!showMoreFollowers);
+  };
+
+  const toggleShowMoreFollowing = () => {
+    setShowMoreFollowing(!showMoreFollowing);
+  };
+
+  const toggleShowMoreDiscussions = () => {
+    setShowMoreDiscussions(!showMoreDiscussions);
+  };
+
   return (
     <div className="profile-container">
 
@@ -69,7 +199,7 @@ export default function Profile() {
                 <div className="value italic" id="profile-status">Critic</div>
               </div>
               <div className="col">
-                <div className="label italic">Induction Date</div>
+                <div className="label ">Induction Date</div>
                 <div className="value italic" id="profile-induction-date">January 5, 2022</div>
               </div>
             </div>
@@ -106,7 +236,7 @@ export default function Profile() {
                 <input type="text" defaultValue="Critic" className="value-input" id="profile-status-edit"/>
               </div>
               <div className="col">
-                <div className="label italic">Induction Date</div>
+                <div className="label ">Induction Date</div>
                 <input type="date" defaultValue="2022-01-05" className="value-input" id="profile-induction-edit"/>
               </div>
             </div>
@@ -163,41 +293,158 @@ export default function Profile() {
 
 
           
-        )}
-      </div>
+        )} 
+      </div>  
 
 
+      <div className="separator-red"></div>
 
       <div id="collections">
-        <h2 className="section-header">Collections</h2>
+        <h2 className="section-header ">Collections</h2>
 
-     
+        <div className="show-more-container">
+          <button className="show-more-button" onClick={toggleShowMore}>
+            {showMore ? 'Show Less' : 'Show More'}
+          </button>
+        </div>
+
         <div className="collections-container">
-          {collections.map(collection => (
+          {visibleCollections.map((collection) => (
             <div key={collection.id} className="collection-card">
-              {/* <img src={collection.image} alt={collection.title} className="collection-image" /> */}
+
+             
+
               <h3 className="collection-title">{collection.title}</h3>
+
               <p className="collection-description">{collection.description}</p>
+
+              <div className="collection-images">
+                {collection.images.map((image, index) => (
+                  <img key={index} src={image} alt={collection.title} className="collection-image" />
+                ))}
+              </div>
+
+            </div>
+          ))}
+        </div>
+
+
+      </div>
+
+      <div className="separator-red"></div>
+
+      <div id="reviews">
+        <h2 className="section-header">Reviews</h2>
+
+        <div className="show-more-container">
+          <button className="show-more-button" onClick={toggleShowMoreReviews}>
+            {showMoreReviews ? 'Show Less' : 'Show More'}
+          </button>
+        </div>
+
+        <div className="reviews-container">
+          {visibleReviews.map((review) => (
+            <div key={review.id} className="review-card">
+              <img src={review.poster} alt={review.movieTitle} className="review-poster" />
+
+              <div className="review-content">
+
+                <div className="review-header">
+                  <span className="movie-title">{review.movieTitle}</span>
+                  <span className="release-year">({review.releaseYear})</span>
+                </div>
+
+                <div className="review-subheader">
+                  <span className="review-by">Review by {review.reviewBy}</span>
+                  <span className="star-rating">{generateStars(review.starRating)}</span>
+                  <span className="watched-date">watched {review.watchedDate}</span>
+                </div>
+
+                <div className="review-separator"></div>
+                <div className="review-text">{review.reviewText}</div>
+              </div>
             </div>
           ))}
         </div>
       </div>
 
 
+      <div className="separator-red"></div>
 
-      <div id="reviews">
-        <h2 className="section-header">Reviews</h2><br/><br/><br/><br/>
+      <div id="discussions">
+        <h2 className="section-header">Discussions</h2>
+
+        <div className="show-more-container">
+            <button className="show-more-button" onClick={toggleShowMoreDiscussions}>
+              {showMoreDiscussions ? 'Show Less' : 'Show More'}
+            </button>
+          </div>
+
+        <div className="discussions-container">
+          {visibleDiscussions.map((discussion) => (
+            <div key={discussion.id} className="discussion-card">
+              <img src={discussion.image} alt={discussion.author} className="discussion-image" />
+              <div className="discussion-content">
+                <div className="discussion-header">
+                  <h3 className="discussion-title">{discussion.title}</h3>
+                  <span className="discussion-author">{discussion.author}</span>
+                  <span className="discussion-date">{discussion.date}</span>
+                </div>
+                <div className="discussion-separator"></div>
+                <div className="discussion-text">{discussion.text}</div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
+      
+      <div className="separator-red"></div>
 
-      <div id="followers">
-        <h2 className="section-header">Followers</h2><br/><br/><br/><br/>
-      </div>
+      <div className="row">
+        <div id="followers" className="col">
+          <h2 className="section-header">Followers</h2>
+
+          <div className="show-more-container">
+            <button className="show-more-button" onClick={toggleShowMoreFollowers}>
+              {showMoreFollowers ? 'Show Less' : 'Show More'}
+            </button>
+           </div>
+
+          <div className="followers-container">
+            {visibleFollowers.map((follower) => (
+              <div key={follower.id} className={`follower-card ${isEditing ? 'editing' : ''}`}>
+                {isEditing && <FaTrash className="trashcan-icon" />}
+                <img src={follower.image} alt={follower.username} className="follower-image" />
+                <span className="follower-username">{follower.username}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
 
-      <div id="following">
-        <h2 className="section-header">Following</h2><br/><br/><br/><br/>
 
+
+        <div id="following" className="col">
+          <h2 className="section-header">Following</h2>
+
+          <div className="show-more-container">
+            <button className="show-more-button" onClick={toggleShowMoreFollowing}>
+              {showMoreFollowing ? 'Show Less' : 'Show More'}
+            </button>
+           </div>
+
+          <div className="following-container">
+            {visibleFollowing.map((follow) => (
+              <div key={follow.id} className={`following-card ${isEditing ? 'editing' : ''}`}>
+                {isEditing && <FaTrash className="trashcan-icon" />}
+                <img src={follow.image} alt={follow.username} className="following-image" />
+                <span className="following-username">{follow.username}</span>
+              </div>
+            ))}
+          </div> <br/><br/><br/>
+
+        </div>
       </div>
       
     
