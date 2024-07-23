@@ -12,10 +12,10 @@ import CreateDiscussion from './components/main/Discussions/CreateDiscussion';
 import Admin from './components/main/Admin';
 import Collections from './components/main/Collections';
 import Collection from './components/main/Collections/Collection';
+import Review from './components/main/Reviews/Detail';
 import Reviews from './components/main/Reviews';
-import Review from './components/main/Reviews/Review';
 import CreateCollection from './components/main/Collections/CreateCollection';
-import CreateReview from './components/main/Reviews/CreateReview';
+import CreateReview from './components/main/Reviews/Create';
 import NavBar from './components/header/NavBar';
 import Movie from './components/main/Movie';
 
@@ -41,7 +41,6 @@ function App() {
           <Route path="collections/create" element={<CreateCollection />} />
           <Route path="reviews" element={<Reviews />} />
           <Route path="reviews/:rid" element={<Review />} />
-          <Route path="review/create" element={<CreateReview />} />
         </Routes>
       </div>
     </HashRouter>

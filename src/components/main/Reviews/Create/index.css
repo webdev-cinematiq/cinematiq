@@ -1,0 +1,253 @@
+.create-review-modal .modal-dialog {
+  max-width: 800px;
+  margin: auto;
+}
+
+.create-review-modal .modal-body {
+  background-color: var(--color-background1);
+  color: var(--color-text);
+  min-height: 200px;
+  position: relative;
+  padding-top: 40px;
+  padding: 70px 20px 40px 20px;
+  overflow-y: auto;
+}
+
+.create-review-modal .modal-body.expanded-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.create-review-modal .left-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 30%;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.create-review-modal .right-column {
+  flex: 1;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.create-review-modal .search-results {
+  background-color: var(--color-background1);
+  color: var(--color-text);
+  border: 1px solid var(--color-text);
+  border-radius: 4px;
+  margin-top: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.create-review-modal .search-result-item {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.create-review-modal .search-result-item:hover {
+  background-color: var(--color-primary1);
+}
+
+.create-review-modal .back-icon {
+  font-size: 48px;
+}
+
+.create-review-modal .movie-poster img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  border-radius: 8px;
+}
+
+.create-review-modal .movie-title {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.create-review-modal .review-form {
+  display: flex;
+  width: 100%;
+}
+
+.create-review-modal .review-details {
+  width: 100%;
+}
+
+.create-review-modal .alert {
+  width: 100%;
+}
+
+.create-review-modal .review-actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+}
+
+.create-review-modal .review-actions .btn-create {
+  margin-left: 12px;
+  padding: 8px;
+}
+
+.create-review-modal .back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 24px;
+  color: var(--color-text);
+  background: none;
+  border: none;
+}
+
+.create-review-modal .back-icon {
+  font-size: 48px;
+}
+
+.create-review-modal .back-button:hover .back-icon {
+  color: var(--color-button-hover);
+}
+
+.create-review-modal .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: var(--color-text);
+  background: none;
+  border: none;
+}
+
+.create-review-modal .back-button {
+  left: 10px;
+}
+
+.create-review-modal .close-button {
+  right: 10px;
+}
+
+.create-review-modal .btn-create {
+  background-color: var(--color-button);
+  color: var(--color-text);
+  border: none;
+}
+
+.create-review-modal .btn-create:hover {
+  background-color: var(--color-button-hover);
+}
+
+.create-review-modal .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.create-review-modal .form-label-custom {
+  font-family: var(--font-main);
+  font-size: 1rem;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  margin-right: 10px;
+}
+
+.create-review-modal .form-control {
+  font-family: var(--font-main);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  color: var(--color-text);
+  background-color: var(--color-background1);
+  border: 1px solid var(--color-text);
+}
+
+.create-review-modal .form-group-custom {
+  margin-bottom: 1.5rem;
+}
+
+.create-review-modal .form-control::placeholder {
+  color: var(--color-text);
+  opacity: 0.6;
+}
+
+.create-review-modal .form-control:focus {
+  border-color: var(--color-primary1);
+  box-shadow: 0 0 0 0.2rem rgba(128, 0, 0, 0.25);
+}
+
+.create-review-modal .form-control.date-input {
+  width: auto;
+  min-width: 100px;
+  display: inline-block;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+/* Adaptive Views */
+@media (max-width: 768px) {
+  .create-review-modal .modal-dialog {
+    max-width: 90%;
+  }
+
+  .create-review-modal .left-column {
+    margin-bottom: 20px;
+  }
+
+  .create-review-modal .right-column {
+    padding-left: 0;
+  }
+
+  .create-review-modal .movie-poster img {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .create-review-modal .modal-dialog {
+    max-width: 95%;
+  }
+
+  .create-review-modal .left-column {
+    margin-bottom: 20px;
+  }
+
+  .create-review-modal .right-column {
+    padding-left: 0;
+  }
+
+  .create-review-modal .movie-poster img {
+    max-height: 250px;
+  }
+
+  .create-review-modal .form-control {
+    font-size: 0.875rem;
+  }
+
+  .create-review-modal .btn-create {
+    font-size: 0.875rem;
+  }
+
+  .create-review-modal .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .create-review-modal .modal-footer .btn-create,
+  .create-review-modal .modal-footer .btn-secondary {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

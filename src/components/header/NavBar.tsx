@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { CiSearch, CiBullhorn, CiUser, CiSquarePlus } from 'react-icons/ci';
+import { CiSearch, CiBullhorn, CiUser } from 'react-icons/ci';
 import './NavBar.css';
+import CreatePost from '../main/Create/CreatePost';
 
 export default function NavBar() {
   const { pathname } = useLocation();
@@ -14,7 +15,6 @@ export default function NavBar() {
     { label: 'DISCUSSIONS', path: '/discussions', icon: null },
     { label: '', path: '/news', icon: <CiBullhorn className="icon" /> }, // news
     { label: '', path: '/profile', icon: <CiUser className="icon" /> }, // profile
-    // { label: 'LOGIN', path: '/login', icon: null },
   ];
 
   return (
@@ -45,9 +45,7 @@ export default function NavBar() {
               </li>
             ))}
             <li className="nav-item">
-              <Link className="btn btn-create" to="/review/create">
-                <CiSquarePlus className="icon" /> CREATE
-              </Link>
+            <CreatePost dialogTitle="Create Post" />
             </li>
           </ul>
         </div>
