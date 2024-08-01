@@ -52,6 +52,30 @@
   color: white;
 }
 
+.btn-login {
+  background-color: var(--color-background1);
+  color: var(--color-text);
+  border: none;
+  padding: 5px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.btn-login .icon {
+  font-size: 20px;
+  margin-left: 4px;
+}
+
+.btn-login:hover {
+  color: white;
+}
+
 .navbar-nav {
   display: flex;
   flex-direction: row;
