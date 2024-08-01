@@ -7,6 +7,8 @@
   --color-button: #800000;
   --color-button-hover: #a00000;
   --color-text: #e5e5e5;
+  --color-star: #ffbf00;
+  --color-star-hover: #ffbf40;
 
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;

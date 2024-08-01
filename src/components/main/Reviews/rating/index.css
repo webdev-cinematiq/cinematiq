@@ -1,0 +1,19 @@
+.star-rating {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.star-container {
+  cursor: pointer;
+  transition: color 200ms;
+  font-size: 2rem;
+}
+
+.star:hover {
+  color: var(--color-star-hover);
+}
+
+.star:active {
+  transform: scale(1.2);
+}

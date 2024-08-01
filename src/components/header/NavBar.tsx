@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { CiSearch, CiBullhorn, CiUser, CiSquarePlus, CiLogin } from 'react-icons/ci';
 import './NavBar.css';
+import CreatePost from '../main/Create/CreatePost';
 
 export default function NavBar() {
   const { pathname } = useLocation();
@@ -14,7 +15,6 @@ export default function NavBar() {
     { label: 'DISCUSSIONS', path: '/discussions', icon: null },
     { label: '', path: '/news', icon: <CiBullhorn className="icon" /> }, // news
     { label: '', path: '/profile', icon: <CiUser className="icon" /> }, // profile
-    // { label: 'LOGIN', path: '/login', icon: null },
   ];
 
   return (
