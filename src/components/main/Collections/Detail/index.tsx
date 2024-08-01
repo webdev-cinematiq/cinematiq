@@ -3,31 +3,39 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import * as collectionClient from '../../../../services/collectionService';
-import { setCollections } from '../reducer';
+import * as movieClient from '../../../../services/movieService';
 import './index.css';
 
 export default function CollectionDetail() {
   const { name, titleId } = useParams<{ name: string; titleId: string }>();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [collection, setCollection] = useState<any>({});
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [author, setAuthor] = useState('');
+  const [movies, setMovies] = useState<any[]>([]);
 
-  const collectionsState = useSelector((state: any) => state.collections);
+  const populateMovies = async () => {
+    if (!collection) return;
+    collection.movies.map(async (id: any) => {
+      const film = await movieClient.findMovieForId(id);
+      setMovies([...movies, film]);
+    });
+  };
 
-  const fetchCollections = async () => {
-    const collections = await collectionClient.fetchAllCollections();
-    dispatch(setCollections(collections));
+  const fetchCollection = async () => {
+    if (!name || !titleId) return;
+    const collection = await collectionClient.findCollection(name, titleId);
+
+    setCollection(collection);
+    setTitle(collection.title);
+    setDescription(collection.description);
+    setAuthor(collection.author);
+    populateMovies();
   };
 
   useEffect(() => {
-    fetchCollections();
-  }, [dispatch]);
-
-  const collections = collectionsState.collections;
-
-  const collection =
-    collections.find(
-      (c: any) => c.titleId === titleId && c.author.name === name
-    ) || {};
+    if (titleId) fetchCollection();
+  }, [titleId]);
 
   if (!collection || !collection.movies) {
     return <div>Loading...</div>;
@@ -35,10 +43,10 @@ export default function CollectionDetail() {
 
   return (
     <div className="collection-detail-container">
-      {collection.movies[0] && (
+      {movies[0] && (
         <div
           className="collection-backdrop-container"
-          style={{ backgroundImage: `url(${collection.movies[0].backdrop})` }}
+          style={{ backgroundImage: `url(${movies[0].backdrop})` }}
         >
           <div className="fade-left"></div>
           <div className="fade-right"></div>
@@ -47,11 +55,9 @@ export default function CollectionDetail() {
       <div className="horizontal-line"></div>
       <div className="collection-header">
         <p className="collection-author">
-          <img src={collection.author.avatar} alt="Author avatar" />
+          <img src={author} alt="Author avatar" />
           collection by&nbsp;
-          <span className="collection-author-name">
-            {collection.author.name}
-          </span>
+          <span className="collection-author-name">{author}</span>
         </p>
       </div>
       <div className="horizontal-line"></div>
@@ -59,14 +65,14 @@ export default function CollectionDetail() {
         <Row className="collection-header">
           <Col>
             <div className="collection-info">
-              <h2 className="collection-title">{collection.title}</h2>
-              <p className="collection-description">{collection.description}</p>
+              <h2 className="collection-title">{title}</h2>
+              <p className="collection-description">{description}</p>
             </div>
           </Col>
         </Row>
 
         <Row className="movie-grid">
-          {collection.movies.map((movie: any, index: any) => (
+          {movies.map((movie: any, index: any) => (
             <Col
               key={movie._id}
               xs={6}

@@ -26,6 +26,7 @@ export default function CollectionCreate() {
   const username = 'nanabanana';
 
   const createCollection = async (collection: any) => {
+    // const collection = await client 
     const newCollection = await collectionClient.createCollection(
       username,
       collection
