@@ -4,7 +4,7 @@
   font-family: var(--font-main);
   display: flex;
   justify-content: center;
-  align-items: top;
+  align-items: center;
   font-weight: bold;
 }
 
@@ -25,7 +25,7 @@
   justify-content: left;
 }
 
-.register-form {
+.login-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,7 +46,7 @@
   align-items: center;
 }
 
-.registration-form-input {
+.form-input {
   width: 100%;
   padding: 0.5rem;
   margin-bottom: 1rem;
@@ -55,7 +55,12 @@
   border-radius: 120px;
   height: 45px;
   padding-left: var(--input-text-padding);
-  font-weight: bold;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
 .poster-container {
@@ -73,6 +78,7 @@
 
 .poster-container img {
   position: absolute;
+  /* Absolute positioning */
   top: 0;
   left: 0;
   width: 100%;
@@ -80,7 +86,7 @@
   object-fit: cover;
 }
 
-.btn.btn-submit-register {
+.btn.btn-submit-login {
   background-color: var(--color-button);
   color: var(--color-text);
   padding: 5px 10px;
@@ -93,7 +99,7 @@
   width: 100%;
 }
 
-.btn.btn-submit-register:hover {
+.btn.btn-submit-login:hover {
   background-color: var(--color-button-hover);
 }
 
@@ -107,7 +113,7 @@
   color: var(--color-button-hover);
 }
 
-.login-text {
+.register-text {
   position: relative;
   top: 20px;
   color: #ffffff;
@@ -115,15 +121,59 @@
   font-size: 0.9rem;
 }
 
-.btn.btn-login-link {
+.btn.btn-register {
   background-color: var(--color-button);
   color: white;
   margin-left: 20px;
   border-radius: 20px;
 }
 
-.btn.btn-login-link:hover {
+.btn.btn-register:hover {
   background-color: var(--color-button-hover);
+}
+
+.remember-me-container {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-input {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 15px;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+  margin-right: 8px;
+  outline: none;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.checkbox-input:checked {
+  background-color: var(--color-button);
+}
+
+.checkbox-input:checked::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  width: 8px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox-label {
+  font-size: 16px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.checkbox-label:hover {
+  color: var(--color-button-hover);
 }
 
 /* Responsive styles */
