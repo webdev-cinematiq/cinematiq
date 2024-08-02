@@ -35,7 +35,7 @@ export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
 
   return (
     <>
-      <Button className="btn-create" onClick={handleShow}>
+      <Button className="btn btn-create" onClick={handleShow}>
         <CiSquarePlus className="icon" /> CREATE
       </Button>
 

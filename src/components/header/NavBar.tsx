@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { CiSearch, CiBullhorn, CiUser, CiSquarePlus, CiLogin } from 'react-icons/ci';
+import {
+  CiSearch,
+  CiBullhorn,
+  CiUser,
+  CiSquarePlus,
+  CiLogin,
+} from 'react-icons/ci';
 import './NavBar.css';
 import CreatePost from '../main/Create/CreatePost';
 
@@ -34,8 +40,9 @@ export default function NavBar() {
             {links.map((link, index) => (
               <li className="nav-item" key={index}>
                 <Link
-                  className={`nav-link ${pathname === link.path ? 'active' : ''
-                    }`}
+                  className={`nav-link ${
+                    pathname === link.path ? 'active' : ''
+                  }`}
                   to={link.path}
                 >
                   {link.icon && <span className="me-2">{link.icon}</span>}
@@ -43,8 +50,13 @@ export default function NavBar() {
                 </Link>
               </li>
             ))}
-            <li className="nav-item">
+            <li className="nav-item me-2">
               <CreatePost dialogTitle="Create Post" />
+            </li>
+            <li>
+              <Link className="btn btn-login" to="/login">
+                LOGIN <CiLogin className="icon" />
+              </Link>
             </li>
           </ul>
         </div>
