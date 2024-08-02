@@ -32,9 +32,9 @@ export const findCollectionsByPartialTitle = async (title: string) => {
   return response.data;
 };
 
-export const findCollection = async (author: any, title: any) => {
-  const response = await axios.post(
-    `${REMOTE_SERVER}/api/${author}/collections/${title}`
+export const findCollection = async (author: any, titleId: any) => {
+  const response = await axios.get(
+    `${REMOTE_SERVER}/api/${author}/collections/${titleId}`
   );
   return response.data;
 };
