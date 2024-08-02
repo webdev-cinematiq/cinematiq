@@ -8,13 +8,13 @@ import CreatePost from '../main/Create/CreatePost';
 export default function NavBar() {
   const { pathname } = useLocation();
   const links = [
-    { label: '', path: '/search', icon: <CiSearch className="icon" /> }, // search
+    { label: '', path: '/search', icon: <CiSearch className="icon" /> },
     { label: 'FILMS', path: '/films', icon: null },
     { label: 'TV', path: '/tv', icon: null },
     { label: 'COLLECTIONS', path: '/collections', icon: null },
     { label: 'DISCUSSIONS', path: '/discussions', icon: null },
-    { label: '', path: '/news', icon: <CiBullhorn className="icon" /> }, // news
-    { label: '', path: '/profile', icon: <CiUser className="icon" /> }, // profile
+    { label: '', path: '/news', icon: <CiBullhorn className="icon" /> },
+    { label: '', path: '/profile', icon: <CiUser className="icon" /> },
   ];
 
   return (
@@ -44,12 +44,7 @@ export default function NavBar() {
               </li>
             ))}
             <li className="nav-item">
-              <Link className="btn btn-create" to="/review/create">
-                <CiSquarePlus className="icon" /> CREATE
-              </Link>
-              <Link className="btn btn-login" to="/login">
-                LOGIN <CiLogin className="icon" />
-              </Link>
+              <CreatePost dialogTitle="Create Post" />
             </li>
           </ul>
         </div>
