@@ -34,7 +34,7 @@ export const findCollectionsByPartialTitle = async (title: string) => {
 
 export const findCollection = async (author: any, titleId: any) => {
   const response = await axios.get(
-    `${REMOTE_SERVER}/api/${author}/collections/${titleId}`
+    `${REMOTE_SERVER}/api/${author}/collection/${titleId}`
   );
   return response.data;
 };
