@@ -2,7 +2,15 @@ import axios from 'axios';
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const REVIEWS_API = `${REMOTE_SERVER}/api/reviews`;
 
-export const fetchAllReviews = async () => {
+export const createReview = async (name: string, review: any) => {
+  const response = await axios.post(
+    `${REMOTE_SERVER}/api/${name}/reviews`,
+    review
+  );
+  return response.data;
+};
+
+export const findAllReviews = async () => {
   const { data } = await axios.get(REVIEWS_API);
   return data;
 };
@@ -12,15 +20,14 @@ export const findReviewForId = async (reviewId: any) => {
   return data;
 };
 
-export const findReviewsForUsername = async (name: string) => {
+export const findReviewsBtyAuthor = async (name: string) => {
   const response = await axios.get(`${REMOTE_SERVER}/api/${name}/reviews`);
   return response.data;
 };
 
-export const createReview = async (name: string, review: any) => {
-  const response = await axios.post(
-    `${REMOTE_SERVER}/api/${name}/review`,
-    review
+export const findReview = async (author: any, titleId: any) => {
+  const response = await axios.get(
+    `${REMOTE_SERVER}/api/${author}/review/${titleId}`
   );
   return response.data;
 };

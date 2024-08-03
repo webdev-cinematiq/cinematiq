@@ -5,7 +5,6 @@ import {
   CiSearch,
   CiBullhorn,
   CiUser,
-  CiSquarePlus,
   CiLogin,
 } from 'react-icons/ci';
 import './NavBar.css';
@@ -16,9 +15,7 @@ export default function NavBar() {
   const links = [
     { label: '', path: '/search', icon: <CiSearch className="icon" /> },
     { label: 'FILMS', path: '/films', icon: null },
-    { label: 'TV', path: '/tv', icon: null },
     { label: 'COLLECTIONS', path: '/collections', icon: null },
-    { label: 'DISCUSSIONS', path: '/discussions', icon: null },
     { label: '', path: '/news', icon: <CiBullhorn className="icon" /> },
     { label: '', path: '/profile', icon: <CiUser className="icon" /> },
   ];

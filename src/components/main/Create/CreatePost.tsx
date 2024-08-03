@@ -24,12 +24,9 @@ export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
     if (postType === 'Review') {
       setShowCreateReview(true);
       setShow(false);
-    } else if (postType === 'Collection') {
-      handleClose();
-      navigate('/collection/create');
     } else {
       handleClose();
-      navigate('/discussion/create');
+      navigate('/collection/create');
     }
   };
 
@@ -70,7 +67,6 @@ export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
                   className="form-control-custom"
                 >
                   <option value="Review">Review</option>
-                  <option value="Discussion">Discussion</option>
                   <option value="Collection">Collection</option>
                 </Form.Control>
               </Form.Group>
@@ -80,7 +76,7 @@ export default function CreatePost({ dialogTitle }: { dialogTitle: string }) {
                   onClick={handleClose}
                   className="me-2"
                 >
-                  Cancel
+                  cancel
                 </Button>
                 <Button className="btn-create" onClick={handleNext}>
                   Next
