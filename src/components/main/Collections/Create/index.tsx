@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
@@ -9,8 +8,11 @@ import * as movieClient from '../../../../services/movieService';
 import './index.css';
 
 export default function CollectionCreate() {
+  const username = 'nanabanana';
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
   const [movies, setMovies] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -18,9 +20,8 @@ export default function CollectionCreate() {
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const navigate = useNavigate();
 
-  const username = 'nanabanana';
+  const navigate = useNavigate();
 
   const formatTitleForUrl = (title: string) => {
     return title
@@ -131,9 +132,9 @@ export default function CollectionCreate() {
       )}
       <Form>
         <Row>
-          <Col>
+          <Col className="title-col">
             <Form.Group controlId="collectionName">
-              <Form.Label> Title</Form.Label>
+              <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
                 value={title}
@@ -145,7 +146,7 @@ export default function CollectionCreate() {
               />
             </Form.Group>
           </Col>
-          <Col>
+          <Col className="description-col">
             <Form.Group controlId="collectionDescription">
               <Form.Label>Description</Form.Label>
               <Form.Control
@@ -206,7 +207,7 @@ export default function CollectionCreate() {
             variant="outline-secondary"
             onClick={() => navigate('/collections')}
           >
-            Cancel
+            cancel
           </Button>
           <Button className="btn-create" onClick={handleSaveCollection}>
             Save

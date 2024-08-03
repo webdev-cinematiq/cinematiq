@@ -1,15 +1,12 @@
 // src/components/main/Reviews/Create/index.tsx
 
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Form, Button, Modal, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import ValidationAlert from '../../Alerts/ValidationAlert';
 import * as reviewClient from '../../../../services/reviewService';
 import * as movieClient from '../../../../services/movieService';
-import { addReview } from '../reducer';
-import { setMovies } from '../../Movies/reducer';
 import Rating from '../rating';
 import './index.css';
 
@@ -18,32 +15,45 @@ export default function CreateReview({
 }: {
   handleClose: () => void;
 }) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState<any | null>(null);
-
+  const username = 'nanabanana';
   const shortReview = false;
+
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
   const [watchDate, setWatchDate] = useState('');
+
+  const [movies, setMovies] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState<any | null>(null);
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [nextText, setNextText] = useState('NEXT');
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const username = 'nanabanana';
+  const formatTitleForUrl = (review: any): string => {
+    const formattedMovieName = selectedMovie.title
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '-');
+    const formattedRating = review.rating.toFixed(1).replace('.', '-');
+    const reviewYear = review.review_date.getFullYear();
+    const textId = `${formattedMovieName}-${formattedRating}-${reviewYear}`;
 
-  const createReview = async (review: any) => {
-    const newReview = await reviewClient.createReview(username, review);
-    dispatch(addReview(newReview));
+    return textId;
+  };
+
+  const createReview = async (review: any, textId: string) => {
+    await reviewClient.createReview(username, review);
+    handleClose();
+    navigate(`/${username}/review/${textId}`);
   };
 
   const fetchMovies = async () => {
     const movies = await movieClient.fetchAllMovies();
-    dispatch(setMovies(movies));
+    setMovies(movies);
   };
 
   useEffect(() => {
@@ -61,7 +71,7 @@ export default function CreateReview({
     }
 
     try {
-      const results = await movieClient.findMoviesForTitle(value);
+      const results = await movieClient.findMoviesByPartialTitle(value);
       setSearchResults(results);
     } catch (error) {
       console.error('Error fetching movie results:', error);
@@ -98,21 +108,31 @@ export default function CreateReview({
     return true;
   };
 
+  const getYear = (dateString: any) => {
+    return new Date(dateString).getFullYear().toString();
+  };
+
   const handleSaveReview = () => {
     if (validateReview()) {
       const newReview = {
-        _id: dayjs().format(),
         type: 'SHORT', // TODO: add state for changing between short and long reviews
         author: username, // TODO: replace with actual user data
         movie: selectedMovie,
         rating,
+        text_id: '',
         watch_date: watchDate,
         review_date: new Date(),
         text: reviewText,
       };
-      createReview(newReview);
-      handleClose();
-      navigate(`/reviews/${newReview._id}`);
+      const textId = formatTitleForUrl(newReview);
+      newReview.text_id = textId;
+      try {
+        createReview(newReview, textId);
+      } catch (error) {
+        console.error('Error creating review:', error);
+        setAlertMessage('Failed to create review. Please try again.');
+        setShowAlert(true);
+      }
     } else {
       setShowAlert(true);
     }
@@ -158,7 +178,7 @@ export default function CreateReview({
                     className="search-result-item"
                     onClick={() => handleSelectMovie(movie)}
                   >
-                    {movie.title} ({movie.year}) {movie.director}
+                    {movie.title} ({getYear(movie.release_date)})
                   </div>
                 ))}
               </div>
@@ -175,12 +195,15 @@ export default function CreateReview({
                 &#8592; {/* Long left arrow */}
               </Button>
               <div className="movie-poster">
-                <img src={selectedMovie.poster} alt={selectedMovie.title} />
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${selectedMovie.poster_path}`}
+                  alt={selectedMovie.title}
+                />
               </div>
             </Col>
             <Col xs={12} md={8} className="right-column">
               <h3 className="movie-title">
-                {selectedMovie.title} ({selectedMovie.year})
+                {selectedMovie.title} ({getYear(selectedMovie.release_date)})
               </h3>
               <Form>
                 <Form.Group controlId="watchedOn" className="form-group-custom">

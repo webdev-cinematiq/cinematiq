@@ -42,7 +42,7 @@ export default function PostCreationDialogue({
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
-                Cancel{' '}
+                cancel{' '}
               </button>
               <button
                 onClick={addPost}
