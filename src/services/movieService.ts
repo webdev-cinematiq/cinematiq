@@ -1,6 +1,7 @@
 import axios from 'axios';
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const MOVIES_API = `${REMOTE_SERVER}/api/movies`;
+const TMDB_API =
 
 export const fetchAllMovies = async () => {
   const { data } = await axios.get(MOVIES_API);
