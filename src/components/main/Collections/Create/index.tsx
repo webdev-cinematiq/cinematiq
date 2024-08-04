@@ -32,6 +32,7 @@ export default function CollectionCreate() {
 
   const createCollection = async (collection: any, titleId: string) => {
     await collectionClient.createCollection(username, collection);
+    await movieClient.updateMovie
     navigate(`/${username}/collection/${titleId}`);
   };
 
