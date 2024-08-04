@@ -10,8 +10,7 @@ export default function Profile() {
   const [showMoreReviews, setShowMoreReviews] = useState(false); // reviews visible
   const [showMoreFollowers, setShowMoreFollowers] = useState(false); // followers  visible
   const [showMoreFollowing, setShowMoreFollowing] = useState(false); // following visible
-  const [showMoreDiscussions, setShowMoreDiscussions] = useState(false); // discussions visible
- 
+  
 
   const user = {
     profilePicture: '/images/judi-dench.jpg', 
@@ -81,32 +80,7 @@ export default function Profile() {
     }
   ];
 
-  const discussions = [
-    {
-      id: 1,
-      image: '/images/judi-dench.jpg',
-      title: 'Dune Best Action Scene?',
-      author: 'nanabanana',
-      date: '2024-07-22',
-      text: 'My favorite scene is when Duncan Idaho...',
-    },
-    {
-      id: 2,
-      image: '/images/judi-dench.jpg',
-      title: 'The Evolution of Sci-Fi',
-      author: 'nanabanana',
-      date: '2024-07-20',
-      text: 'Some of the first really known Sci-Fi was the Dune series, but we didnt get a good Dune movie until...',
-    },
-    {
-      id: 3,
-      image: '/images/judi-dench.jpg',
-      title: 'Directorial Styles',
-      author: 'nanabanana',
-      date: '2024-07-18',
-      text: 'Lets talk about directorial styles and their influence on modern filmmaking. My favorite...',
-    }
-  ];
+ 
 
   const followers = [
     { id: 1, username: 'JohnO10', image: '/images/mMcconaughey.jpg' },
@@ -143,8 +117,7 @@ export default function Profile() {
 
   const visibleFollowing = showMoreFollowing ? following : following.slice(0, 2);
 
-  const visibleDiscussions = showMoreDiscussions ? discussions : discussions.slice(0, 2);
-
+  
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -172,9 +145,7 @@ export default function Profile() {
     setShowMoreFollowing(!showMoreFollowing);
   };
 
-  const toggleShowMoreDiscussions = () => {
-    setShowMoreDiscussions(!showMoreDiscussions);
-  };
+  
 
   return (
     <div className="profile-container">
@@ -369,34 +340,7 @@ export default function Profile() {
       </div>
 
 
-      <div className="separator-red"></div>
-
-      <div id="discussions">
-        <h2 className="section-header">Discussions</h2>
-
-        <div className="show-more-container">
-            <button className="show-more-button" onClick={toggleShowMoreDiscussions}>
-              {showMoreDiscussions ? 'Show Less' : 'Show More'}
-            </button>
-          </div>
-
-        <div className="discussions-container">
-          {visibleDiscussions.map((discussion) => (
-            <div key={discussion.id} className="discussion-card">
-              <img src={discussion.image} alt={discussion.author} className="discussion-image" />
-              <div className="discussion-content">
-                <div className="discussion-header">
-                  <h3 className="discussion-title">{discussion.title}</h3>
-                  <span className="discussion-author">{discussion.author}</span>
-                  <span className="discussion-date">{discussion.date}</span>
-                </div>
-                <div className="discussion-separator"></div>
-                <div className="discussion-text">{discussion.text}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+     
 
       
       <div className="separator-red"></div>

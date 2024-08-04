@@ -47,18 +47,18 @@ body {
 .public-info {
     width: 680px; 
     height: 300px; 
-    background-color: #bfbfbf; 
+    background-color: var(--color-background1); 
     border-radius: 10%;
     padding: 15px;
-    border: 5px solid ;
-    border-color: var(--color-primary1);
+    border: 2px solid ;
+    border-color: white;
     
 }
 
 
   
 .label {
-    color: black;
+    color: white;
     font-weight: 800;
     font-size: 18px;
     margin-bottom: 1px; /* Space between label and value */
@@ -84,9 +84,10 @@ body {
 
 .edit-info {
     width: 680px; 
-    min-height: 680px;
-    background-color: #bfbfbf; 
+    min-height: 640px;
+    background-color: var(--color-background1); 
     border-radius: 10%;
+    border: 2px solid ;
     padding: 15px;
     box-sizing: border-box;
     display: flex;
