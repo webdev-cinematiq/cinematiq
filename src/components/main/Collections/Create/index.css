@@ -29,6 +29,7 @@ html {
   color: var(--color-text);
   font-size: 1rem;
   margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 .create-collection-container .form-control {
@@ -149,6 +150,30 @@ html {
   background-color: var(--color-button);
 }
 
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.col {
+  flex: 1;
+  padding-right: 15px;
+  padding-left: 15px;
+  max-width: 100%;
+}
+
+.title-col {
+  padding-left: 12px;
+  margin-left: 0;
+}
+
+.description-col {
+  padding-right: 0;
+  margin-right: 0;
+}
+
 /* Adaptive Views */
 @media (max-width: 768px) {
   .create-collection-container {
@@ -158,6 +183,18 @@ html {
   .movie-preview img {
     width: 40px;
     height: 60px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .col,
+  .title-col,
+  .description-col {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 12px;
   }
 }
 

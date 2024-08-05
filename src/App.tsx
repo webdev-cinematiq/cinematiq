@@ -14,8 +14,9 @@ import Reviews from './components/main/Reviews';
 import CreateCollection from './components/main/Collections/Create';
 import NavBar from './components/header/NavBar';
 import Movie from './components/main/Movie';
+import Profile from './components/main/Profile';
 
-// TODO: add routes for film and TV
+// TODO: add routes for film
 function App() {
   return (
     <HashRouter>
@@ -34,6 +35,7 @@ function App() {
           <Route path="collection/create" element={<CreateCollection />} />
           <Route path="reviews" element={<Reviews />} />
           <Route path="reviews/:rid" element={<Review />} />
+          <Route path="profile" element={<Profile />} />
         </Routes>
       </div>
     </HashRouter>

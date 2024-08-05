@@ -12,7 +12,7 @@ export const findUserForId = async (userId: any) => {
   return data;
 };
 
-export const findUsersForUsername = async (name: string) => {
+export const findUserForName = async (name: string) => {
   const response = await axios.get(`${REMOTE_SERVER}/api/${name}`);
   return response.data;
 };
