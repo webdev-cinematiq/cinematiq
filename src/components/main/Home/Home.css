@@ -1,0 +1,249 @@
+
+body {
+    background-color: var(--color-background1);
+    color: var(--color-text);
+    font: var(--font-main);
+}
+
+.home-container {
+    position: relative;
+    width: 100%;
+}
+  
+/*   Cover Photo  */
+.cover-photo {
+    width: 100%;
+    height: 400px; 
+    overflow: hidden;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+  
+.cover-photo img {
+    width: 50%;
+    height: auto; 
+    object-fit: cover; 
+}
+
+
+/* Separators and Headers */
+.separator-red {
+    border-top: 1px solid var(--color-primary1); 
+    margin: 80px auto 20px auto; 
+    width: 80%; 
+}
+
+.section-header {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    margin: 0px 0px 5px 0px;
+}
+
+.top-header {
+    margin: 60px 0px 5px 0px;
+}
+
+
+/* Movie Card Detail   */
+.profile-movie-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    
+}
+  
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 0px;
+    width: 300px;
+    margin-bottom: 50px;
+    overflow: hidden;
+}
+
+/* Popular Collections Detail   */
+.profile-collections-header {
+    margin: 60px 0px 5px 0px;
+}
+  
+.profile-collections-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; 
+    justify-content: center;
+}
+  
+.profile-collection-card {
+    width: 300px; 
+    background-color: #333;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    padding: 20px;
+
+}
+
+.profile-collection-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+   
+}
+
+.profile-collection-description {
+    font-size: 1rem;
+    max-height: 60px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.profile-collection-images {
+    display: flex;
+    justify-content: center;
+    gap: 10px; 
+    margin-bottom: 10px;
+}
+
+.profile-collection-image {
+    width: 80px; 
+    height: auto; 
+    border-radius: 5px;
+}
+
+/* Popular Reviews Detail   */
+.profile-reviews-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-review-card {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--color-background1);
+    border: 1px solid var(--color-text);
+    border-radius: 15px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+}
+
+.profile-review-poster {
+    flex: 0 0 25%;
+    max-width: 150px;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.profile-review-content {
+    flex: 1;
+}
+
+.profile-review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-movie-title {
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+.profile-release-year {
+    color: darkgray;
+}
+
+.profile-review-subheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.profile-review-by {
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+.profile-star-rating {
+    color: gold;
+}
+
+.profile-watched-date {
+    font-style: italic;
+    font-size: 0.8rem;
+
+}
+
+.profile-review-separator {
+    border-top: 1px solid var(--color-text);
+    margin: 10px 0;
+}
+
+.profile-review-text {
+    margin-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.profile-star {
+    font-size: 1.5em;
+    margin: 0 2px;
+}
+  
+.profile-star.full {
+    color: gold;
+}
+  
+.profile-star.empty {
+    color: white;
+}
+
+
+/* Show More Button   */
+.show-more-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.show-more-button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.show-more-button:hover,
+.show-more-button:active {
+    background-color: var(--color-button-hover);
+    color: white;
+}
+
+/* Footer Detail   */
+.footer {
+    background-color: #f0f0f0; 
+    color: #333;
+    text-align: center; 
+    padding: 20px; 
+    margin-top: 120px; 
+}
+
+.developer-label {
+    font-weight: bold;
+}
+
+.developer-section {
+    font-style: italic;
+}
+
+  
