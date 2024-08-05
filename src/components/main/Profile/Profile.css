@@ -1,0 +1,424 @@
+body {
+    background-color: var(--color-background1);
+    color: var(--color-text);
+    font: var(--font-main);
+}
+  
+
+    
+
+/* Profile Section */
+.profile-header {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10px;
+}
+  
+.profile-picture {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    
+}
+  
+.username {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+  
+.profile-section {
+    margin-top: 20px;
+}
+
+
+/* User Info Section */
+.user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Full width */
+    padding: 0px; /* Add some padding if needed */
+}
+
+
+
+
+.public-info {
+    width: 680px; 
+    height: 300px; 
+    background-color: var(--color-background1); 
+    border-radius: 8%;
+    padding: 15px;
+    border: 2px solid ;
+    border-color: white;
+    
+}
+
+
+  
+.label {
+    color: white;
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 1px; /* Space between label and value */
+    border: none;
+}
+
+.value {    
+    margin-bottom: 2px;
+    color: var(--color-primary1);
+}
+
+.italic {
+    font-style: italic;
+}
+
+.separator {
+    width: 90%;
+    height: 2px;
+    background-color: white;
+    margin: 0px 20;
+}
+
+
+.edit-info {
+    width: 680px; 
+    min-height: 640px;
+    background-color: var(--color-background1); 
+    /* background-color: blue; */
+    border-radius: 8%;
+    border: 2px solid ;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.value-input {
+    width: 80%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+  
+.save-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--color-primary1);
+    color: var(--color-text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.edit-reminder-text {
+    margin-bottom: 5px;
+    margin-left: 15px;
+    color: #566573;
+
+}
+
+/* Separators and Headers */
+.separator-red {
+    border-top: 1px solid var(--color-primary1); 
+    margin: 80px auto 20px auto; 
+    width: 80%; 
+}
+
+.section-header {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: var(--color-primary1);
+    margin: 0px 0px 5px 0px;
+}
+
+
+/*    Collections Section    */
+
+.collections-header {
+    margin: 60px 0px 5px 0px;
+}
+  
+.collections-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; 
+    justify-content: center;
+}
+  
+.collection-card {
+    width: 300px; 
+    background-color: #333;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    padding: 20px;
+
+}
+
+.collection-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+   
+}
+
+.collection-description {
+    font-size: 1rem;
+    max-height: 60px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.collection-images {
+    display: flex;
+    justify-content: center;
+    gap: 10px; 
+    margin-bottom: 10px;
+}
+
+.collection-image {
+    width: 80px; 
+    height: auto; 
+    border-radius: 5px;
+}
+
+.show-more-container {
+    display: flex;
+    justify-content: flex-end; 
+    margin: 0px 0px; /* t/b and r/l margin for button container*/
+}
+
+.show-more-button {
+    background-color: var(--color-background1);
+    color: var(--color-text);
+    border: none;
+    padding: 5px 20px;
+    margin: 5px 10px; /* t/b and r/l margin for button */
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: var(--font-main);
+}
+  
+.show-more-button:hover {
+    background-color: var(--color-button-hover);
+}
+
+
+
+/*    Reviews Section    */
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.review-card {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--color-background1);
+    border: 1px solid var(--color-text);
+    border-radius: 15px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+}
+
+.review-poster {
+    flex: 0 0 25%;
+    max-width: 150px;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.review-content {
+    flex: 1;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.movie-title {
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+.release-year {
+    color: darkgray;
+}
+
+.review-subheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.review-by {
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+.star-rating {
+    color: gold;
+}
+
+.watched-date {
+    font-style: italic;
+    font-size: 0.8rem;
+
+}
+
+.review-separator {
+    border-top: 1px solid var(--color-text);
+    margin: 10px 0;
+}
+
+.review-text {
+    margin-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.star {
+    font-size: 1.5em;
+    margin: 0 2px;
+}
+  
+.star.full {
+    color: gold;
+}
+  
+.star.empty {
+    color: white;
+}
+
+
+
+/*   Discussions section  */
+.discussions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; 
+    justify-content: center;
+}
+
+.discussion-card {
+    background-color: #7f7f7f;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    
+    gap: 10px;
+    align-items: flex-start;
+    max-width: 400px;
+}
+
+.discussion-image {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.discussion-content {
+    flex: 1;
+}
+
+.discussion-header {
+
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.discussion-title {
+    font-size: 18px;
+    font-weight: bold;
+    flex: 1;
+    
+}
+
+.discussion-author {
+    font-size: 14px;
+    color: #81D3F8;
+    margin: 2px 2px 2px 2px;
+}
+
+.discussion-date {
+    font-size: 12px;
+    color: #fff;
+    white-space: nowrap;
+    margin: 2px 2px 2px 140px;
+}
+
+.discussion-separator {
+    border-top: 1px solid #fff; 
+    margin: 5px 0;
+}
+
+.discussion-text {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+
+/*   Followers/Following section  */
+.follower-card,
+.following-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 150px;
+  border: 1px solid ;
+  border-radius: 50px;
+  border-color: var(--color-primary1);
+  padding: 5px;
+  position: relative;
+}
+
+.follower-username,
+.following-username {
+  font-size: 1rem;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.col {
+    flex: 1;
+  }
+
+.follower-image,
+.following-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+
+.trashcan-icon {
+    position: absolute;
+    top: 20px;
+    right: 18px;
+    font-size: 18px;
+    color: white; 
+    display: none;  
+}
+
+  .follower-card.editing .trashcan-icon,
+.following-card.editing .trashcan-icon {
+  display: block;
+}
