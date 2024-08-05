@@ -53,6 +53,7 @@
   border-radius: 120px;
   height: 45px;
   padding-left: var(--input-text-padding);
+  font-weight: bold;
 }
 
 .poster-container {
