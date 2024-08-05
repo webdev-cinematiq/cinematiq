@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import "./styles.css";
+import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -43,10 +43,6 @@ export default function Login() {
             <h2>Login to your account</h2>
             <p>Enter your details to login</p>
             <form onSubmit={handleLogin}>
-              <label
-                htmlFor="email">
-                Email
-              </label>
               <input
                 id="email"
                 type="email"
@@ -56,10 +52,6 @@ export default function Login() {
                 className="form-input"
                 required
               />
-              <label
-                htmlFor="password">
-                Password
-              </label>
               <input
                 id="password"
                 type="password"
