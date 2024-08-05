@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
-import "./Registration.css"
+import "./index.css"
 
 export default function Registration() {
   const [fullName, setFullName] = useState('');
@@ -57,7 +57,7 @@ export default function Registration() {
 
   return (
     <div className="row">
-      <div className="col"> 
+      <div className="col">
         <p className="login-text">
           Already a User?
           <Link to="/login" className="btn btn-login-link">Login</Link>
