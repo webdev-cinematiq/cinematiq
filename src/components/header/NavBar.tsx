@@ -13,6 +13,7 @@ import './NavBar.css';
 import CreatePost from '../main/Create/CreatePost';
 import { setCurrentUser } from '../main/Account/reducer';
 import { useDispatch, useSelector } from 'react-redux';
+import * as accountService from "../../services/accountService";
 
 export default function NavBar() {
   const { pathname } = useLocation();
@@ -30,7 +31,8 @@ export default function NavBar() {
     { label: '', path: '/admin', icon: <MdAdminPanelSettings className="icon" /> },
   ];
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    await accountService.signout();
     // Clear the current user from Redux state
     dispatch(setCurrentUser(null));
 

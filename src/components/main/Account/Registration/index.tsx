@@ -32,9 +32,6 @@ export default function Registration() {
     }
 
     try {
-      const currentDate = new Date().toISOString();
-      setUser({ ...user, role: "VIEWER", join_date: currentDate });
-
       const currentUser = await accountService.signup(user);
 
       dispatch(setCurrentUser(currentUser));
@@ -82,7 +79,7 @@ export default function Registration() {
                 type="name"
                 placeholder="Name"
                 value={user.name}
-                onChange={(e) => setUser({ ...user, name: e.target.value })}
+                onChange={(e) => setUser({ ...user, name: e.target.value, role: "VIEWER", join_date: new Date().toISOString() })}
                 className="registration-form-input"
                 required
               />
