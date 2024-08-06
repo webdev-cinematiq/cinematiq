@@ -26,15 +26,11 @@ export default function NavBar() {
   ];
 
   const handleSignOut = () => {
-    // Clear the token from storage
-    localStorage.removeItem('token');
-    sessionStorage.removeItem('token');
-
     // Clear the current user from Redux state
     dispatch(setCurrentUser(null));
 
-    // Redirect to home page
-    navigate('/');
+    // Redirect to login page
+    navigate('/login');
   };
 
   return (
@@ -73,7 +69,7 @@ export default function NavBar() {
                 </button>
               ) : (
                 <Link className="btn btn-login" to="/login">
-                  LOGIN <CiLogin className="icon" />
+                  SIGN IN <CiLogin className="icon" />
                 </Link>
               )}
             </li>
