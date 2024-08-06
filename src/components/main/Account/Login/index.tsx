@@ -2,29 +2,30 @@ import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import "./index.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import * as accountService from "../../../../services/accountService";
+import { setCurrentUser } from "../reducer";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [credentials, setCredentials] = useState<any>({});
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
+  const handleLogin = async () => {
     try {
-      const response = await axios.post('http://our-server-url/api/login', { email, password });
-      const { token } = response.data;
+      const currentUser = await accountService.signin(credentials);
 
-      if (rememberMe) {
-        localStorage.setItem('token', token);
-      } else {
-        sessionStorage.setItem('token', token);
-      }
+      dispatch(setCurrentUser(currentUser));
 
       navigate('/');
     } catch (error) {
       console.error('Login failed:', error);
+      if (error instanceof Error) {
+        setErrorMessage('Login failed. Please try again.');
+      } else {
+        setErrorMessage('An unexpected error occurred. Please try again.');
+      }
     }
   };
 
@@ -42,13 +43,18 @@ export default function Login() {
             </div>
             <h2>Login to your account</h2>
             <p>Enter your details to login</p>
+            {errorMessage && (
+              <div className="error-message">
+                {errorMessage}
+              </div>
+            )}
             <form onSubmit={handleLogin}>
               <input
-                id="email"
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="userName"
+                type="username"
+                placeholder="User Name"
+                value={credentials.name}
+                onChange={(e) => setCredentials({ ...credentials, name: e.target.value })}
                 className="form-input"
                 required
               />
@@ -56,26 +62,11 @@ export default function Login() {
                 id="password"
                 type="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={credentials.password}
+                onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                 className="form-input"
                 required
               />
-              <div className="form-footer">
-                <div className="remember-me-container">
-                  <input
-                    type="checkbox"
-                    id="rememberMe"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="checkbox-input"
-                  />
-                  <label htmlFor="rememberMe" className="checkbox-label">
-                    Remember Me?
-                  </label>
-                </div>
-                <a href="#" className="forgot-password">Forgot Password?</a>
-              </div>
               <button type="submit" className="btn btn-submit-login">Login</button>
             </form>
           </div>

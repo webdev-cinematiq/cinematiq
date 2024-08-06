@@ -4,7 +4,7 @@ import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import Home from './components/main/Home';
 import Search from './components/main/Search';
-import Login from './components/main/Login';
+import Login from './components/main/Account/Login';
 import Registration from './components/main/Registration';
 import Admin from './components/main/Admin';
 import Collections from './components/main/Collections';
