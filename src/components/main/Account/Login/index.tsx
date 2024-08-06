@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import "./styles.css";
+import "./index.css";
 import { Link, useNavigate } from "react-router-dom";
 import * as accountService from "../../../../services/accountService";
 import { setCurrentUser } from "../reducer";

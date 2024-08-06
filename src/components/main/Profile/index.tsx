@@ -1,5 +1,5 @@
 
-import Subheader from "./Subheader";
+import Subheader from './Subheader';
 import './Profile.css'
 import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
@@ -11,10 +11,10 @@ export default function Profile() {
   const [showMoreReviews, setShowMoreReviews] = useState(false); // reviews visible
   const [showMoreFollowers, setShowMoreFollowers] = useState(false); // followers  visible
   const [showMoreFollowing, setShowMoreFollowing] = useState(false); // following visible
-  
+
 
   const user = {
-    profilePicture: '/images/judi-dench.jpg', 
+    profilePicture: '/images/judi-dench.jpg',
     username: 'nanabanana',
     email: 'nanabanana@gmail.com',
     password: 'movieS!10'
@@ -39,7 +39,8 @@ export default function Profile() {
       description: "Explore the universe with a selection of the best science fiction movies.",
       images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
     },
-    {id: 4,
+    {
+      id: 4,
       title: "More Action/Sci-Fi Adventures",
       description: "Explore the universe with a selection of the best science fiction movies.",
       images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
@@ -81,7 +82,7 @@ export default function Profile() {
     }
   ];
 
- 
+
 
   const followers = [
     { id: 1, username: 'JohnO10', image: '/images/mMcconaughey.jpg' },
@@ -98,7 +99,7 @@ export default function Profile() {
   const generateStars = (rating: number) => {
     const fullStars = Math.floor(rating);
     const emptyStars = 5 - fullStars;
-  
+
     const stars = [];
     for (let i = 0; i < fullStars; i++) {
       stars.push(<span key={`full-${i}`} className="star full">★</span>);
@@ -106,19 +107,19 @@ export default function Profile() {
     for (let i = 0; i < emptyStars; i++) {
       stars.push(<span key={`empty-${i}`} className="star empty">☆</span>);
     }
-  
+
     return stars;
   };
 
   const visibleCollections = showMore ? collections : collections.slice(0, 3);
-  
+
   const visibleReviews = showMoreReviews ? reviews : reviews.slice(0, 2);
 
   const visibleFollowers = showMoreFollowers ? followers : followers.slice(0, 2);
 
   const visibleFollowing = showMoreFollowing ? following : following.slice(0, 2);
 
-  
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -137,7 +138,7 @@ export default function Profile() {
   const toggleShowMoreReviews = () => {
     setShowMoreReviews(!showMoreReviews);
   };
-  
+
   const toggleShowMoreFollowers = () => {
     setShowMoreFollowers(!showMoreFollowers);
   };
@@ -146,23 +147,23 @@ export default function Profile() {
     setShowMoreFollowing(!showMoreFollowing);
   };
 
-  
+
 
   return (
     <div className="profile-container">
 
       <Subheader scrollToSection={scrollToSection} toggleEditMode={toggleEditMode} />
 
-      <div  className="profile-header">
+      <div className="profile-header">
         <img src={user.profilePicture} alt="Profile" className="profile-picture" />
         <h2 className="username">{user.username}</h2>
-      </div><br/>
+      </div><br />
 
 
       <div id="user-info" className="user-container">
-  
-         
-       
+
+
+
         {!isEditing && (
           <div className="public-info">
             <div className="row">
@@ -185,7 +186,7 @@ export default function Profile() {
                 <div className="label">Favorite Director</div>
                 <div className="value italic" id="profile-director">Christopher Nolan</div>
               </div>
-            </div> <br/>
+            </div> <br />
             <div className="row">
               <div className="col">
                 <div className="label">Favorite Genre</div>
@@ -205,24 +206,24 @@ export default function Profile() {
             <div className="row">
               <div className="col">
                 <div className="label">Status</div>
-                <input type="text" defaultValue="Critic" className="value-input" id="profile-status-edit"/>
+                <input type="text" defaultValue="Critic" className="value-input" id="profile-status-edit" />
               </div>
               <div className="col">
                 <div className="label ">Induction Date</div>
-                <input type="date" defaultValue="2022-01-05" className="value-input" id="profile-induction-edit"/>
+                <input type="date" defaultValue="2022-01-05" className="value-input" id="profile-induction-edit" />
               </div>
             </div>
             <div className="separator"></div>
             <div className="row">
               <div className="col">
                 <div className="label">Favorite Film</div>
-                <input type="text" defaultValue="Remember the Titans" className="value-input" id="profile-film-edit"/>
+                <input type="text" defaultValue="Remember the Titans" className="value-input" id="profile-film-edit" />
               </div>
               <div className="col">
                 <div className="label">Favorite Director</div>
-                <input type="text" defaultValue="Christopher Nolan" className="value-input" id="profile-director-edit"/>
+                <input type="text" defaultValue="Christopher Nolan" className="value-input" id="profile-director-edit" />
               </div>
-            </div> <br/>
+            </div> <br />
             <div className="row">
               <div className="col">
                 <div className="label">Favorite Genre</div>
@@ -242,9 +243,9 @@ export default function Profile() {
               </div>
               <div className="col">
                 <div className="label">Email*</div>
-                <input type="text" defaultValue={user.email} className="value-input" id="profile-email-edit"/>
+                <input type="text" defaultValue={user.email} className="value-input" id="profile-email-edit" />
               </div>
-            </div> <br/>
+            </div> <br />
 
             <div className="row">
               <div className="col">
@@ -255,7 +256,7 @@ export default function Profile() {
                 <div className="label">Confirm Password*</div>
                 <input type="text" defaultValue='' className="value-input" id="profile-confirm-password-edit" />
               </div>
-            </div> <br/>
+            </div> <br />
 
 
 
@@ -264,9 +265,9 @@ export default function Profile() {
 
 
 
-          
-        )} 
-      </div>  
+
+        )}
+      </div>
 
 
       <div className="separator-red"></div>
@@ -284,7 +285,7 @@ export default function Profile() {
           {visibleCollections.map((collection) => (
             <div key={collection.id} className="collection-card">
 
-             
+
 
               <h3 className="collection-title">{collection.title}</h3>
 
@@ -341,9 +342,9 @@ export default function Profile() {
       </div>
 
 
-     
 
-      
+
+
       <div className="separator-red"></div>
 
       <div className="row">
@@ -354,7 +355,7 @@ export default function Profile() {
             <button className="show-more-button" onClick={toggleShowMoreFollowers}>
               {showMoreFollowers ? 'Show Less' : 'Show More'}
             </button>
-           </div>
+          </div>
 
           <div className="followers-container">
             {visibleFollowers.map((follower) => (
@@ -370,14 +371,14 @@ export default function Profile() {
 
 
 
-        <div id="following" className="col"> 
+        <div id="following" className="col">
           <h2 className="section-header">Following</h2>
 
           <div className="show-more-container">
             <button className="show-more-button" onClick={toggleShowMoreFollowing}>
               {showMoreFollowing ? 'Show Less' : 'Show More'}
             </button>
-           </div>
+          </div>
 
           <div className="following-container">
             {visibleFollowing.map((follow) => (
@@ -387,12 +388,12 @@ export default function Profile() {
                 <span className="following-username">{follow.username}</span>
               </div>
             ))}
-          </div> 
+          </div>
 
         </div>
-      </div><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-      
-    
+      </div><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+
     </div>
   );
 }

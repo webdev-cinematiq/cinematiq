@@ -12,7 +12,6 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import './NavBar.css';
 import CreatePost from '../main/Create/CreatePost';
 import { setCurrentUser } from '../main/Account/reducer';
-import accountReducer from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function NavBar() {
