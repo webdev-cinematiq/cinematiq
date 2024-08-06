@@ -1,10 +1,29 @@
 
 import Subheader from "./Subheader";
 import './Profile.css'
-import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Container, Row, Col, Image } from 'react-bootstrap';
+import * as profileClient from '../../../services/profileService';
+import * as collectionClient from '../../../services/collectionService';
+import * as userClient from '../../../services/userService';
+import * as reviewClient from '../../../services/reviewService';
 
 export default function Profile() {
+
+  // const { name } = useParams<{ name: string }>(); //add me back once login capability is in
+  const name = "BobSmith"; // Hardcoded username
+  
+  
+  const [profile, setProfile] = useState<any>({});
+  const [collections, setCollections] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
+  // const [author, setAuthor] = useState<any>({});
+  // const [authorName, setAuthorName] = useState('');
+
+  const[role,setRole] = useState('');
+  const[reputation,setReputation] = useState('');
 
   const [isEditing, setIsEditing] = useState(false);
   const [showMore, setShowMore] = useState(false); // collections visible
@@ -12,74 +31,109 @@ export default function Profile() {
   const [showMoreFollowers, setShowMoreFollowers] = useState(false); // followers  visible
   const [showMoreFollowing, setShowMoreFollowing] = useState(false); // following visible
   
-
-  const user = {
-    profilePicture: '/images/judi-dench.jpg', 
-    username: 'nanabanana',
-    email: 'nanabanana@gmail.com',
-    password: 'movieS!10'
+  const fetchProfile = async () => {
+    if (!name) return;
+    const profile = await profileClient.findProfileForUsername(name);
+    setProfile(profile);
   };
 
-  const collections = [
-    {
-      id: 1,
-      title: "Action Classics",
-      description: "A collection of all-time great action movies. Packed with thrilling sequences and high-octane stunts.",
-      images: ["/images/reacher2012.jpg", "/images/reacher2016.jpg", "/images/avengersIF.jpg"],
-    },
-    {
-      id: 2,
-      title: "Dune Movies",
-      description: "A collection of the movies of the planet Dune.",
-      images: ["/images/dune.jpg", "/images/dune2.jpg"],
-    },
-    {
-      id: 3,
-      title: "Sci-Fi Adventures",
-      description: "Explore the universe with a selection of the best science fiction movies.",
-      images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
-    },
-    {id: 4,
-      title: "More Action/Sci-Fi Adventures",
-      description: "Explore the universe with a selection of the best science fiction movies.",
-      images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
+  useEffect(() => {
+    if (name) fetchProfile();
+  }, [name]);
+
+  const fetchCollections = async () => {
+    if (!name) return;
+    const collections = await collectionClient.findCollectionsByAuthor(name);
+    setCollections(collections);
+  };
+
+  const fetchReviews = async () => {
+    if (!name) return;
+    const reviewsData = await reviewClient.findReviewsByAuthor(name);
+    setReviews(reviewsData);
+  };
+
+  useEffect(() => {
+    if (name) {
+      fetchCollections();
+      fetchReviews();
     }
-  ];
+  }, [name]);
+
+  if (!profile || !collections || !reviews) {
+    return <div>Loading...</div>;
+  }
+
+  const { avatar, name: username, role: profileRole } = profile;
+
+  // const user = {
+  //   profilePicture: '/images/judi-dench.jpg', 
+  //   username: 'nanabanana',
+  //   email: 'nanabanana@gmail.com',
+  //   password: 'movieS!10'
+  // };
+
+  
+  // const collections = [
+  //   {
+  //     id: 1,
+  //     title: "Action Classics",
+  //     description: "A collection of all-time great action movies. Packed with thrilling sequences and high-octane stunts.",
+  //     images: ["/images/reacher2012.jpg", "/images/reacher2016.jpg", "/images/avengersIF.jpg"],
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Dune Movies",
+  //     description: "A collection of the movies of the planet Dune.",
+  //     images: ["/images/dune.jpg", "/images/dune2.jpg"],
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Sci-Fi Adventures",
+  //     description: "Explore the universe with a selection of the best science fiction movies.",
+  //     images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
+  //   },
+  //   {id: 4,
+  //     title: "More Action/Sci-Fi Adventures",
+  //     description: "Explore the universe with a selection of the best science fiction movies.",
+  //     images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
+  //   }
+  // ];
 
 
 
-  const reviews = [
-    {
-      id: 1,
-      movieTitle: "Dune Part Two",
-      releaseYear: 2023,
-      reviewBy: "nanabanana",
-      starRating: 5,
-      watchedDate: "2023-07-20",
-      reviewText: "An epic continuation of the Dune saga. Stunning visuals and gripping storytelling.",
-      poster: "/images/dune2.jpg"
-    },
-    {
-      id: 2,
-      movieTitle: "Dune",
-      releaseYear: 2021,
-      reviewBy: "nanabanana",
-      starRating: 4.5,
-      watchedDate: "2021-12-15",
-      reviewText: "A fantastic introduction to the world of Dune. Exceptional performances and a faithful adaptation.",
-      poster: "/images/dune.jpg"
-    },
-    {
-      id: 3,
-      movieTitle: "Inception",
-      releaseYear: 2010,
-      reviewBy: "nanabanana",
-      starRating: 5,
-      watchedDate: "2010-07-22",
-      reviewText: "A mind-bending masterpiece. Nolan at his best, with a stellar cast and groundbreaking visuals.",
-      poster: "/images/inception.jpg"
-    }
-  ];
+  // const reviews = [
+  //   {
+  //     id: 1,
+  //     movieTitle: "Dune Part Two",
+  //     releaseYear: 2023,
+  //     reviewBy: "nanabanana",
+  //     starRating: 5,
+  //     watchedDate: "2023-07-20",
+  //     reviewText: "An epic continuation of the Dune saga. Stunning visuals and gripping storytelling.",
+  //     poster: "/images/dune2.jpg"
+  //   },
+  //   {
+  //     id: 2,
+  //     movieTitle: "Dune",
+  //     releaseYear: 2021,
+  //     reviewBy: "nanabanana",
+  //     starRating: 4.5,
+  //     watchedDate: "2021-12-15",
+  //     reviewText: "A fantastic introduction to the world of Dune. Exceptional performances and a faithful adaptation.",
+  //     poster: "/images/dune.jpg"
+  //   },
+  //   {
+  //     id: 3,
+  //     movieTitle: "Inception",
+  //     releaseYear: 2010,
+  //     reviewBy: "nanabanana",
+  //     starRating: 5,
+  //     watchedDate: "2010-07-22",
+  //     reviewText: "A mind-bending masterpiece. Nolan at his best, with a stellar cast and groundbreaking visuals.",
+  //     poster: "/images/inception.jpg"
+  //   }
+  // ];
 
  
 
@@ -153,10 +207,15 @@ export default function Profile() {
 
       <Subheader scrollToSection={scrollToSection} toggleEditMode={toggleEditMode} />
 
-      <div  className="profile-header">
+      {/* <div  className="profile-header">
         <img src={user.profilePicture} alt="Profile" className="profile-picture" />
         <h2 className="username">{user.username}</h2>
-      </div><br/>
+      </div><br/> */}
+
+      <div className="profile-header">
+        <img src={avatar || '/images/default-avatar.jpg'} alt="Profile" className="profile-picture" />
+        <h2 className="username">{username || 'Username'}</h2>
+      </div>
 
 
       <div id="user-info" className="user-container">
@@ -169,6 +228,7 @@ export default function Profile() {
               <div className="col">
                 <div className="label" >Status</div>
                 <div className="value italic" id="profile-status">Critic</div>
+                <div className="value italic" id="profile-status">{role}</div>
               </div>
               <div className="col">
                 <div className="label ">Induction Date</div>
@@ -205,7 +265,8 @@ export default function Profile() {
             <div className="row">
               <div className="col">
                 <div className="label">Status</div>
-                <input type="text" defaultValue="Critic" className="value-input" id="profile-status-edit"/>
+                {/* <input type="text" defaultValue="Critic" className="value-input" id="profile-status-edit"/> */}
+                <input type="text" defaultValue={role} className="value-input" id="profile-status-edit"/>
               </div>
               <div className="col">
                 <div className="label ">Induction Date</div>
@@ -238,11 +299,12 @@ export default function Profile() {
             <div className="row">
               <div className="col">
                 <div className="label">Username*</div>
-                <input type="text" defaultValue={user.username} className="value-input" id="profile-username-edit" />
+                {/* <input type="text" defaultValue={user.username} className="value-input" id="profile-username-edit" /> */}
+                <input type="text" defaultValue={username} className="value-input" id="profile-username-edit" />
               </div>
               <div className="col">
                 <div className="label">Email*</div>
-                <input type="text" defaultValue={user.email} className="value-input" id="profile-email-edit"/>
+                {/* <input type="text" defaultValue={user.email} className="value-input" id="profile-email-edit"/> */}
               </div>
             </div> <br/>
 
@@ -290,11 +352,11 @@ export default function Profile() {
 
               <p className="collection-description">{collection.description}</p>
 
-              <div className="collection-images">
+              {/* <div className="collection-images">
                 {collection.images.map((image, index) => (
                   <img key={index} src={image} alt={collection.title} className="collection-image" />
                 ))}
-              </div>
+              </div> */}
 
             </div>
           ))}
