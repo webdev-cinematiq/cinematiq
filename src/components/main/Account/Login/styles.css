@@ -4,15 +4,13 @@
   font-family: var(--font-main);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: top;
   font-weight: bold;
 }
 
 .col {
   flex: 0 0 500px;
-  /* Don't grow, don't shrink, basis 500px */
   margin: 0 20px;
-  /* Add some space between columns */
 }
 
 .left-container {
@@ -55,12 +53,7 @@
   border-radius: 120px;
   height: 45px;
   padding-left: var(--input-text-padding);
-}
-
-.form-footer {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  font-weight: bold;
 }
 
 .poster-container {
@@ -103,14 +96,11 @@
   background-color: var(--color-button-hover);
 }
 
-.forgot-password {
-  color: white;
-  text-decoration: none;
-  font-weight: auto;
-}
-
-.forgot-password:hover {
-  color: var(--color-button-hover);
+.error-message {
+  color: #dc3545;
+  padding: 10px;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 .register-text {
@@ -130,50 +120,6 @@
 
 .btn.btn-register:hover {
   background-color: var(--color-button-hover);
-}
-
-.remember-me-container {
-  display: flex;
-  align-items: center;
-}
-
-.checkbox-input {
-  appearance: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 15px;
-  background-color: #fff;
-  cursor: pointer;
-  position: relative;
-  margin-right: 8px;
-  outline: none;
-  transition: background-color 0.2s, border-color 0.2s;
-}
-
-.checkbox-input:checked {
-  background-color: var(--color-button);
-}
-
-.checkbox-input:checked::before {
-  content: '';
-  position: absolute;
-  top: 4px;
-  left: 8px;
-  width: 8px;
-  height: 12px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.checkbox-label {
-  font-size: 16px;
-  color: #ffffff;
-  cursor: pointer;
-}
-
-.checkbox-label:hover {
-  color: var(--color-button-hover);
 }
 
 /* Responsive styles */

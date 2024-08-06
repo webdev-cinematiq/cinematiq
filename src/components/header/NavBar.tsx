@@ -1,12 +1,20 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { CiSearch, CiBullhorn, CiUser, CiSquarePlus, CiLogin } from 'react-icons/ci';
+import { CiSearch, CiBullhorn, CiUser, CiSquarePlus, CiLogin, CiLogout } from 'react-icons/ci';
 import './NavBar.css';
 import CreatePost from '../main/Create/CreatePost';
+import { setCurrentUser } from '../main/Account/reducer';
+import accountReducer from '../store';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function NavBar() {
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { currentUser } = useSelector((state: any) => state.accounts);
+
   const links = [
     { label: '', path: '/search', icon: <CiSearch className="icon" /> }, // search
     { label: 'FILMS', path: '/films', icon: null },
@@ -16,6 +24,18 @@ export default function NavBar() {
     { label: '', path: '/news', icon: <CiBullhorn className="icon" /> }, // news
     { label: '', path: '/profile', icon: <CiUser className="icon" /> }, // profile
   ];
+
+  const handleSignOut = () => {
+    // Clear the token from storage
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+
+    // Clear the current user from Redux state
+    dispatch(setCurrentUser(null));
+
+    // Redirect to home page
+    navigate('/');
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
@@ -47,9 +67,15 @@ export default function NavBar() {
               <Link className="btn btn-create" to="/review/create">
                 <CiSquarePlus className="icon" /> CREATE
               </Link>
-              <Link className="btn btn-login" to="/login">
-                LOGIN <CiLogin className="icon" />
-              </Link>
+              {currentUser ? (
+                <button className="btn btn-signout" onClick={handleSignOut}>
+                  SIGN OUT <CiLogout className="icon" />
+                </button>
+              ) : (
+                <Link className="btn btn-login" to="/login">
+                  LOGIN <CiLogin className="icon" />
+                </Link>
+              )}
             </li>
           </ul>
         </div>

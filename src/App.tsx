@@ -5,7 +5,7 @@ import './App.css';
 import Home from './components/main/Home';
 import Search from './components/main/Search';
 import Discussion from './components/main/Discussions/Discussion';
-import Login from './components/main/Login';
+import Login from './components/main/Account/Login';
 import Registration from './components/main/Registration';
 import Discussions from './components/main/Discussions';
 import CreateDiscussion from './components/main/Discussions/CreateDiscussion';
