@@ -1,44 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import * as collectionClient from '../../../../services/collectionService';
-import { setCollections } from '../reducer';
+import * as userClient from '../../../../services/userService';
 import './index.css';
 
 export default function CollectionDetail() {
   const { name, titleId } = useParams<{ name: string; titleId: string }>();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [collection, setCollection] = useState<any>({});
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [author, setAuthor] = useState<any>({});
+  const [authorName, setAuthorName] = useState('');
+  const [movies, setMovies] = useState<any[]>([]);
 
-  const collectionsState = useSelector((state: any) => state.collections);
+  const fetchCollection = async () => {
+    if (!name || !titleId) return;
+    const collection = await collectionClient.findCollection(name, titleId);
 
-  const fetchCollections = async () => {
-    const collections = await collectionClient.fetchAllCollections();
-    dispatch(setCollections(collections));
+    setCollection(collection);
+    console.log(collection);
+    setTitle(collection.title);
+    setDescription(collection.description);
+    setAuthorName(collection.author);
+    setMovies(collection.movies);
   };
 
   useEffect(() => {
-    fetchCollections();
-  }, [dispatch]);
+    if (titleId) fetchCollection();
+  }, [titleId]);
 
-  const collections = collectionsState.collections;
+  const fetchAuthor = async () => {
+    if (!authorName) return;
+    const author = await userClient.findUserForName(authorName);
+    setAuthor(author);
+  };
 
-  const collection =
-    collections.find(
-      (c: any) => c.titleId === titleId && c.author.name === name
-    ) || {};
+  useEffect(() => {
+    if (authorName) fetchAuthor();
+  }, [authorName]);
 
-  if (!collection || !collection.movies) {
+  if (!collection || !movies) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="collection-detail-container">
-      {collection.movies[0] && (
+      {movies[0] && (
         <div
           className="collection-backdrop-container"
-          style={{ backgroundImage: `url(${collection.movies[0].backdrop})` }}
+          style={{
+            backgroundImage: `url(https://image.tmdb.org/t/p/w500/${movies[0].backdrop_path})`,
+          }}
         >
           <div className="fade-left"></div>
           <div className="fade-right"></div>
@@ -47,11 +60,9 @@ export default function CollectionDetail() {
       <div className="horizontal-line"></div>
       <div className="collection-header">
         <p className="collection-author">
-          <img src={collection.author.avatar} alt="Author avatar" />
+          <img src={author.avatar} alt="Author avatar" />
           collection by&nbsp;
-          <span className="collection-author-name">
-            {collection.author.name}
-          </span>
+          <span className="collection-author-name">{author.name}</span>
         </p>
       </div>
       <div className="horizontal-line"></div>
@@ -59,14 +70,14 @@ export default function CollectionDetail() {
         <Row className="collection-header">
           <Col>
             <div className="collection-info">
-              <h2 className="collection-title">{collection.title}</h2>
-              <p className="collection-description">{collection.description}</p>
+              <h2 className="collection-title">{title}</h2>
+              <p className="collection-description">{description}</p>
             </div>
           </Col>
         </Row>
 
         <Row className="movie-grid">
-          {collection.movies.map((movie: any, index: any) => (
+          {movies.map((movie: any, index: any) => (
             <Col
               key={movie._id}
               xs={6}
@@ -76,7 +87,11 @@ export default function CollectionDetail() {
               className="movie-item"
             >
               <div className="movie-poster-container">
-                <Image src={movie.poster} fluid className="movie-poster" />
+                <Image
+                  src={`https://image.tmdb.org/t/p/w780${movie.poster_path}`}
+                  fluid
+                  className="movie-poster"
+                />
                 <div className="movie-index">{index + 1}</div>
               </div>
             </Col>

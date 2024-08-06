@@ -13,6 +13,11 @@ export const findMovieForId = async (movieId: any) => {
 };
 
 export const findMoviesForTitle = async (title: string) => {
-  const { data } = await axios.get(`${MOVIES_API}/title/${title}`);
+  const { data } = await axios.get(`${MOVIES_API}/${title}`);
   return data;
+};
+
+export const findMoviesByPartialTitle = async (title: string) => {
+  const response = await axios.get(`${MOVIES_API}?title=${title}`);
+  return response.data;
 };
