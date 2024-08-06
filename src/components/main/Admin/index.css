@@ -1,0 +1,128 @@
+.admin-dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 50px;
+}
+
+h1 {
+  color: var(--color-text);
+  text-align: center;
+  font-family: var(--font-title);
+}
+
+h2 {
+  color: var(--color-text);
+  margin-bottom: 10px;
+  font-family: var(--font-title);
+}
+
+.dashboard-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-main);
+}
+
+select {
+  padding: 5px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background-color: var(--color-background1);
+  font-size: 0.9em;
+  color: white;
+}
+
+th,
+td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #201f1f;
+  font-weight: bold;
+  font-family: var(--font-title);
+}
+
+.user-table th,
+.user-table td,
+.reviews-table th,
+.reviews-table td .movies-table th,
+.moves-table td {
+  width: 25%;
+  /* Default width for all columns */
+}
+
+.reputation-input {
+  text-indent: 5px;
+  border-radius: 15px;
+  color: var(--color-text);
+  background-color: var(--color-background1);
+  width: 50%;
+  border: 1px;
+  height: 32px;
+}
+
+.admin-dashboard button,
+.dashboard-content button {
+  padding: 7px 10px;
+  background-color: var(--color-primary1);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 25px;
+}
+
+button:hover {
+  background-color: var(--color-button-hover);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: var(--color-background1);
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  width: 50%;
+}
+
+.modal-content button {
+  background-color: var(--color-button);
+  color: var(--color-text);
+  padding: 5px 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 25px;
+  height: 45px;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-content {
+    flex-direction: column;
+  }
+
+  .dashboard-column {
+    margin-bottom: 20px;
+  }
+}

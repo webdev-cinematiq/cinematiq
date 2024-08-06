@@ -4,15 +4,13 @@
   font-family: var(--font-main);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: top;
   font-weight: bold;
 }
 
 .col {
   flex: 0 0 500px;
-  /* Don't grow, don't shrink, basis 500px */
   margin: 0 20px;
-  /* Add some space between columns */
 }
 
 .left-container {
@@ -55,6 +53,7 @@
   border-radius: 120px;
   height: 45px;
   padding-left: var(--input-text-padding);
+  font-weight: bold;
 }
 
 .form-footer {

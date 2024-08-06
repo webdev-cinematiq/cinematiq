@@ -7,6 +7,7 @@ import {
   CiUser,
   CiLogin,
 } from 'react-icons/ci';
+import { MdAdminPanelSettings } from "react-icons/md";
 import './NavBar.css';
 import CreatePost from '../main/Create/CreatePost';
 
@@ -18,6 +19,7 @@ export default function NavBar() {
     { label: 'COLLECTIONS', path: '/collections', icon: null },
     { label: '', path: '/news', icon: <CiBullhorn className="icon" /> },
     { label: '', path: '/profile', icon: <CiUser className="icon" /> },
+    { label: '', path: '/admin', icon: <MdAdminPanelSettings className="icon" /> },
   ];
 
   return (
@@ -37,9 +39,8 @@ export default function NavBar() {
             {links.map((link, index) => (
               <li className="nav-item" key={index}>
                 <Link
-                  className={`nav-link ${
-                    pathname === link.path ? 'active' : ''
-                  }`}
+                  className={`nav-link ${pathname === link.path ? 'active' : ''
+                    }`}
                   to={link.path}
                 >
                   {link.icon && <span className="me-2">{link.icon}</span>}
