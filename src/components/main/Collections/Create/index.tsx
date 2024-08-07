@@ -72,7 +72,7 @@ export default function CollectionCreate() {
       setSelectedMovies([...selectedMovies, movie]);
       setShowAlert(false);
     }
-    console.log(movie.poster);
+    console.log('movie poster', movie.poster);
     setSearchResults([]);
     setSearchTerm('');
   };
