@@ -51,19 +51,20 @@ export default function CreateReview({
   };
 
   const createReview = async (review: any, textId: string) => {
-    await reviewClient.createReview(username, review);
+    const newReview = await reviewClient.createReview(username, review);
+    console.log('movie to update: ', selectedMovie);
+    console.log('review to add: ', review);
+
+    const updatedMovie = await movieClient.findAndUpdateMovieReviews(
+      selectedMovie.id,
+      selectedMovie,
+      newReview._id
+    );
+    console.log('saved movie response', updatedMovie);
+
     handleClose();
     navigate(`/${username}/review/${textId}`);
   };
-
-  const fetchMovies = async () => {
-    const movies = await movieClient.fetchAllMovies();
-    setMovies(movies);
-  };
-
-  useEffect(() => {
-    fetchMovies();
-  }, []);
 
   const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -123,23 +124,28 @@ export default function CreateReview({
     return new Date(dateString).getFullYear().toString();
   };
 
-  const handleSaveReview = () => {
+  const handleSaveReview = async () => {
     if (validateReview()) {
-      const newReview = {
-        type: 'SHORT',
-        author: username, // TODO: replace with actual user data
-        movie: selectedMovie,
-        rating,
-        text_id: '',
-        watch_date: watchDate,
-        review_date: new Date(),
-        text: reviewText,
-      };
-      const textId = formatTitleForUrl(newReview);
-      newReview.text_id = textId;
-
-      const newMovie = { ...selectedMovie, favorite: false, }
       try {
+        console.log('selectMovied', selectedMovie);
+        const reviewMovie = await movieClient.findAndUpdateMovie(
+          selectedMovie.id,
+          selectedMovie
+        );
+        console.log('reviewMovie', reviewMovie);
+
+        const newReview = {
+          type: 'SHORT',
+          author: username, // TODO: replace with actual user data
+          movie: reviewMovie,
+          rating,
+          text_id: '',
+          watch_date: watchDate,
+          review_date: new Date(),
+          text: reviewText,
+        };
+        const textId = formatTitleForUrl(newReview);
+        newReview.text_id = textId;
         createReview(newReview, textId);
       } catch (error) {
         console.error('Error creating review:', error);

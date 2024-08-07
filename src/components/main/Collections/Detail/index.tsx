@@ -14,6 +14,8 @@ export default function CollectionDetail() {
   const [authorName, setAuthorName] = useState('');
   const [movies, setMovies] = useState<any[]>([]);
 
+  const navigate = useNavigate();
+
   const fetchCollection = async () => {
     if (!name || !titleId) return;
     const collection = await collectionClient.findCollection(name, titleId);
@@ -91,6 +93,7 @@ export default function CollectionDetail() {
                   src={`https://image.tmdb.org/t/p/w780${movie.poster_path}`}
                   fluid
                   className="movie-poster"
+                  onClick={() => navigate(`/film/details/${movie.id}`)}
                 />
                 <div className="movie-index">{index + 1}</div>
               </div>

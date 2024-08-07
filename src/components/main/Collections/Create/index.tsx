@@ -116,18 +116,6 @@ export default function CollectionCreate() {
     if (validateCollection()) {
       const titleId = formatTitleForUrl(title);
       try {
-        // const movieIds = await Promise.all(
-        //   selectedMovies.map(async (m) => {
-        //     const savedMovie = await movieClient.findAndUpdateMovieCollections(
-        //       m.id,
-        //       m,
-        //       collectionId
-        //     );
-        //     console.log('saved movie response', savedMovie);
-        //     return savedMovie;
-        //   })
-        // );
-
         const movieIds = await Promise.all(
           selectedMovies.map(async (m) => {
             const savedMovie = await movieClient.findAndUpdateMovie(m.id, m);
