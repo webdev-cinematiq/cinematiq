@@ -9,6 +9,9 @@ import * as collectionClient from '../../../services/collectionService';
 import * as userClient from '../../../services/userService';
 import * as reviewClient from '../../../services/reviewService';
 import * as movieClient from '../../../services/movieService';
+// import Rating from '../Reviews/rating';
+import Rating from './rating';
+
 
 export default function Profile() {
   // const { name } = useParams<{ name: string }>(); //add me back once login capability is in
@@ -31,7 +34,7 @@ export default function Profile() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [reputation, setReputation] = useState('');
 
-
+  const [rating, setRating] = useState(0);
 
 
   const [isEditing, setIsEditing] = useState(false);
@@ -78,7 +81,7 @@ export default function Profile() {
     setReviews(reviews);
     console.log('reviews from DB', reviews);
 
-  
+    
 
 
     if (showMoreReviews) {
@@ -167,32 +170,8 @@ export default function Profile() {
   };
 
 
-  // TODO: use <Rating rating={rating} setRating={() => void} in components/main/Reviews/rating
-  const generateStars = (rating: number) => {
-    const fullStars = Math.floor(rating);
-    const emptyStars = 5 - fullStars;
 
-    const stars = [];
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(
-        <span key={`full-${i}`} className="star full">
-          ★
-        </span>
-      );
-    }
-    for (let i = 0; i < emptyStars; i++) {
-      stars.push(
-        <span key={`empty-${i}`} className="star empty">
-          ☆
-        </span>
-      );
-    }
-
-    return stars;
-  };
-
-
-
+  
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
   };
@@ -209,15 +188,7 @@ export default function Profile() {
 
   return (
     <div className="profile-container">
-      {/* <Subheader
-        scrollToSection={scrollToSection}
-        toggleEditMode={toggleEditMode}
-      /> */}
-
-      {/* <div  className="profile-header">
-        <img src={user.profilePicture} alt="Profile" className="profile-picture" />
-        <h2 className="username">{user.username}</h2>
-      </div><br/> */}
+     
       <div className='edit-container'>
         <button className="btn-large edit-button float-end" onClick={toggleEditMode}>
             <BsPencil className='me-1'/>
@@ -280,36 +251,7 @@ export default function Profile() {
               </div>
             </div>{' '} 
 
-            {/* <div className="separator"></div>
-            <div className="row">
-              <div className="col">
-                <div className="label">Favorite Film</div>
-                <div className="value italic" id="profile-film">
-                  Inception
-                </div>
-              </div>
-              <div className="col">
-                <div className="label">Favorite Director</div>
-                <div className="value italic" id="profile-director">
-                  Christopher Nolan
-                </div>
-              </div>
-            </div>{' '}
-            <br />
-            <div className="row">
-              <div className="col">
-                <div className="label">Favorite Genre</div>
-                <div className="value italic" id="profile-genre">
-                  Sci-Fi
-                </div>
-              </div>
-              <div className="col">
-                <div className="label">Favorite Actor</div>
-                <div className="value italic" id="profile-actor">
-                  Leonardo DiCaprio
-                </div>
-              </div>
-            </div> */}
+           
           </div>
         )}
 
@@ -360,60 +302,15 @@ export default function Profile() {
                 </div>
               </div>
             </div>{' '} 
-            {/* <div className="separator"></div>
-            <div className="row">
-              <div className="col">
-                <div className="label">Favorite Film</div>
-                <input
-                  type="text"
-                  defaultValue="Remember the Titans"
-                  className="value-input"
-                  id="profile-film-edit"
-                />
-              </div>
-              <div className="col">
-                <div className="label">Favorite Director</div>
-                <input
-                  type="text"
-                  defaultValue="Christopher Nolan"
-                  className="value-input"
-                  id="profile-director-edit"
-                />
-              </div>
-            </div>{' '}
-            <br />
-            <div className="row">
-              <div className="col">
-                <div className="label">Favorite Genre</div>
-                <input
-                  type="text"
-                  defaultValue="Sci-Fi"
-                  className="value-input"
-                  id="profile-genre-edit"
-                />
-              </div>
-              <div className="col">
-                <div className="label">Favorite Actor</div>
-                <input
-                  type="text"
-                  defaultValue="Viggo Moretensen"
-                  className="value-input"
-                  id="profile-actor-edit"
-                />
-              </div>
-            </div> */}
+          
             <div className="separator"></div>
             <div className="row">
               <div className="col">
-                <div className="label">Username*</div>
+                <div className="label">Username</div>
                 {/* <input type="text" defaultValue={user.username} className="value-input" id="profile-username-edit" /> */}
-                <input
-                  type="text"
-                  defaultValue={newUsername}
-                  className="value-input"
-                  id="profile-username-edit"
-                  onChange={(e) => setNewUsername(e.target.value)}
-                />
+                <div className="value italic" id="profile-name">
+                  {name}
+                </div>
               </div>
               <div className="col">
                 {/* <div className="label">Email*</div> */}
@@ -496,7 +393,9 @@ export default function Profile() {
 
         <div className="reviews-container">
           {previewReviews &&
-            previewReviews.map((review: any) => (
+            previewReviews.map((review: any) => {
+              console.log(`Review ID: ${review._id}, Rating: ${review.rating}`);
+              return(
               <div key={review.id} className="review-card">
                 <img
                   src={review.poster}
@@ -515,7 +414,9 @@ export default function Profile() {
                       Review by {name} on {formatDate(review.review_date)} 
                     </span>
                     <span className="star-rating">
-                      {generateStars(review.starRating)}
+                      <Rating rating={review.rating}  />
+                      
+                      
                     </span>
                     <span className="watched-date">
                       watched on {formatDate(review.watch_date)}
@@ -526,72 +427,15 @@ export default function Profile() {
                   <div className="review-text">{review.text}</div>
                 </div>
               </div>
-            ))}
+              );
+            })}
         </div><br /> <br />
       </div> 
 
       {/* <div className="separator-red"></div> */}
 
       <div className="row">
-        {/* <div id="followers" className="col">
-          <h2 className="section-header">Followers</h2>
-
-          <div className="show-more-container">
-            <button
-              className="show-more-button"
-              onClick={toggleShowMoreFollowers}
-            >
-              {showMoreFollowers ? 'Show Less' : 'Show More'}
-            </button>
-          </div>
-
-          <div className="followers-container">
-            {visibleFollowers.map((follower) => (
-              <div
-                key={follower.id}
-                className={`follower-card ${isEditing ? 'editing' : ''}`}
-              >
-                {isEditing && <FaTrash className="trashcan-icon" />}
-                <img
-                  src={follower.image}
-                  alt={follower.username}
-                  className="follower-image"
-                />
-                <span className="follower-username">{follower.username}</span>
-              </div>
-            ))}
-          </div>
-        </div> */}
-
-        {/* <div id="following" className="col">
-          <h2 className="section-header">Following</h2>
-
-          <div className="show-more-container">
-            <button
-              className="show-more-button"
-              onClick={toggleShowMoreFollowing}
-            >
-              {showMoreFollowing ? 'Show Less' : 'Show More'}
-            </button>
-          </div>
-
-          <div className="following-container">
-            {visibleFollowing.map((follow) => (
-              <div
-                key={follow.id}
-                className={`following-card ${isEditing ? 'editing' : ''}`}
-              >
-                {isEditing && <FaTrash className="trashcan-icon" />}
-                <img
-                  src={follow.image}
-                  alt={follow.username}
-                  className="following-image"
-                />
-                <span className="following-username">{follow.username}</span>
-              </div>
-            ))}
-          </div>
-        </div> */}
+       
       </div>
       <br />
       <br />
