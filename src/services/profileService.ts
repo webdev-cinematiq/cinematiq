@@ -13,7 +13,21 @@ export const findProfileForId = async (profileId: any) => {
 };
 
 export const findProfileForUsername = async (name: string) => {
-  const response = await axios.get(`${REMOTE_SERVER}/api/${name}/profile`);
+  console.log('REMOTE_SERVER:', REMOTE_SERVER); // Log REMOTE_SERVER
+  console.log('name:', name); // Log name
+
+  if (!name) {
+    console.error('Profile name is not provided');
+    throw new Error('Profile name is required');
+  }
+
+
+  // const response = await axios.get(`${REMOTE_SERVER}/api/${name}/profile`);
+
+  const url = `${REMOTE_SERVER}/api/${name}/profile`;
+  console.log('URL:', url); // Log URL
+  const response = await axios.get(url);
+
   return response.data;
 };
 
