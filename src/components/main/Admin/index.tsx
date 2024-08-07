@@ -103,12 +103,15 @@ export default function Admin() {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
+  const canManageUsers = adminPermissions.includes('manage_users');
+  const canManageContent = adminPermissions.includes('manage_content');
+
   return (
     <div className="admin-dashboard">
       <h1>Admin Dashboard</h1>
       <div className="dashboard-content">
-        {adminPermissions.includes('manage_users') && (
-          <div className="dashboard-column">
+        {canManageUsers && (
+          <div className={`dashboard-column ${(canManageUsers && canManageContent) ? '' : 'single-column'}`}>
             <h2>Users</h2>
             <table className='user-table'>
               <thead>
@@ -155,8 +158,8 @@ export default function Admin() {
             </table>
           </div>
         )}
-        {adminPermissions.includes('manage_content') && (
-          <div className="dashboard-column">
+        {canManageContent && (
+          <div className={`dashboard-column ${(canManageUsers && canManageContent) ? '' : 'single-column'}`}>
             <h2>Reviews</h2>
             <table className='reviews-table'>
               <thead>
