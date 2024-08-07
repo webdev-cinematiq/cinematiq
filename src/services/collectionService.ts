@@ -32,6 +32,13 @@ export const findCollectionsByPartialTitle = async (title: string) => {
   return response.data;
 };
 
+export const findCollectionsByMovie = async (tmdbId: any) => {
+  const response = await axios.get(
+    `${COLLECTIONS_API}/api/collections/film/${tmdbId}`
+  );
+  return response.data;
+};
+
 export const findCollection = async (author: any, titleId: any) => {
   const response = await axios.get(
     `${REMOTE_SERVER}/api/${author}/collection/${titleId}`

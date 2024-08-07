@@ -35,7 +35,22 @@ export default function CollectionCreate() {
   };
 
   const createCollection = async (collection: any, titleId: string) => {
-    await collectionClient.createCollection(username, collection);
+    const newCollection = await collectionClient.createCollection(
+      username,
+      collection
+    );
+    console.log('movies to update: ', selectedMovies);
+    console.log('collection to add: ', collection);
+    await Promise.all(
+      selectedMovies.map(async (m) => {
+        const savedMovie = await movieClient.findAndUpdateMovieCollections(
+          m.id,
+          m,
+          collection._id
+        );
+        console.log('saved movie response', savedMovie);
+      })
+    );
     navigate(`/${username}/collection/${titleId}`);
   };
 
@@ -95,18 +110,22 @@ export default function CollectionCreate() {
     }
   };
 
-  const movieIds = async () => {
-    const movieIds = Promise.all(
-      selectedMovies.map(async (m) => {
-        return await movieClient.findAndUpdateMovie(m.id, m);
-      })
-    );
-  };
-
   const handleSaveCollection = async () => {
     if (validateCollection()) {
       const titleId = formatTitleForUrl(title);
       try {
+        // const movieIds = await Promise.all(
+        //   selectedMovies.map(async (m) => {
+        //     const savedMovie = await movieClient.findAndUpdateMovieCollections(
+        //       m.id,
+        //       m,
+        //       collectionId
+        //     );
+        //     console.log('saved movie response', savedMovie);
+        //     return savedMovie;
+        //   })
+        // );
+
         const movieIds = await Promise.all(
           selectedMovies.map(async (m) => {
             const savedMovie = await movieClient.findAndUpdateMovie(m.id, m);
@@ -115,7 +134,7 @@ export default function CollectionCreate() {
           })
         );
 
-        const newCollection = {
+        const newCollection: any = {
           title: title,
           title_id: titleId,
           author: username,
