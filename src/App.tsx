@@ -4,7 +4,7 @@ import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import Home from './components/main/Home';
 import Search from './components/main/Search';
-import Login from './components/main/Login';
+import Login from './components/main/Account/Login';
 import Registration from './components/main/Registration';
 import Admin from './components/main/Admin';
 import Collections from './components/main/Collections';
@@ -16,6 +16,8 @@ import NavBar from './components/header/NavBar';
 import SearchResults from './components/main/Search/Results';
 import Film from './components/main/Movies/Detail';
 import Films from './components/main/Movies';
+import Movie from './components/main/Movie';
+import Profile from './components/main/Profile';
 
 // TODO: add routes for film
 function App() {
@@ -38,6 +40,7 @@ function App() {
           <Route path=":name/review/:rid" element={<Review />} />
           <Route path="films" element={<Films />} />
           <Route path="film/details/:tmdbId" element={<Film />} />
+          <Route path="profile" element={<Profile />} />
         </Routes>
       </div>
     </HashRouter>
