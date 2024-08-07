@@ -41,16 +41,18 @@ export default function CollectionCreate() {
     );
     console.log('movies to update: ', selectedMovies);
     console.log('collection to add: ', collection);
-    await Promise.all(
+    const updatedMovies = await Promise.all(
       selectedMovies.map(async (m) => {
         const savedMovie = await movieClient.findAndUpdateMovieCollections(
           m.id,
           m,
-          collection._id
+          newCollection._id
         );
         console.log('saved movie response', savedMovie);
+        return savedMovie;
       })
     );
+    console.log('updated', updatedMovies);
     navigate(`/${username}/collection/${titleId}`);
   };
 
