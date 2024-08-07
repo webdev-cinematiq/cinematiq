@@ -35,6 +35,30 @@ export const findMoviesByPartialTitle = async (title: string) => {
   return response.data;
 };
 
+export const findAndUpdateMovieCollections = async (
+  tmdbId: any,
+  movieData: any,
+  collectionId: any
+) => {
+  const response = await axios.put(
+    `${REMOTE_SERVER}/api/movies/${tmdbId}/collections`,
+    { movieData, collectionId }
+  );
+  return response.data;
+};
+
+export const findAndUpdateMovieReviews = async (
+  tmdbId: any,
+  movieData: any,
+  reviewId: any
+) => {
+  const response = await axios.put(
+    `${REMOTE_SERVER}/api/movies/${tmdbId}/reviews`,
+    { movieData, reviewId }
+  );
+  return response.data;
+};
+
 export const findAndUpdateMovie = async (tmdbId: any, movieData: any) => {
   const response = await axios.put(
     `${REMOTE_SERVER}/api/movies/${tmdbId}`,
