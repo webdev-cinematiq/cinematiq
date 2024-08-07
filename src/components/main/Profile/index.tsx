@@ -45,14 +45,36 @@ export default function Profile() {
     const collections = await collectionClient.findCollectionsByAuthor(name);
     setCollections(collections);
     console.log(collections);
-    visibleCollections();
+    if (showMore) {
+      setPreviewCollections([...collections]);
+    } else {
+      if (collections.length > 1) {
+        console.log(collections.slice(0, 3));
+        setPreviewCollections(collections.slice(0, 3));
+      } else {
+        setPreviewCollections([...collections]);
+      }
+    }
+    console.log('preview collections', previewCollections);
   };
 
   const fetchReviews = async () => {
     if (!name) return;
     const reviewsData = await reviewClient.findReviewsByAuthor(name);
     setReviews(reviewsData);
-    visibleReviews();
+    console.log('reviews', reviewsData);
+
+    if (showMoreReviews) {
+      setPreviewReviews([...reviews]);
+    } else {
+      if (reviews.length > 1) {
+        setPreviewReviews(reviews.slice(0, 3));
+      } else {
+        setPreviewReviews([...reviews]);
+      }
+    }
+
+    console.log('previewReviews', previewReviews);
   };
 
   useEffect(() => {
@@ -65,14 +87,13 @@ export default function Profile() {
   // const visibleCollections1 = showMore ? collections : collections.slice(0, 3);
   const visibleCollections = () => {
     if (showMore) {
-      console.log(collections);
-      setPreviewCollections(collections);
+      setPreviewCollections([...collections]);
     } else {
       if (collections.length > 1) {
         console.log(collections.slice(0, 3));
         setPreviewCollections(collections.slice(0, 3));
       } else {
-        setPreviewCollections(collections);
+        setPreviewCollections([...collections]);
       }
     }
   };
@@ -80,12 +101,12 @@ export default function Profile() {
   // const visibleReviews = showMoreReviews ? reviews : reviews.slice(0, 2);
   const visibleReviews = () => {
     if (showMoreReviews) {
-      setPreviewReviews(reviews);
+      setPreviewReviews([...reviews]);
     } else {
       if (reviews.length > 1) {
         setPreviewReviews(reviews.slice(0, 3));
       } else {
-        setPreviewReviews(reviews);
+        setPreviewReviews([...reviews]);
       }
     }
   };
@@ -174,6 +195,7 @@ export default function Profile() {
     { id: 3, username: 'IAlb20', image: '/images/iElba.jpg' },
   ];
 
+  // TODO: use <Rating rating={rating} setRating={() => void} in components/main/Reviews/rating
   const generateStars = (rating: number) => {
     const fullStars = Math.floor(rating);
     const emptyStars = 5 - fullStars;
@@ -431,13 +453,11 @@ export default function Profile() {
 
         <div className="collections-container">
           {previewCollections &&
-            previewCollections.map((collection) => (
-              <div key={collection.id} className="collection-card">
-                <h3 className="collection-title">{collection.title}</h3>
+            previewCollections.map((c: any) => (
+              <div key={c.id} className="collection-card">
+                <h3 className="collection-title">{c.title}</h3>
 
-                <p className="collection-description">
-                  {collection.description}
-                </p>
+                <p className="collection-description">{c.description}</p>
 
                 {/* <div className="collection-images">
                 {collection.images.map((image, index) => (
