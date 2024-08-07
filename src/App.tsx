@@ -1,4 +1,3 @@
-// App.tsx
 import React from 'react';
 import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
@@ -16,7 +15,6 @@ import NavBar from './components/header/NavBar';
 import SearchResults from './components/main/Search/Results';
 import Film from './components/main/Movies/Detail';
 import Films from './components/main/Movies';
-import Movie from './components/main/Movie';
 import Profile from './components/main/Profile';
 
 // TODO: add routes for film

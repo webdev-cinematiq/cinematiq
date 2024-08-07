@@ -5,6 +5,7 @@ import * as movieClient from '../../../../services/movieService';
 import * as userClient from '../../../../services/userService';
 import CollectionCarousel from '../../Collections/Carousel';
 import ReviewCarousel from '../../Reviews/Carousel';
+import { Rating } from '../../Reviews/rating';
 import './index.css';
 
 const TMDB_API = process.env.REACT_APP_TMDB_API;
@@ -29,13 +30,12 @@ export default function MovieDetail() {
       .then((json: any) => setMovie(json))
       .catch((err: any) => console.error('error:' + err));
 
-    console.log('Film', movie);
-
     setGenres(movie.genres);
   };
 
   useEffect(() => {
     if (tmdbId) fetchMovie();
+    console.log('Film', movie);
   }, [tmdbId]);
 
   if (!movie) {
@@ -62,7 +62,7 @@ export default function MovieDetail() {
             </h1>
             <p>{genres && genres.map((genre: any) => genre.name).join(', ')}</p>
             <div className="user-score">
-              Critic Score: {movie.vote_average * 10}%
+              <Rating rating={movie.vote_average / 2} disabled={true} />
             </div>
             <div className="tagline">{movie.tagline}</div>
             <h2>Overview</h2>

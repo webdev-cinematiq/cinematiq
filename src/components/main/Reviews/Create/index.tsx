@@ -7,8 +7,13 @@ import dayjs from 'dayjs';
 import ValidationAlert from '../../Alerts/ValidationAlert';
 import * as reviewClient from '../../../../services/reviewService';
 import * as movieClient from '../../../../services/movieService';
-import Rating from '../rating';
+import { Rating } from '../rating';
 import './index.css';
+
+const TMDB_API = process.env.REACT_APP_TMDB_API;
+const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+const TMDB = `${TMDB_API}`;
+const API_KEY = `api_key=${TMDB_API_KEY}`;
 
 export default function CreateReview({
   handleClose,
@@ -71,8 +76,14 @@ export default function CreateReview({
     }
 
     try {
-      const results = await movieClient.findMoviesByPartialTitle(value);
-      setSearchResults(results);
+      const url = `${TMDB}/search/movie?${API_KEY}&query=${searchTerm}&page=1`;
+
+      console.log('url', url);
+
+      fetch(url)
+        .then((res: any) => res.json())
+        .then((json: any) => setSearchResults(json.results))
+        .catch((err: any) => console.error('error:' + err));
     } catch (error) {
       console.error('Error fetching movie results:', error);
       setSearchResults([]);
@@ -115,7 +126,7 @@ export default function CreateReview({
   const handleSaveReview = () => {
     if (validateReview()) {
       const newReview = {
-        type: 'SHORT', // TODO: add state for changing between short and long reviews
+        type: 'SHORT',
         author: username, // TODO: replace with actual user data
         movie: selectedMovie,
         rating,
@@ -126,6 +137,8 @@ export default function CreateReview({
       };
       const textId = formatTitleForUrl(newReview);
       newReview.text_id = textId;
+
+      const newMovie = { ...selectedMovie, favorite: false, }
       try {
         createReview(newReview, textId);
       } catch (error) {
@@ -174,7 +187,7 @@ export default function CreateReview({
               <div className="search-results">
                 {searchResults.map((movie: any) => (
                   <div
-                    key={movie._id}
+                    key={movie.id}
                     className="search-result-item"
                     onClick={() => handleSelectMovie(movie)}
                   >
