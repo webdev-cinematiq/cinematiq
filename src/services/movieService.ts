@@ -35,39 +35,10 @@ export const findMoviesByPartialTitle = async (title: string) => {
   return response.data;
 };
 
-export const findMovieDetails = async (tmdbId: any) => {
-  try {
-    const url = `${TMDB}/movie/${tmdbId}?${API_KEY}`;
-    const { data } = await axios.get(url);
-    return data;
-  } catch (err) {
-    console.error('Error fetching movie details:', err);
-    throw err;
-  }
-};
-
-// export const findMovieDetails = async (tmdbId: any) => {
-//   const url = `${TMDB}/movie/${tmdbId}?${API_KEY}`;
-//   const data = await fetch(url)
-//     .then((res: any) => res.json())
-//     .catch((err: any) => console.error('error:' + err));
-//   return data;
-
-//   // const { data } = await axios.get(`${TMDB}/movie/${tmdbId}?${API_KEY}`);
-//   // console.log(data);
-//   // return data;
-// };
-
-/**
- * Documentation for searching through the TMDB API can be found here:
- * https://developer.themoviedb.org/reference/search-movie
- *
- * @param searchTerm search input from user
- * @returns a JSON object (see documentation)
- */
-export const searchMoviesByPartialTitle = async (searchTerm: string) => {
-  const { data } = await axios.get(
-    `${TMDB}/search/movie?${API_KEY}&query=${searchTerm}`
+export const findAndUpdateMovie = async (tmdbId: any, movieData: any) => {
+  const response = await axios.put(
+    `${REMOTE_SERVER}/api/movies/${tmdbId}`,
+    movieData
   );
-  return data;
+  return response.data;
 };
