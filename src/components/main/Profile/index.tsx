@@ -1,12 +1,14 @@
-import Subheader from './Subheader';
+
 import './Profile.css';
 import { FaTrash } from 'react-icons/fa';
+import { BsPencil } from 'react-icons/bs';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import * as collectionClient from '../../../services/collectionService';
 import * as userClient from '../../../services/userService';
 import * as reviewClient from '../../../services/reviewService';
+import * as movieClient from '../../../services/movieService';
 
 export default function Profile() {
   // const { name } = useParams<{ name: string }>(); //add me back once login capability is in
@@ -17,23 +19,35 @@ export default function Profile() {
   const [reviews, setReviews] = useState<any[]>([]);
   const [previewCollections, setPreviewCollections] = useState<any[]>([]);
   const [previewReviews, setPreviewReviews] = useState<any[]>([]);
+  // const [movies, setMovies] = useState<any[]>([]);
   // const [author, setAuthor] = useState<any>({});
   // const [authorName, setAuthorName] = useState('');
 
+  const [newUsername, setNewUsername] = useState('');
+
   const [role, setRole] = useState('');
+  const[joinDate, setJoinDate] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [reputation, setReputation] = useState('');
+
+
+
 
   const [isEditing, setIsEditing] = useState(false);
   const [showMore, setShowMore] = useState(false); // collections visible
   const [showMoreReviews, setShowMoreReviews] = useState(false); // reviews visible
-  const [showMoreFollowers, setShowMoreFollowers] = useState(false); // followers  visible
-  const [showMoreFollowing, setShowMoreFollowing] = useState(false); // following visible
+
 
   const fetchProfile = async () => {
     if (!name) return;
     const profile = await userClient.findUserForName(name);
     setProfile(profile);
     setRole(profile.role);
+    setJoinDate(profile.join_date);
+    setPassword(profile.password);
+    setReputation(profile.reputation);
+    setNewUsername(profile.name);
   };
 
   useEffect(() => {
@@ -44,12 +58,12 @@ export default function Profile() {
     if (!name) return;
     const collections = await collectionClient.findCollectionsByAuthor(name);
     setCollections(collections);
-    console.log(collections);
+    console.log("collections from db", collections);
     if (showMore) {
       setPreviewCollections([...collections]);
     } else {
       if (collections.length > 1) {
-        console.log(collections.slice(0, 3));
+        console.log("sliced array of collections ", collections.slice(0, 3));
         setPreviewCollections(collections.slice(0, 3));
       } else {
         setPreviewCollections([...collections]);
@@ -60,140 +74,98 @@ export default function Profile() {
 
   const fetchReviews = async () => {
     if (!name) return;
-    const reviewsData = await reviewClient.findReviewsByAuthor(name);
-    setReviews(reviewsData);
-    console.log('reviews', reviewsData);
+    const reviews = await reviewClient.findReviewsByAuthor(name);
+    setReviews(reviews);
+    console.log('reviews from DB', reviews);
+
+  
+
 
     if (showMoreReviews) {
       setPreviewReviews([...reviews]);
     } else {
       if (reviews.length > 1) {
+        console.log("reviews length where >1: ", reviews.length);
         setPreviewReviews(reviews.slice(0, 3));
+        console.log("check length of sliced PreviewReviews array where >1: ", previewReviews.length);
+        console.log("sliced array of reviews",reviews.slice(0, 3));
+
       } else {
+        console.log("reviews length where <1: ", reviews.length);
         setPreviewReviews([...reviews]);
+        console.log("check length of sliced PreviewReviews array where <1: ", previewReviews.length);
       }
     }
-
-    console.log('previewReviews', previewReviews);
+    console.log('preview Reviews', previewReviews);
   };
+
+
+  //update the profile with use of PUT
+  const updateProfile = async () => {
+    if (!validatePasswords()) return;
+
+
+    // Create a new profile object with updated information
+    const updatedProfile = { ...profile, name: newUsername, password };
+
+    try {
+      await userClient.updateUser(updatedProfile);
+      alert("Profile updated successfully!");
+
+      // Fetch the updated profile and related data
+      await fetchProfile();
+      await fetchCollections();
+      await fetchReviews();
+
+      toggleEditMode(); // Exit edit mode after saving
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. Please try again.");
+    }
+  };
+    
+
+  
 
   useEffect(() => {
     if (name) {
       fetchCollections();
       fetchReviews();
     }
-  }, [name]);
+  }, [name,showMore, showMoreReviews]);
 
-  // const visibleCollections1 = showMore ? collections : collections.slice(0, 3);
-  const visibleCollections = () => {
-    if (showMore) {
-      setPreviewCollections([...collections]);
-    } else {
-      if (collections.length > 1) {
-        console.log(collections.slice(0, 3));
-        setPreviewCollections(collections.slice(0, 3));
-      } else {
-        setPreviewCollections([...collections]);
-      }
-    }
-  };
+  useEffect(() => {
+    console.log('Updated previewReviews:', previewReviews);
+  }, [previewReviews]);
 
-  // const visibleReviews = showMoreReviews ? reviews : reviews.slice(0, 2);
-  const visibleReviews = () => {
-    if (showMoreReviews) {
-      setPreviewReviews([...reviews]);
-    } else {
-      if (reviews.length > 1) {
-        setPreviewReviews(reviews.slice(0, 3));
-      } else {
-        setPreviewReviews([...reviews]);
-      }
-    }
-  };
+
 
   if (!profile) {
     return <div>Loading...</div>;
   }
 
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC' // Ensure date is interpreted as UTC
+    };
+    return date.toLocaleDateString('en-US', options);
+  }
+
   const { avatar, name: username, role: profileRole } = profile;
 
-  // const user = {
-  //   profilePicture: '/images/judi-dench.jpg',
-  //   username: 'nanabanana',
-  //   email: 'nanabanana@gmail.com',
-  //   password: 'movieS!10'
-  // };
 
-  // const collections = [
-  //   {
-  //     id: 1,
-  //     title: "Action Classics",
-  //     description: "A collection of all-time great action movies. Packed with thrilling sequences and high-octane stunts.",
-  //     images: ["/images/reacher2012.jpg", "/images/reacher2016.jpg", "/images/avengersIF.jpg"],
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Dune Movies",
-  //     description: "A collection of the movies of the planet Dune.",
-  //     images: ["/images/dune.jpg", "/images/dune2.jpg"],
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Sci-Fi Adventures",
-  //     description: "Explore the universe with a selection of the best science fiction movies.",
-  //     images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
-  //   },
-  //   {id: 4,
-  //     title: "More Action/Sci-Fi Adventures",
-  //     description: "Explore the universe with a selection of the best science fiction movies.",
-  //     images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
-  //   }
-  // ];
+  const validatePasswords = () => {
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return false;
+    }
+    return true;
+  };
 
-  // const reviews = [
-  //   {
-  //     id: 1,
-  //     movieTitle: "Dune Part Two",
-  //     releaseYear: 2023,
-  //     reviewBy: "nanabanana",
-  //     starRating: 5,
-  //     watchedDate: "2023-07-20",
-  //     reviewText: "An epic continuation of the Dune saga. Stunning visuals and gripping storytelling.",
-  //     poster: "/images/dune2.jpg"
-  //   },
-  //   {
-  //     id: 2,
-  //     movieTitle: "Dune",
-  //     releaseYear: 2021,
-  //     reviewBy: "nanabanana",
-  //     starRating: 4.5,
-  //     watchedDate: "2021-12-15",
-  //     reviewText: "A fantastic introduction to the world of Dune. Exceptional performances and a faithful adaptation.",
-  //     poster: "/images/dune.jpg"
-  //   },
-  //   {
-  //     id: 3,
-  //     movieTitle: "Inception",
-  //     releaseYear: 2010,
-  //     reviewBy: "nanabanana",
-  //     starRating: 5,
-  //     watchedDate: "2010-07-22",
-  //     reviewText: "A mind-bending masterpiece. Nolan at his best, with a stellar cast and groundbreaking visuals.",
-  //     poster: "/images/inception.jpg"
-  //   }
-  // ];
-
-  const followers = [
-    { id: 1, username: 'JohnO10', image: '/images/mMcconaughey.jpg' },
-    { id: 2, username: 'samuelLJ', image: '/images/sLJackson.jpg' },
-    { id: 3, username: 'IAlb20', image: '/images/iElba.jpg' },
-  ];
-
-  const following = [
-    { id: 1, username: 'johnO10', image: '/images/mMcconaughey.jpg' },
-    { id: 2, username: 'cinemaLvr07', image: '/images/kWinslet.jpg' },
-    { id: 3, username: 'IAlb20', image: '/images/iElba.jpg' },
-  ];
 
   // TODO: use <Rating rating={rating} setRating={() => void} in components/main/Reviews/rating
   const generateStars = (rating: number) => {
@@ -219,20 +191,7 @@ export default function Profile() {
     return stars;
   };
 
-  const visibleFollowers = showMoreFollowers
-    ? followers
-    : followers.slice(0, 2);
 
-  const visibleFollowing = showMoreFollowing
-    ? following
-    : following.slice(0, 2);
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
@@ -246,25 +205,25 @@ export default function Profile() {
     setShowMoreReviews(!showMoreReviews);
   };
 
-  const toggleShowMoreFollowers = () => {
-    setShowMoreFollowers(!showMoreFollowers);
-  };
 
-  const toggleShowMoreFollowing = () => {
-    setShowMoreFollowing(!showMoreFollowing);
-  };
 
   return (
     <div className="profile-container">
-      <Subheader
+      {/* <Subheader
         scrollToSection={scrollToSection}
         toggleEditMode={toggleEditMode}
-      />
+      /> */}
 
       {/* <div  className="profile-header">
         <img src={user.profilePicture} alt="Profile" className="profile-picture" />
         <h2 className="username">{user.username}</h2>
       </div><br/> */}
+      <div className='edit-container'>
+        <button className="btn-large edit-button float-end" onClick={toggleEditMode}>
+            <BsPencil className='me-1'/>
+              Edit
+        </button>
+      </div>
 
       <div className="profile-header">
         <img
@@ -280,20 +239,48 @@ export default function Profile() {
           <div className="public-info">
             <div className="row">
               <div className="col">
-                <div className="label">Status</div>
+                <div className="label">Role</div>
                 {/* <div className="value italic" id="profile-status">Critic</div> */}
                 <div className="value italic" id="profile-status">
                   {role}
                 </div>
               </div>
               <div className="col">
-                <div className="label ">Induction Date</div>
+                <div className="label ">Join Date</div>
                 <div className="value italic" id="profile-induction-date">
-                  January 5, 2022
+                {formatDate(joinDate)}
                 </div>
               </div>
             </div>
             <div className="separator"></div>
+            <div className="row">
+              <div className="col">
+                <div className="label">Reputation</div>
+                <div className="value italic" id="profile-film">
+                  {reputation}
+                </div>
+              </div>
+              <div className="col">
+                {/* empty column */}
+                
+              </div>
+            </div>{' '}<br/>
+            <div className="row">
+              <div className="col">
+                <div className="label">Collections</div>
+                <div className="value italic" id="profile-film">
+                  {collections.length}
+                </div>
+              </div>
+              <div className="col">
+                <div className="label">Reviews</div>
+                <div className="value italic" id="profile-director">
+                  {reviews.length}
+                </div>
+              </div>
+            </div>{' '} 
+
+            {/* <div className="separator"></div>
             <div className="row">
               <div className="col">
                 <div className="label">Favorite Film</div>
@@ -322,7 +309,7 @@ export default function Profile() {
                   Leonardo DiCaprio
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         )}
 
@@ -333,26 +320,47 @@ export default function Profile() {
             </div>
             <div className="row">
               <div className="col">
-                <div className="label">Status</div>
+                <div className="label">Role</div>
                 {/* <input type="text" defaultValue="Critic" className="value-input" id="profile-status-edit"/> */}
-                <input
-                  type="text"
-                  defaultValue={role}
-                  className="value-input"
-                  id="profile-status-edit"
-                />
+                <div className="value italic" id="profile-induction-date">
+                  {role}
+                </div>
               </div>
               <div className="col">
-                <div className="label ">Induction Date</div>
-                <input
-                  type="date"
-                  defaultValue="2022-01-05"
-                  className="value-input"
-                  id="profile-induction-edit"
-                />
+                <div className="label ">Join Date</div>
+                <div className="value italic" id="profile-induction-date">
+                  {formatDate(joinDate)}
+                </div>
               </div>
             </div>
             <div className="separator"></div>
+            <div className="row">
+              <div className="col">
+                <div className="label">Reputation</div>
+                <div className="value italic" id="profile-film">
+                  {reputation}
+                </div>
+              </div>
+              <div className="col">
+                {/* empty column */}
+                
+              </div>
+            </div>{' '}<br/>
+            <div className="row">
+              <div className="col">
+                <div className="label">Collections</div>
+                <div className="value italic" id="profile-film">
+                  {collections.length}
+                </div>
+              </div>
+              <div className="col">
+                <div className="label">Reviews</div>
+                <div className="value italic" id="profile-director">
+                  {reviews.length}
+                </div>
+              </div>
+            </div>{' '} 
+            {/* <div className="separator"></div>
             <div className="row">
               <div className="col">
                 <div className="label">Favorite Film</div>
@@ -393,7 +401,7 @@ export default function Profile() {
                   id="profile-actor-edit"
                 />
               </div>
-            </div>
+            </div> */}
             <div className="separator"></div>
             <div className="row">
               <div className="col">
@@ -401,13 +409,14 @@ export default function Profile() {
                 {/* <input type="text" defaultValue={user.username} className="value-input" id="profile-username-edit" /> */}
                 <input
                   type="text"
-                  defaultValue={username}
+                  defaultValue={newUsername}
                   className="value-input"
                   id="profile-username-edit"
+                  onChange={(e) => setNewUsername(e.target.value)}
                 />
               </div>
               <div className="col">
-                <div className="label">Email*</div>
+                {/* <div className="label">Email*</div> */}
                 {/* <input type="text" defaultValue={user.email} className="value-input" id="profile-email-edit"/> */}
               </div>
             </div>{' '}
@@ -416,25 +425,30 @@ export default function Profile() {
               <div className="col">
                 <div className="label">Password*</div>
                 <input
-                  type="text"
-                  defaultValue="****"
+                  type="password"
+                  defaultValue={password}
                   className="value-input"
                   id="profile-password-edit"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="col">
                 <div className="label">Confirm Password*</div>
                 <input
-                  type="text"
-                  defaultValue=""
+                  type="password"
+                  defaultValue={confirmPassword}
                   className="value-input"
                   id="profile-confirm-password-edit"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
             </div>{' '}
             <br />
-            <button className="save-button" onClick={toggleEditMode}>
+            <button className="save-button" onClick={updateProfile}>
               Save
+            </button>
+            <button className="cancel-button" onClick={toggleEditMode}>
+              Cancel
             </button>
           </div>
         )}
@@ -482,7 +496,7 @@ export default function Profile() {
 
         <div className="reviews-container">
           {previewReviews &&
-            previewReviews.map((review) => (
+            previewReviews.map((review: any) => (
               <div key={review.id} className="review-card">
                 <img
                   src={review.poster}
@@ -498,28 +512,28 @@ export default function Profile() {
 
                   <div className="review-subheader">
                     <span className="review-by">
-                      Review by {review.reviewBy}
+                      Review by {name} on {formatDate(review.review_date)} 
                     </span>
                     <span className="star-rating">
                       {generateStars(review.starRating)}
                     </span>
                     <span className="watched-date">
-                      watched {review.watchedDate}
+                      watched on {formatDate(review.watch_date)}
                     </span>
                   </div>
 
                   <div className="review-separator"></div>
-                  <div className="review-text">{review.reviewText}</div>
+                  <div className="review-text">{review.text}</div>
                 </div>
               </div>
             ))}
-        </div>
-      </div>
+        </div><br /> <br />
+      </div> 
 
-      <div className="separator-red"></div>
+      {/* <div className="separator-red"></div> */}
 
       <div className="row">
-        <div id="followers" className="col">
+        {/* <div id="followers" className="col">
           <h2 className="section-header">Followers</h2>
 
           <div className="show-more-container">
@@ -547,9 +561,9 @@ export default function Profile() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
-        <div id="following" className="col">
+        {/* <div id="following" className="col">
           <h2 className="section-header">Following</h2>
 
           <div className="show-more-container">
@@ -577,7 +591,7 @@ export default function Profile() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
       <br />
       <br />

@@ -33,6 +33,25 @@ body {
     margin-top: 20px;
 }
 
+.edit-container {
+    margin: 20px;
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+.edit-button {
+    background-color: var(--color-primary1);
+    font-size: 18px;
+    color: var(--color-text);
+    border: none;
+    padding: 10px;
+    margin-left: auto; 
+    cursor: pointer;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+}
+
 
 /* User Info Section */
 .user-container {
@@ -106,6 +125,17 @@ body {
 }
   
 .save-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--color-primary1);
+    color: var(--color-text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.cancel-button {
     margin-top: 20px;
     padding: 10px 20px;
     background-color: var(--color-primary1);

@@ -2,6 +2,10 @@ import axios from 'axios';
 export const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 export const COLLECTIONS_API = `${REMOTE_SERVER}/api/collections`;
 
+console.log("remote server check in collectionService header", REMOTE_SERVER);
+console.log("collections API check in collectionService header", COLLECTIONS_API);
+
+
 export const createCollection = async (author: any, collection: any) => {
   const response = await axios.post(
     `${REMOTE_SERVER}/api/${author}/collections`,
@@ -21,6 +25,7 @@ export const findCollectionsByTitle = async (title: string) => {
 };
 
 export const findCollectionsByAuthor = async (author: string) => {
+  console.log("Remote Server in collectionService: ", REMOTE_SERVER);
   const response = await axios.get(
     `${REMOTE_SERVER}/api/${author}/collections`
   );
