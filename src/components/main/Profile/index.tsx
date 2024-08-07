@@ -13,7 +13,7 @@ import * as reviewClient from '../../../services/reviewService';
 export default function Profile() {
 
   // const { name } = useParams<{ name: string }>(); //add me back once login capability is in
-  const name = "BobSmith"; // Hardcoded username
+  const name = "nanabanana"; // Hardcoded username
   
   
   const [profile, setProfile] = useState<any>({});
@@ -214,7 +214,7 @@ export default function Profile() {
 
       <div className="profile-header">
         <img src={avatar || '/images/default-avatar.jpg'} alt="Profile" className="profile-picture" />
-        <h2 className="username">{username || 'Username'}</h2>
+        <h2 className="username">{name || 'Username'}</h2>
       </div>
 
 
@@ -227,7 +227,7 @@ export default function Profile() {
             <div className="row">
               <div className="col">
                 <div className="label" >Status</div>
-                <div className="value italic" id="profile-status">Critic</div>
+                {/* <div className="value italic" id="profile-status">Critic</div> */}
                 <div className="value italic" id="profile-status">{role}</div>
               </div>
               <div className="col">
