@@ -102,6 +102,20 @@ html {
   margin-bottom: 20px;
 }
 
+.collections-section,
+.reviews-section {
+  padding: 20px;
+}
+
+.collections-carousel,
+.reviews-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  gap: 10px;
+}
+
 @media (max-width: 950px) {
   .hero-section {
     height: 90vh;
@@ -124,6 +138,61 @@ html {
     padding: 0 10px;
     align-items: left;
     height: 90vh;
+  }
+
+  .collections-section,
+  .reviews-section {
+    padding: 10px;
+  }
+
+  .collections-carousel,
+  .reviews-carousel {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .collection-card,
+  .review-card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .collections-section,
+  .reviews-section {
+    padding: 5px;
+  }
+
+  .collections-carousel,
+  .reviews-carousel {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .collection-card,
+  .review-card {
+    width: 90%;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .collections-section,
+  .reviews-section {
+    padding: 2px;
+  }
+
+  .collections-carousel,
+  .reviews-carousel {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .collection-card,
+  .review-card {
+    width: 85%;
+    margin-bottom: 10px;
   }
 }
 

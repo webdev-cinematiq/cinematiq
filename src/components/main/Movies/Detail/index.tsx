@@ -82,7 +82,7 @@ export default function MovieDetail() {
       <div className="horizontal-line"></div>
       <Container>
         {collections && (
-          <Row>
+          <Row className="collections-section">
             <Col>
               <h2>Collections</h2>
               <div className="horizontal-line"></div>
@@ -91,7 +91,7 @@ export default function MovieDetail() {
           </Row>
         )}
         {reviews && (
-          <Row>
+          <Row className="reviews-section">
             <Col>
               <h2>Reviews</h2>
               <div className="horizontal-line"></div>
