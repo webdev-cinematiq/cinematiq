@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -14,10 +14,13 @@ import CreatePost from '../main/Create/CreatePost';
 import { setCurrentUser } from '../main/Account/reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
+import * as userClient from '../../services/userService';
+
 export default function NavBar() {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [userRole, setUserRole] = useState('');
 
   const { currentUser } = useSelector((state: any) => state.accounts);
 
@@ -27,7 +30,7 @@ export default function NavBar() {
     { label: 'COLLECTIONS', path: '/collections', icon: null },
     { label: '', path: '/news', icon: <CiBullhorn className="icon" /> },
     { label: '', path: '/profile', icon: <CiUser className="icon" /> },
-    { label: '', path: '/admin', icon: <MdAdminPanelSettings className="icon" /> },
+    ...(currentUser !== null && currentUser.role === 'ADMIN' ? [{ label: '', path: '/admin', icon: <MdAdminPanelSettings className="icon" /> }] : [])
   ];
 
   const handleSignOut = () => {
