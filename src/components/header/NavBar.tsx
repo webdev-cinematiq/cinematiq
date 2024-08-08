@@ -1,14 +1,7 @@
-import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {
-  CiSearch,
-  CiBullhorn,
-  CiUser,
-  CiLogin,
-  CiLogout,
-} from 'react-icons/ci';
-import { MdAdminPanelSettings } from "react-icons/md";
+import { CiSearch, CiUser, CiLogin, CiLogout } from 'react-icons/ci';
+import { MdAdminPanelSettings } from 'react-icons/md';
 import './NavBar.css';
 import CreatePost from '../main/Create/CreatePost';
 import { setCurrentUser } from '../main/Account/reducer';
@@ -23,12 +16,21 @@ export default function NavBar() {
   const { currentUser } = useSelector((state: any) => state.accounts);
 
   const links = [
-    { label: '', path: '/search', icon: <CiSearch className="icon" /> },
-    { label: 'FILMS', path: '/films', icon: null },
-    { label: 'COLLECTIONS', path: '/collections', icon: null },
-    { label: '', path: '/news', icon: <CiBullhorn className="icon" /> },
-    { label: '', path: '/profile', icon: <CiUser className="icon" /> },
-    { label: '', path: '/admin', icon: <MdAdminPanelSettings className="icon" /> },
+    { label: 'Search', path: '/search', icon: <CiSearch className="icon" /> },
+    {
+      label: 'My Profile',
+      path: '/profile',
+      icon: <CiUser className="icon" />,
+    },
+    ...(currentUser !== null && currentUser.role === 'ADMIN'
+      ? [
+        {
+          label: '',
+          path: '/admin',
+          icon: <MdAdminPanelSettings className="icon" />,
+        },
+      ]
+      : []),
   ];
 
   const handleSignOut = async () => {
@@ -36,7 +38,6 @@ export default function NavBar() {
     // Clear the current user from Redux state
     dispatch(setCurrentUser(null));
 
-    // Redirect to login page
     navigate('/login');
   };
 
@@ -66,9 +67,11 @@ export default function NavBar() {
                 </Link>
               </li>
             ))}
-            <li className="nav-item me-2">
-              <CreatePost dialogTitle="Create Post" />
-            </li>
+            {currentUser && (
+              <li className="nav-item me-2">
+                <CreatePost dialogTitle="Create Post" />
+              </li>
+            )}
             <li>
               {currentUser ? (
                 <button className="btn btn-signout" onClick={handleSignOut}>

@@ -32,6 +32,11 @@ export const findReview = async (author: any, titleId: any) => {
   return response.data;
 };
 
+export const findReviewById = async (reviewId: string) => {
+  const response = await axios.get(`${REVIEWS_API}/details/${reviewId}`);
+  return response.data;
+};
+
 export const updateReview = async (name: string, review: any) => {
   const response = await axios.put(`${REVIEWS_API}/${review._id}`, review);
   return response.data;
