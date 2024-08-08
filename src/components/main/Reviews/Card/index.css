@@ -1,0 +1,101 @@
+.review-carousel {
+  margin: 20px;
+}
+
+.review-carousel h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.review-item {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--color-background1);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.movie-thumbnails img {
+  margin: 5px;
+  border-radius: 4px;
+}
+
+.review-carousel-rating {
+  font-size: 1.5rem !important;
+}
+
+/* Popular Reviews Detail   */
+.reviews-carousel-container {
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.review-carousel-card {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--color-background1);
+  border: 1px solid var(--color-text);
+  border-radius: 15px;
+  padding: 20px;
+  width: 80%;
+  max-width: 800px;
+}
+
+.review-carousel-pfp {
+  flex: 0 0 25%;
+  max-width: 150px;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
+.review-carousel-content {
+  flex: 1;
+}
+
+.review-carousel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.revie-carousel-movie-title {
+  font-weight: bold;
+  font-size: 1.4em;
+}
+
+.review-carousel-release-year {
+  color: darkgray;
+}
+
+.review-carousel-subheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.review-carousel-author {
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+.profile-star-rating {
+  color: gold;
+}
+
+.profile-watched-date {
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+.profile-review-separator {
+  border-top: 1px solid var(--color-text);
+  margin: 10px 0;
+}
+
+.profile-review-text {
+  margin-top: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

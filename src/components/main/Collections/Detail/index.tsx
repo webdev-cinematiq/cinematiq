@@ -22,7 +22,6 @@ export default function CollectionDetail() {
     const collection = await collectionClient.findCollection(name, titleId);
 
     setCollection(collection);
-    console.log(collection);
     setTitle(collection.title);
     setDescription(collection.description);
     setAuthorName(collection.author);

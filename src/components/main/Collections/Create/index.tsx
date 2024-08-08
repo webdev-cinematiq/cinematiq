@@ -39,8 +39,7 @@ export default function CollectionCreate() {
       username,
       collection
     );
-    console.log('movies to update: ', selectedMovies);
-    console.log('collection to add: ', collection);
+    
     const updatedMovies = await Promise.all(
       selectedMovies.map(async (m) => {
         const savedMovie = await movieClient.findAndUpdateMovieCollections(
