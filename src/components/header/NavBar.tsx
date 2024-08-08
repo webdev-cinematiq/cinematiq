@@ -23,13 +23,24 @@ export default function NavBar() {
     },
     ...(currentUser !== null && currentUser.role === 'ADMIN'
       ? [
-          {
-            label: '',
-            path: '/admin',
-            icon: <MdAdminPanelSettings className="icon" />,
-          },
-        ]
-      : []),
+        {
+          label: '',
+          path: '/admin',
+          icon: <MdAdminPanelSettings className="icon" />,
+        },
+      ]
+      : []
+    ),
+    ...(currentUser !== null
+      ? [
+        {
+          label: 'REVIEWS',
+          path: '/reviews',
+          icon: null
+        }
+      ]
+      : []
+    )
   ];
 
   const handleSignOut = () => {
@@ -55,9 +66,8 @@ export default function NavBar() {
             {links.map((link, index) => (
               <li className="nav-item" key={index}>
                 <Link
-                  className={`nav-link ${
-                    pathname === link.path ? 'active' : ''
-                  }`}
+                  className={`nav-link ${pathname === link.path ? 'active' : ''
+                    }`}
                   to={link.path}
                 >
                   {link.icon && <span className="me-2">{link.icon}</span>}

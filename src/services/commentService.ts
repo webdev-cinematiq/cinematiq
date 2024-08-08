@@ -12,9 +12,14 @@ export const findCommentForId = async (commentId: any) => {
   return data;
 };
 
-export const createComment = async (author: string, comment: any) => {
+export const findCommentsByReview = async (reviewId: string) => {
+  const { data } = await axios.get(`${COMMENTS_API}/review/${reviewId}`);
+  return data;
+};
+
+export const createComment = async (comment: any) => {
   const response = await axios.post(
-    `${REMOTE_SERVER}/${author}/comments`,
+    `${REMOTE_SERVER}/${comment.author}/comments`,
     comment
   );
   return response.data;

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import * as commentService from '../../../services/commentService';
+import * as commentService from '../../../../services/commentService';
 import { useSelector } from 'react-redux';
-import './Comment/index.css';
+import './index.css';
 
 export default function Review() {
   const [comments, setComments] = useState<any[]>([]);
@@ -55,38 +55,43 @@ export default function Review() {
   if (error) return <div className="error-message">{error}</div>;
 
   return (
-    <div className="comment-section">
-      {comments.length === 0 ? (
-        <p>No comments yet. Be the first to comment!</p>
-      ) : (
-        comments.map((comment) => (
-          <div key={comment._id} className="comment">
-            <strong>{comment.author}</strong>
-            <p>{comment.text}</p>
-            <small>{new Date(comment.created).toLocaleString()}</small>
-          </div>
-        ))
-      )}
-      <Form onSubmit={handleSubmitComment}>
-        <Form.Group controlId="newComment">
-          <Form.Control
-            as="textarea"
-            rows={3}
-            value={newComment}
-            onChange={(e) => setNewComment({
-              ...newComment,
-              review: reviewId,
-              author: currentUser.name,
-              text: e.target.value,
-              created: new Date().toISOString()
-            })}
-            placeholder="Write a comment..."
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit" disabled={isLoading}>
-          {isLoading ? 'Posting...' : 'Post'}
-        </Button>
-      </Form>
+    <div className='comment-container'>
+      <div className="comment-section">
+        {comments.length === 0 ? (
+          <p>No comments yet. Be the first to comment!</p>
+        ) : (
+          comments.map((comment) => (
+            <div key={comment._id} className="comment">
+              <strong>{comment.author}</strong>
+              <p>{comment.text}</p>
+              <small>{new Date(comment.created).toLocaleString()}</small>
+            </div>
+          ))
+        )}
+        <Form onSubmit={handleSubmitComment}>
+          <Form.Group controlId="newComment">
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={newComment}
+              onChange={(e) => setNewComment({
+                ...newComment,
+                review: reviewId,
+                author: currentUser.name,
+                text: e.target.value,
+                created: new Date().toISOString()
+              })}
+              placeholder="Write a comment..."
+            />
+          </Form.Group>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={isLoading}>
+            {isLoading ? 'Posting...' : 'Post'}
+          </Button>
+        </Form>
+      </div>
     </div>
   );
 };
