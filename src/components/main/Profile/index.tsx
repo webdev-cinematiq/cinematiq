@@ -3,7 +3,7 @@ import './Profile.css';
 import { FaTrash } from 'react-icons/fa';
 import { BsPencil } from 'react-icons/bs';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import * as collectionClient from '../../../services/collectionService';
 import * as userClient from '../../../services/userService';
@@ -23,9 +23,7 @@ export default function Profile() {
   const [reviews, setReviews] = useState<any[]>([]);
   const [previewCollections, setPreviewCollections] = useState<any[]>([]);
   const [previewReviews, setPreviewReviews] = useState<any[]>([]);
-  // const [movies, setMovies] = useState<any[]>([]);
-  // const [author, setAuthor] = useState<any>({});
-  // const [authorName, setAuthorName] = useState('');
+
 
   const [newUsername, setNewUsername] = useState('');
 
@@ -221,7 +219,6 @@ export default function Profile() {
             <div className="row">
               <div className="col">
                 <div className="label">Role</div>
-                {/* <div className="value italic" id="profile-status">Critic</div> */}
                 <div className="value italic" id="profile-status">
                   {role}
                 </div>
@@ -273,7 +270,6 @@ export default function Profile() {
             <div className="row">
               <div className="col">
                 <div className="label">Role</div>
-                {/* <input type="text" defaultValue="Critic" className="value-input" id="profile-status-edit"/> */}
                 <div className="value italic" id="profile-induction-date">
                   {role}
                 </div>
@@ -317,14 +313,11 @@ export default function Profile() {
             <div className="row">
               <div className="col">
                 <div className="label">Username</div>
-                {/* <input type="text" defaultValue={user.username} className="value-input" id="profile-username-edit" /> */}
                 <div className="value italic" id="profile-name">
                   {name}
                 </div>
               </div>
               <div className="col">
-                {/* <div className="label">Email*</div> */}
-                {/* <input type="text" defaultValue={user.email} className="value-input" id="profile-email-edit"/> */}
               </div>
             </div>{' '}
             <br />
@@ -378,7 +371,8 @@ export default function Profile() {
 
               console.log(`Collection: ${c.title}`, c);
               return (
-                <div key={c.id} className="collection-card">
+                <Link key={c.id} to={`/${name}/collection/${c.title_id}`} className="collection-card-link">
+                <div className="collection-card">
                   <h3 className="collection-title">{c.title}</h3>
 
                   <p className="collection-description">{c.description}</p>
@@ -397,6 +391,7 @@ export default function Profile() {
                     })}
                   </div>
                 </div>
+                </Link>
              );
 })}
         </div>
@@ -419,51 +414,48 @@ export default function Profile() {
               console.log(`Review ID: ${review._id}, Rating: ${review.rating}`);
               console.log('Review movie:', review.movie);
               return(
-              <div 
+                <div key={review._id} className="profile-reviews  m-3"  style={{ width: "1000px" }}>
+                <Link  to={`/reviews/${review._id}`} className="text-decoration-none">
+                  <div className="review-card">
+                    <img
+                      src={`https://image.tmdb.org/t/p/w500${review.movie?.poster_path}` || '/images/default-poster.jpg'} 
+                      alt={review.movie?.title || 'Movie Poster'}
+                      className="review-poster"
+                    />
 
-                key={index}
-                className="review-card">
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${review.movie?.poster_path}` || '/images/default-poster.jpg'} 
-                  alt={review.movie?.title || 'Movie Poster'}
-                  className="review-poster"
-                />
+                    <div className="review-content">
+                      <div className="review-header">
+                        <span className="movie-title">{review.movie?.title || "<Unknown Movie>"}</span>
+                        <span className="release-year">({getYear(review.movie?.release_date)})</span>
+                      </div>
+                        
+                      <div className="star-container">                    
+                        <span className="star-rating">
+                          <Rating rating={review.rating}  />                      
+                        </span></div>
 
-                <div className="review-content">
-                  <div className="review-header">
-                    <span className="movie-title">{review.movie?.title || "<Unknown Movie>"}</span>
-                    <span className="release-year">({getYear(review.movie?.release_date)})</span>
+                      <div className="review-subheader">
+                        <span className="review-by">
+                          Review by {name} on {formatDate(review.review_date)} 
+                        </span>
+
+                        <span className="watched-date">
+                          watched on {formatDate(review.watch_date)}
+                        </span>
+                      </div>
+
+                      <div className="review-separator"></div>
+                      <div className="review-text">{review.text}</div>
+                    </div>
                   </div>
-                    
-                  <div className="star-container">                    
-                    <span className="star-rating">
-                      <Rating rating={review.rating}  />                      
-                    </span></div>
-
-                  <div className="review-subheader">
-                    <span className="review-by">
-                      Review by {name} on {formatDate(review.review_date)} 
-                    </span>
-                    {/* <span className="star-rating">
-                      <Rating rating={review.rating}  />
-                      
-                      
-                    </span> */}
-                    <span className="watched-date">
-                      watched on {formatDate(review.watch_date)}
-                    </span>
-                  </div>
-
-                  <div className="review-separator"></div>
-                  <div className="review-text">{review.text}</div>
-                </div>
+                </Link>
               </div>
               );
             })}
         </div><br /> <br />
       </div> 
 
-      {/* <div className="separator-red"></div> */}
+
 
       <div className="row">
        
