@@ -17,6 +17,10 @@ export default function MovieDetail() {
   const { tmdbId } = useParams();
   const [movie, setMovie] = useState<any>({});
   const [genres, setGenres] = useState<any[]>([]);
+  const [collections, setCollections] = useState<[]>([]);
+  const [reviews, setReviews] = useState<[]>([]);
+  const [backdrop, setBackdrop] = useState('');
+  const [poster, setPoster] = useState('');
 
   const fetchMovie = async () => {
     if (!tmdbId) return;
@@ -27,10 +31,19 @@ export default function MovieDetail() {
 
     fetch(url)
       .then((res: any) => res.json())
-      .then((json: any) => setMovie(json))
+      .then((json: any) => {
+        // console.log('api response', json);
+        setMovie(json);
+      })
       .catch((err: any) => console.error('error:' + err));
-
-    setGenres(movie.genres);
+    const film = await movieClient.findMovie(tmdbId);
+    setMovie(film);
+    setBackdrop(`https://image.tmdb.org/t/p/original${film.backdrop_path}`);
+    setPoster(`https://image.tmdb.org/t/p/w500${film.poster_path}`);
+    setGenres(film.genres);
+    setCollections(film.collections);
+    console.log('api response', collections);
+    setReviews(film.reviews);
   };
 
   useEffect(() => {
@@ -47,15 +60,11 @@ export default function MovieDetail() {
       <div className="hero-section">
         <img
           className="backdrop"
-          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+          src={backdrop}
           alt={`${movie.title} backdrop`}
         />
         <div className="hero-content">
-          <img
-            className="poster"
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={`${movie.title} poster`}
-          />
+          <img className="poster" src={poster} alt={`${movie.title} poster`} />
           <div className="movie-info">
             <h1>
               {movie.title} ({new Date(movie.release_date).getFullYear()})
@@ -70,6 +79,28 @@ export default function MovieDetail() {
           </div>
         </div>
       </div>
+      <div className="horizontal-line"></div>
+      <Container>
+        {collections && (
+          <Row>
+            <Col>
+              <h2>Collections</h2>
+              <div className="horizontal-line"></div>
+              <CollectionCarousel collections={collections} />
+            </Col>
+          </Row>
+        )}
+        {reviews && (
+          <Row>
+            <Col>
+              <h2>Reviews</h2>
+              <div className="horizontal-line"></div>
+              <ReviewCarousel reviews={reviews} />
+            </Col>
+          </Row>
+        )}
+      </Container>
+      <div className="horizontal-line"></div>
     </div>
   );
 }

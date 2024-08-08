@@ -9,7 +9,6 @@ const ReviewCarousel = ({ reviews }: { reviews: any[] }) => {
 
   return (
     <div className="review-carousel">
-      <h2>Reviews</h2>
       <Carousel>
         {reviews.map((review) => (
           <Carousel.Item key={review._id}>
