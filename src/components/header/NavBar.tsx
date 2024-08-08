@@ -6,6 +6,7 @@ import './NavBar.css';
 import CreatePost from '../main/Create/CreatePost';
 import { setCurrentUser } from '../main/Account/reducer';
 import { useDispatch, useSelector } from 'react-redux';
+import * as accountService from "../../services/accountService";
 
 export default function NavBar() {
   const { pathname } = useLocation();
@@ -23,16 +24,18 @@ export default function NavBar() {
     },
     ...(currentUser !== null && currentUser.role === 'ADMIN'
       ? [
-          {
-            label: '',
-            path: '/admin',
-            icon: <MdAdminPanelSettings className="icon" />,
-          },
-        ]
+        {
+          label: '',
+          path: '/admin',
+          icon: <MdAdminPanelSettings className="icon" />,
+        },
+      ]
       : []),
   ];
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    await accountService.signout();
+    // Clear the current user from Redux state
     dispatch(setCurrentUser(null));
 
     navigate('/login');
@@ -55,9 +58,8 @@ export default function NavBar() {
             {links.map((link, index) => (
               <li className="nav-item" key={index}>
                 <Link
-                  className={`nav-link ${
-                    pathname === link.path ? 'active' : ''
-                  }`}
+                  className={`nav-link ${pathname === link.path ? 'active' : ''
+                    }`}
                   to={link.path}
                 >
                   {link.icon && <span className="me-2">{link.icon}</span>}

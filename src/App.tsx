@@ -4,7 +4,7 @@ import './App.css';
 import Home from './components/main/Home';
 import Search from './components/main/Search';
 import Login from './components/main/Account/Login';
-import Registration from './components/main/Registration';
+import Registration from './components/main/Account/Registration';
 import Admin from './components/main/Admin';
 import Collections from './components/main/Collections';
 import Collection from './components/main/Collections/Detail';
