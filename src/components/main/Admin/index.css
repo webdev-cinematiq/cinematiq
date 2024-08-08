@@ -6,7 +6,6 @@
 
 h1 {
   color: var(--color-text);
-  text-align: center;
   font-family: var(--font-title);
 }
 

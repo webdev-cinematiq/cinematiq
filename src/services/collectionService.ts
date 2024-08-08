@@ -32,8 +32,22 @@ export const findCollectionsByAuthor = async (author: string) => {
   return response.data;
 };
 
+export const findCollectionById = async (collectionId: string) => {
+  const response = await axios.get(
+    `${COLLECTIONS_API}/details/${collectionId}`
+  );
+  return response.data;
+};
+
 export const findCollectionsByPartialTitle = async (title: string) => {
   const response = await axios.get(`${COLLECTIONS_API}?title=${title}`);
+  return response.data;
+};
+
+export const findCollectionsByMovie = async (tmdbId: any) => {
+  const response = await axios.get(
+    `${COLLECTIONS_API}/api/collections/film/${tmdbId}`
+  );
   return response.data;
 };
 
