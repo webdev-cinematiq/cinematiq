@@ -1,28 +1,32 @@
-// src/components/main/Reviews/Create/index.tsx
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Modal, Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import ValidationAlert from '../../Alerts/ValidationAlert';
 import * as reviewClient from '../../../../services/reviewService';
 import * as movieClient from '../../../../services/movieService';
-import Rating from '../rating';
+import { Rating } from '../rating';
 import './index.css';
+
+const TMDB_API = process.env.REACT_APP_TMDB_API;
+const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+const TMDB = `${TMDB_API}`;
+const API_KEY = `api_key=${TMDB_API_KEY}`;
 
 export default function CreateReview({
   handleClose,
 }: {
   handleClose: () => void;
 }) {
-  const username = 'nanabanana';
-  const shortReview = false;
+  const { currentUser } = useSelector((state: any) => state.accounts);
+  const username = currentUser.name || 'nanabanana';
+  const shortReview = currentUser && currentUser.role === 'VIEWER';
 
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
   const [watchDate, setWatchDate] = useState('');
 
-  const [movies, setMovies] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState<any | null>(null);
@@ -46,19 +50,21 @@ export default function CreateReview({
   };
 
   const createReview = async (review: any, textId: string) => {
-    await reviewClient.createReview(username, review);
+    const newReview = await reviewClient.createReview(username, review);
+    console.log('movie to update: ', selectedMovie);
+    console.log('review input: ', review);
+    console.log('review to add: ', newReview);
+
+    const updatedMovie = await movieClient.findAndUpdateMovieReviews(
+      selectedMovie.id,
+      selectedMovie,
+      newReview._id
+    );
+    console.log('saved movie response', updatedMovie);
+
     handleClose();
     navigate(`/${username}/review/${textId}`);
   };
-
-  const fetchMovies = async () => {
-    const movies = await movieClient.fetchAllMovies();
-    setMovies(movies);
-  };
-
-  useEffect(() => {
-    fetchMovies();
-  }, []);
 
   const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -71,8 +77,14 @@ export default function CreateReview({
     }
 
     try {
-      const results = await movieClient.findMoviesByPartialTitle(value);
-      setSearchResults(results);
+      const url = `${TMDB}/search/movie?${API_KEY}&query=${searchTerm}&page=1`;
+
+      console.log('url', url);
+
+      fetch(url)
+        .then((res: any) => res.json())
+        .then((json: any) => setSearchResults(json.results))
+        .catch((err: any) => console.error('error:' + err));
     } catch (error) {
       console.error('Error fetching movie results:', error);
       setSearchResults([]);
@@ -81,6 +93,7 @@ export default function CreateReview({
 
   const handleSelectMovie = (movie: any) => {
     setSelectedMovie(movie);
+    setNextText('PUBLISH');
   };
 
   const validateReview = () => {
@@ -104,7 +117,6 @@ export default function CreateReview({
       setAlertMessage('Tell us more! Be sure to complete the review section.');
       return false;
     }
-    setNextText('PUBLISH');
     return true;
   };
 
@@ -112,21 +124,28 @@ export default function CreateReview({
     return new Date(dateString).getFullYear().toString();
   };
 
-  const handleSaveReview = () => {
+  const handleSaveReview = async () => {
     if (validateReview()) {
-      const newReview = {
-        type: 'SHORT', // TODO: add state for changing between short and long reviews
-        author: username, // TODO: replace with actual user data
-        movie: selectedMovie,
-        rating,
-        text_id: '',
-        watch_date: watchDate,
-        review_date: new Date(),
-        text: reviewText,
-      };
-      const textId = formatTitleForUrl(newReview);
-      newReview.text_id = textId;
       try {
+        console.log('selectMovied', selectedMovie);
+        const reviewMovie = await movieClient.findAndUpdateMovie(
+          selectedMovie.id,
+          selectedMovie
+        );
+        console.log('reviewMovie', reviewMovie);
+
+        const newReview = {
+          type: 'SHORT',
+          author: username,
+          movie: reviewMovie,
+          rating,
+          text_id: '',
+          watch_date: watchDate,
+          review_date: new Date(),
+          text: reviewText,
+        };
+        const textId = formatTitleForUrl(newReview);
+        newReview.text_id = textId;
         createReview(newReview, textId);
       } catch (error) {
         console.error('Error creating review:', error);
@@ -174,7 +193,7 @@ export default function CreateReview({
               <div className="search-results">
                 {searchResults.map((movie: any) => (
                   <div
-                    key={movie._id}
+                    key={movie.id}
                     className="search-result-item"
                     onClick={() => handleSelectMovie(movie)}
                   >

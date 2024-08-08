@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import * as collectionClient from '../../../../services/collectionService';
+import * as movieClient from '../../../../services/movieService';
 import * as userClient from '../../../../services/userService';
 import './index.css';
 
@@ -14,12 +15,13 @@ export default function CollectionDetail() {
   const [authorName, setAuthorName] = useState('');
   const [movies, setMovies] = useState<any[]>([]);
 
+  const navigate = useNavigate();
+
   const fetchCollection = async () => {
     if (!name || !titleId) return;
     const collection = await collectionClient.findCollection(name, titleId);
 
     setCollection(collection);
-    console.log(collection);
     setTitle(collection.title);
     setDescription(collection.description);
     setAuthorName(collection.author);
@@ -40,9 +42,23 @@ export default function CollectionDetail() {
     if (authorName) fetchAuthor();
   }, [authorName]);
 
+  const redirectToFilmDetail = async (movie: any) => {
+    const filmId = await movieClient.findAndUpdateMovie(movie.id, movie);
+    console.log('filmId response', filmId);
+    const film = await movieClient.findMovieForId(filmId);
+    console.log('film response', film);
+    navigate(`/film/details/${film.id}`);
+  };
+
   if (!collection || !movies) {
     return <div>Loading...</div>;
   }
+
+  const handleUserClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/profile/${authorName}`);
+  };
 
   return (
     <div className="collection-detail-container">
@@ -59,8 +75,11 @@ export default function CollectionDetail() {
       )}
       <div className="horizontal-line"></div>
       <div className="collection-header">
-        <p className="collection-author">
-          <img src={author.avatar} alt="Author avatar" />
+        <p className="collection-author" onClick={handleUserClick}>
+          <img
+            src={author.avatar}
+            alt="Author avatar"
+          />
           collection by&nbsp;
           <span className="collection-author-name">{author.name}</span>
         </p>
@@ -91,6 +110,7 @@ export default function CollectionDetail() {
                   src={`https://image.tmdb.org/t/p/w780${movie.poster_path}`}
                   fluid
                   className="movie-poster"
+                  onClick={() => redirectToFilmDetail(movie)}
                 />
                 <div className="movie-index">{index + 1}</div>
               </div>

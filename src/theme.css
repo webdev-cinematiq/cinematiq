@@ -9,6 +9,7 @@
   --color-text: #e5e5e5;
   --color-star: #ffbf00;
   --color-star-hover: #ffbf40;
+  --color-transparent: rgba(0, 0, 0, 0);
 
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;

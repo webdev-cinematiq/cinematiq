@@ -6,7 +6,6 @@
 
 h1 {
   color: var(--color-text);
-  text-align: center;
   font-family: var(--font-title);
 }
 
@@ -24,8 +23,8 @@ h2 {
 
 table {
   width: 100%;
-  border-collapse: collapse;
   font-family: var(--font-main);
+  table-layout: fixed;
 }
 
 select {
@@ -40,7 +39,7 @@ select {
 th,
 td {
   padding: 8px;
-  border: 1px solid #ddd;
+  border: none;
   text-align: left;
 }
 

@@ -2,16 +2,21 @@ import React from 'react';
 import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
 import './index.css';
 
-const Star = ({
+export const Star = ({
   filled,
   halfFilled,
   onClick,
+  disabled,
 }: {
   filled: boolean;
   halfFilled: boolean;
   onClick: () => void;
+  disabled: boolean;
 }) => (
-  <div className="star-container" onClick={onClick}>
+  <div
+    className={`star-container ${disabled ? 'disabled' : ''}`}
+    onClick={!disabled ? onClick : undefined}
+  >
     {filled ? (
       <FaStar className="star" color="var(--color-star)" />
     ) : halfFilled ? (
@@ -22,20 +27,24 @@ const Star = ({
   </div>
 );
 
-export default function Rating({
+export function Rating({
   rating,
   setRating,
+  disabled = false,
 }: {
   rating: number;
-  setRating: (rating: number) => void;
+  setRating?: (rating: number) => void;
+  disabled?: boolean;
 }) {
   const handleClick = (value: number) => {
-    if (rating === value) {
-      setRating(value - 0.5);
-    } else if (rating === value - 0.5) {
-      setRating(0);
-    } else {
-      setRating(value);
+    if (!disabled && setRating) {
+      if (rating === value) {
+        setRating(value - 0.5);
+      } else if (rating === value - 0.5) {
+        setRating(0);
+      } else {
+        setRating(value);
+      }
     }
   };
 
@@ -44,9 +53,13 @@ export default function Rating({
       {[...Array(5)].map((_, i) => (
         <Star
           key={i}
-          filled={i + 1 <= rating}
-          halfFilled={i + 0.5 === rating}
+          filled={i + 1 <= Math.floor(rating)}
+          halfFilled={
+            i + 0.5 === rating ||
+            (i + 1 > Math.floor(rating) && i + 0.5 < rating)
+          }
           onClick={() => handleClick(i + 1)}
+          disabled={disabled}
         />
       ))}
     </div>

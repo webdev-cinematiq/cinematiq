@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
 import ValidationAlert from '../../Alerts/ValidationAlert';
 import * as collectionClient from '../../../../services/collectionService';
 import * as movieClient from '../../../../services/movieService';
 import './index.css';
 
+const TMDB_API = process.env.REACT_APP_TMDB_API;
+const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+const TMDB = `${TMDB_API}`;
+const API_KEY = `api_key=${TMDB_API_KEY}`;
+
 export default function CollectionCreate() {
-  const username = 'nanabanana';
+  const { currentUser } = useSelector((state: any) => state.accounts);
+  const username = currentUser.name || 'nanabanana';
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const [movies, setMovies] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedMovies, setSelectedMovies] = useState<any[]>([]);
@@ -31,18 +36,27 @@ export default function CollectionCreate() {
   };
 
   const createCollection = async (collection: any, titleId: string) => {
-    await collectionClient.createCollection(username, collection);
+    const newCollection = await collectionClient.createCollection(
+      username,
+      collection
+    );
+
+    console.log('new collection', newCollection);
+
+    const updatedMovies = await Promise.all(
+      selectedMovies.map(async (m) => {
+        const savedMovie = await movieClient.findAndUpdateMovieCollections(
+          m.id,
+          m,
+          newCollection._id
+        );
+        console.log('saved movie response', savedMovie);
+        return savedMovie;
+      })
+    );
+    console.log('updated', updatedMovies);
     navigate(`/${username}/collection/${titleId}`);
   };
-
-  const fetchMovies = async () => {
-    const movies = await movieClient.fetchAllMovies();
-    setMovies(movies);
-  };
-
-  useEffect(() => {
-    fetchMovies();
-  }, []);
 
   const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -54,8 +68,14 @@ export default function CollectionCreate() {
       return;
     }
     try {
-      const results = await movieClient.findMoviesByPartialTitle(value);
-      setSearchResults(results);
+      const url = `${TMDB}/search/movie?${API_KEY}&query=${searchTerm}&page=1`;
+
+      console.log('url', url);
+
+      fetch(url)
+        .then((res: any) => res.json())
+        .then((json: any) => setSearchResults(json.results))
+        .catch((err: any) => console.error('error:' + err));
     } catch (error) {
       console.error('Error fetching movie results:', error);
       setSearchResults([]);
@@ -63,20 +83,21 @@ export default function CollectionCreate() {
   };
 
   const handleSelectMovie = (movie: any) => {
-    if (selectedMovies.some((selected) => selected._id === movie._id)) {
+    console.log('selected movies: ', selectedMovies);
+    if (selectedMovies.some((selected) => selected.id === movie.id)) {
       setAlertMessage(`${movie.title} is already in the collection`);
       setShowAlert(true);
     } else {
       setSelectedMovies([...selectedMovies, movie]);
       setShowAlert(false);
     }
-    console.log(movie.poster);
+    console.log('movie poster', movie.poster);
     setSearchResults([]);
     setSearchTerm('');
   };
 
   const handleRemoveMovie = (movieId: string) => {
-    setSelectedMovies(selectedMovies.filter((movie) => movie._id !== movieId));
+    setSelectedMovies(selectedMovies.filter((movie) => movie.id !== movieId));
   };
 
   const validateCollection = () => {
@@ -85,7 +106,7 @@ export default function CollectionCreate() {
         'Every collection needs a name. What should we call this one?'
       );
       return false;
-    } else if (selectedMovies.length === 0) {
+    } else if (selectedMovies && selectedMovies.length === 0) {
       setAlertMessage('A collection must have at least one film!');
       return false;
     } else {
@@ -96,17 +117,24 @@ export default function CollectionCreate() {
   const handleSaveCollection = async () => {
     if (validateCollection()) {
       const titleId = formatTitleForUrl(title);
-      const newCollection = {
-        _id: dayjs().format(),
-        title: title,
-        title_id: titleId,
-        author: username,
-        movies: selectedMovies,
-        description,
-        created: new Date(),
-      };
       try {
-        createCollection(newCollection, titleId);
+        const movieIds = await Promise.all(
+          selectedMovies.map(async (m) => {
+            const savedMovie = await movieClient.findAndUpdateMovie(m.id, m);
+            console.log('saved movie response', savedMovie);
+            return savedMovie;
+          })
+        );
+
+        const newCollection: any = {
+          title: title,
+          title_id: titleId,
+          author: username,
+          movies: movieIds,
+          description,
+          created: new Date(),
+        };
+        await createCollection(newCollection, titleId);
       } catch (error) {
         console.error('Error creating collection:', error);
         setAlertMessage('Failed to create collection. Please try again.');
@@ -172,7 +200,7 @@ export default function CollectionCreate() {
             <div className="search-results">
               {searchResults.map((movie: any) => (
                 <div
-                  key={movie._id}
+                  key={movie.id}
                   className="search-result-item"
                   onClick={() => handleSelectMovie(movie)}
                 >
@@ -184,7 +212,7 @@ export default function CollectionCreate() {
         </Form.Group>
         <div className="movie-previews">
           {selectedMovies.map((movie) => (
-            <div key={movie._id} className="movie-preview">
+            <div key={movie.id} className="movie-preview">
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title}
@@ -194,7 +222,7 @@ export default function CollectionCreate() {
               <Button
                 variant="outline-danger"
                 size="sm"
-                onClick={() => handleRemoveMovie(movie._id)}
+                onClick={() => handleRemoveMovie(movie.id)}
                 className="remove-button"
               >
                 &times;
