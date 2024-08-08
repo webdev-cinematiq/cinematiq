@@ -65,7 +65,7 @@ const ReviewCard = ({ reviewData }: { reviewData: any }) => {
     >
       <img
         src={avatar}
-        alt={review}
+        alt={`${authorName}-avatar`}
         className="review-carousel-pfp"
         onClick={handleAvatarClick}
       />
