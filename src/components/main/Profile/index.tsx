@@ -371,7 +371,7 @@ export default function Profile() {
 
               console.log(`Collection: ${c.title}`, c);
               return (
-                <Link key={c.id} to={`/${name}/collection/${c.title_id}`} className="collection-card-link">
+                // <Link key={c.id} to={`/${name}/collection/${c.title_id}`} className="collection-card-link">
                 <div className="collection-card">
                   <h3 className="collection-title">{c.title}</h3>
 
@@ -390,8 +390,12 @@ export default function Profile() {
                       );
                     })}
                   </div>
+
+                  <Link to={`/${name}/collection/${c.title_id}`} className="view-button-collection">
+                View
+              </Link>
                 </div>
-                </Link>
+                // </Link>
              );
 })}
         </div>
@@ -414,9 +418,9 @@ export default function Profile() {
               console.log(`Review ID: ${review._id}, Rating: ${review.rating}`);
               console.log('Review movie:', review.movie);
               return(
-                <div key={review._id} className="profile-reviews  m-3"  style={{ width: "1000px" }}>
-                <Link  to={`/reviews/${review._id}`} className="text-decoration-none">
-                  <div className="review-card">
+             
+
+                  <div key={review._id} className="review-card">
                     <img
                       src={`https://image.tmdb.org/t/p/w500${review.movie?.poster_path}` || '/images/default-poster.jpg'} 
                       alt={review.movie?.title || 'Movie Poster'}
@@ -432,7 +436,8 @@ export default function Profile() {
                       <div className="star-container">                    
                         <span className="star-rating">
                           <Rating rating={review.rating}  />                      
-                        </span></div>
+                        </span>
+                      </div>
 
                       <div className="review-subheader">
                         <span className="review-by">
@@ -446,10 +451,14 @@ export default function Profile() {
 
                       <div className="review-separator"></div>
                       <div className="review-text">{review.text}</div>
+
+                      <Link to={`/reviews/${review._id}`} className="view-button">
+                        View
+                      </Link>
                     </div>
                   </div>
-                </Link>
-              </div>
+        
+      
               );
             })}
         </div><br /> <br />

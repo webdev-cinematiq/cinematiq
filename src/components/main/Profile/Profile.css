@@ -189,8 +189,30 @@ body {
     text-align: center;
     color: white;
     padding: 20px;
+    position: relative;
 
 }
+
+.view-button-collection {
+    display: block; 
+    bottom: 10px;
+    margin: 20px 12px 10px 12px; 
+    background-color: 333;
+    color: white;
+    border: 2px solid var(--color-button); 
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+.view-button-collection:hover {
+    background-color: var(--color-button-hover);
+}
+
+
 
 .collection-title {
     font-size: 1.5rem;
@@ -257,8 +279,20 @@ body {
     border: 1px solid var(--color-text);
     border-radius: 15px;
     padding: 20px;
-    width: 80%;
+    width: 100%;
     max-width: 800px;
+    position: relative;
+   
+}
+
+.review-card a {
+    text-decoration: none; /* Remove underline from links */
+    color: inherit; /* Inherit color from parent element */
+}
+
+/* Optional: Style the links inside cards if needed */
+.review-card a:hover {
+    color: var(--color-link-hover); /* Change color on hover if desired */
 }
 
 .review-poster {
@@ -339,7 +373,28 @@ body {
     color: white;
 }
 
+.profile-reviews {
+    width: 920px;
+}
 
+.view-button {
+    position: absolute; 
+    bottom: 10px;
+    right: 10px; 
+    background-color: var(--color-background1);
+    color: white;
+    border: 2px solid var(--color-button); 
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+.view-button:hover {
+    background-color: var(--color-button-hover); 
+}
 
 /*   Discussions section  */
 .discussions-container {
