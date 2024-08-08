@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Image } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import * as collectionClient from '../../../../services/collectionService';
-import * as movieClient from '../../../../services/movieService';
-import * as userClient from '../../../../services/userService';
 import './index.css';
 
 const CollectionCard = ({ collectionData }: { collectionData: any }) => {
   const [collection, setCollection] = useState<any>({});
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [author, setAuthor] = useState<any>({});
   const [authorName, setAuthorName] = useState('');
   const [movies, setMovies] = useState<any[]>([]);
   const [moviePreview, setMoviePreview] = useState<any[]>([]);
@@ -42,8 +38,17 @@ const CollectionCard = ({ collectionData }: { collectionData: any }) => {
     if (collection) fetchCollection();
   }, [collection]);
 
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    navigate(`/${authorName}/collection/${titleId}`);
+  };
+
   return (
-    <div className="collection-card">
+    <div
+      key={`${authorName}-${titleId}`}
+      className="collection-card"
+      onClick={handleCardClick}
+    >
       <h3 className="collection-card-title">{title}</h3>
       <p className="collection-card-description">{description}</p>
 

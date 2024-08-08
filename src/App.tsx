@@ -18,6 +18,7 @@ import Films from './components/main/Movies';
 import Profile from './components/main/Profile';
 
 // TODO: add routes for film
+// TODO: make sure /profile/:name shows profile based on params
 function App() {
   return (
     <HashRouter>
@@ -38,6 +39,8 @@ function App() {
           <Route path=":name/review/:rid" element={<Review />} />
           <Route path="films" element={<Films />} />
           <Route path="film/details/:tmdbId" element={<Film />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="profile/:name" element={<Profile />} />
         </Routes>
       </div>
     </HashRouter>
