@@ -17,9 +17,11 @@ import Film from './components/main/Movies/Detail';
 import Films from './components/main/Movies';
 import Profile from './components/main/Profile';
 import ProtectedRoute from './ProtectedRoute';
+import { useSelector } from 'react-redux';
 
 // TODO: make sure /profile/:name shows profile based on params
 function App() {
+  const { currentUser } = useSelector((state: any) => state.accounts);
   return (
     <HashRouter>
       <div className="h-100">
@@ -29,7 +31,10 @@ function App() {
           <Route path="home" element={<Home />} />
           <Route path="search" element={<Search />} />
           <Route path="search/:input" element={<SearchResults />} />
-          <Route path="login" element={<Login />} />
+          <Route
+            path="login"
+            element={currentUser ? <Navigate to="/profile" /> : <Login />}
+          />
           <Route path="registration" element={<Registration />} />
           <Route path="admin" element={<Admin />} />
           <Route path="collections" element={<Collections />} />
