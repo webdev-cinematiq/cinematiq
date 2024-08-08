@@ -1,4 +1,3 @@
-// App.tsx
 import React from 'react';
 import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
@@ -13,10 +12,13 @@ import Review from './components/main/Reviews/Detail';
 import Reviews from './components/main/Reviews';
 import CreateCollection from './components/main/Collections/Create';
 import NavBar from './components/header/NavBar';
-import Movie from './components/main/Movie';
+import SearchResults from './components/main/Search/Results';
+import Film from './components/main/Movies/Detail';
+import Films from './components/main/Movies';
 import Profile from './components/main/Profile';
 
 // TODO: add routes for film
+// TODO: make sure /profile/:name shows profile based on params
 function App() {
   return (
     <HashRouter>
@@ -26,16 +28,19 @@ function App() {
           <Route path="/" element={<Navigate to="home" />} />
           <Route path="home" element={<Home />} />
           <Route path="search" element={<Search />} />
-          <Route path="search/:mid" element={<Movie />} />
+          <Route path="search/:input" element={<SearchResults />} />
           <Route path="login" element={<Login />} />
           <Route path="registration" element={<Registration />} />
           <Route path="admin" element={<Admin />} />
           <Route path="collections" element={<Collections />} />
-          <Route path="/:name/collection/:titleId" element={<Collection />} />
+          <Route path=":name/collection/:titleId" element={<Collection />} />
           <Route path="collection/create" element={<CreateCollection />} />
           <Route path="reviews" element={<Reviews />} />
-          <Route path="reviews/:rid" element={<Review />} />
+          <Route path=":name/review/:rid" element={<Review />} />
+          <Route path="films" element={<Films />} />
+          <Route path="film/details/:tmdbId" element={<Film />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="profile/:name" element={<Profile />} />
         </Routes>
       </div>
     </HashRouter>
