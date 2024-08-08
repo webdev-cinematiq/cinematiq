@@ -21,7 +21,7 @@ export const fetchAllMovies = async () => {
 };
 
 export const findMovieForId = async (movieId: any) => {
-  const { data } = await axios.get(`${MOVIES_API}/${movieId}`);
+  const { data } = await axios.get(`${MOVIES_API}/details/${movieId}`);
   return data;
 };
 
@@ -63,6 +63,13 @@ export const findAndUpdateMovie = async (tmdbId: any, movieData: any) => {
   const response = await axios.put(
     `${REMOTE_SERVER}/api/movies/${tmdbId}`,
     movieData
+  );
+  return response.data;
+};
+
+export const findMovie = async (tmdbId: any) => {
+  const response = await axios.get(
+    `${REMOTE_SERVER}/api/movies/tmdb/${tmdbId}`
   );
   return response.data;
 };
