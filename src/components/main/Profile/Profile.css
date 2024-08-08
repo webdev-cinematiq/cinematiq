@@ -385,3 +385,12 @@ body {
     background-color: var(--color-button-hover); 
 }
 
+.row {
+    display: flex;
+    gap: 20px;
+  }
+  
+.col {
+    flex: 1;
+}
+
