@@ -1,5 +1,6 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
+import ReviewCard from '../Card/';
 import './index.css';
 
 const ReviewCarousel = ({ reviews }: { reviews: any[] }) => {
@@ -10,17 +11,12 @@ const ReviewCarousel = ({ reviews }: { reviews: any[] }) => {
   return (
     <div className="review-carousel">
       <Carousel>
-        {reviews.map((review) => (
-          <Carousel.Item key={review._id}>
-            <div className="review-item">
-              <h3>{review.author}</h3>
-              <p>{review.text}</p>
-              <p>
-                <strong>Rating:</strong> {review.rating}
-              </p>
-            </div>
-          </Carousel.Item>
-        ))}
+        {reviews &&
+          reviews.map((review) => (
+            <Carousel.Item key={review._id}>
+              <ReviewCard reviewData={review} />
+            </Carousel.Item>
+          ))}
       </Carousel>
     </div>
   );
