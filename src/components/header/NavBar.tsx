@@ -33,10 +33,8 @@ export default function NavBar() {
   ];
 
   const handleSignOut = () => {
-    // Clear the current user from Redux state
     dispatch(setCurrentUser(null));
 
-    // Redirect to login page
     navigate('/login');
   };
 

@@ -17,6 +17,9 @@ export default function Admin() {
   const [error, setError] = useState<string | null>(null);
   const [confirmAction, setConfirmAction] = useState<{ action: () => void, message: string } | null>(null);
   const [adminPermissions, setAdminPermissions] = useState<string[]>([]);
+  const [showAdminModal, setShowAdminModal] = useState(false);
+  const [newAdminUser, setNewAdminUser] = useState<any>(null);
+  const [newAdminPermissions, setNewAdminPermissions] = useState<string[]>([]);
 
   const { currentUser } = useSelector((state: any) => state.accounts);
 
@@ -49,15 +52,100 @@ export default function Admin() {
     fetchData();
   }, []);
 
+  // const handleUpdateUser = async (updatedUser: any) => {
+  //   try {
+  //     const result = await userClient.updateUser(updatedUser);
+  //     setUsers(users.map(user => user._id === result._id ? result : user));
+  //   } catch (err) {
+  //     setError('Failed to update user. Please try again.');
+  //     console.error('Error updating user:', err);
+  //   }
+  // }
+
   const handleUpdateUser = async (updatedUser: any) => {
     try {
-      const result = await userClient.updateUser(updatedUser);
-      setUsers(users.map(user => user._id === result._id ? result : user));
+      if (updatedUser.role === 'ADMIN') {
+        setNewAdminUser(updatedUser);
+        setShowAdminModal(true);
+      } else {
+        if (updatedUser.role !== 'ADMIN') {
+          const adminToDelete = await adminClient.findAdminByUserId(updatedUser._id);
+          if (adminToDelete) {
+            await adminClient.deleteAdmin(adminToDelete._id);
+          }
+        }
+
+        const result = await userClient.updateUser(updatedUser);
+        setUsers(users.map(user => user._id === result._id ? result : user));
+      }
     } catch (err) {
       setError('Failed to update user. Please try again.');
       console.error('Error updating user:', err);
     }
   }
+
+  const handlePermissionChange = (permission: string) => {
+    setNewAdminPermissions(prev =>
+      prev.includes(permission)
+        ? prev.filter(p => p !== permission)
+        : [...prev, permission]
+    );
+  }
+
+  const handleCreateAdmin = async () => {
+    try {
+      await adminClient.createAdmin({
+        user: newAdminUser._id,
+        name: newAdminUser.name,
+        permissions: newAdminPermissions
+      });
+
+      const updatedUser = await userClient.updateUser({ ...newAdminUser, role: 'ADMIN' });
+
+      setUsers(users.map(user => user._id === updatedUser._id ? updatedUser : user));
+
+      setShowAdminModal(false);
+      setNewAdminUser(null);
+      setNewAdminPermissions([]);
+    } catch (err) {
+      setError('Failed to create admin. Please try again.');
+      console.error('Error creating admin:', err);
+    }
+  }
+
+  const AdminModal = () => (
+    <div className="permissions-modal-overlay">
+      <div className="permissions-modal-content">
+        <h2>Set Admin Permissions</h2>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              checked={newAdminPermissions.includes('manage_users')}
+              onChange={() => handlePermissionChange('manage_users')}
+            />
+            Manage Users
+          </label>
+        </div>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              checked={newAdminPermissions.includes('manage_content')}
+              onChange={() => handlePermissionChange('manage_content')}
+            />
+            Manage Content
+          </label>
+        </div>
+        <button onClick={handleCreateAdmin}>Confirm</button>
+        <button onClick={() => {
+          setShowAdminModal(false);
+          setNewAdminUser(null);
+          setNewAdminPermissions([]);
+        }}>Cancel</button>
+      </div>
+    </div>
+  );
 
   const handleReputationKeyPress = (e: any, user: any) => {
     console.log(e.target.value);
@@ -71,6 +159,14 @@ export default function Admin() {
 
   const removeUser = async (userId: string) => {
     try {
+      const userToDelete = users.find(user => user._id === userId);
+      if (userToDelete && userToDelete.role === 'ADMIN') {
+        const adminToDelete = await adminClient.findAdminByUserId(userId);
+        if (adminToDelete) {
+          await adminClient.deleteAdmin(adminToDelete._id);
+        }
+      }
+
       await userClient.deleteUser(userId);
       setUsers(users.filter(user => user._id !== userId));
       setReviews(reviews.filter(review => review.userId !== userId));
@@ -201,6 +297,7 @@ export default function Admin() {
           message={confirmAction.message}
         />
       )}
+      {showAdminModal && <AdminModal />}
     </div>
   );
 }
