@@ -14,8 +14,6 @@ import CreatePost from '../main/Create/CreatePost';
 import { setCurrentUser } from '../main/Account/reducer';
 import { useDispatch, useSelector } from 'react-redux';
 
-import * as userClient from '../../services/userService';
-
 export default function NavBar() {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
@@ -34,10 +32,8 @@ export default function NavBar() {
   ];
 
   const handleSignOut = () => {
-    // Clear the current user from Redux state
     dispatch(setCurrentUser(null));
 
-    // Redirect to login page
     navigate('/login');
   };
 

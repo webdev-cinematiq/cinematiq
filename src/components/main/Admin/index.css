@@ -84,6 +84,41 @@ button:hover {
   background-color: var(--color-button-hover);
 }
 
+.permissions-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.permissions-modal-content {
+  background-color: var(--color-background1);
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 400px;
+  text-align: center;
+  width: 100%;
+}
+
+.permissions-modal-content h2 {
+  margin-top: 10;
+}
+
+.permissions-modal-content label {
+  display: block;
+  margin: 10px 0;
+}
+
+.permissions-modal-content button {
+  margin-top: 20px;
+  margin-right: 10px;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -101,7 +136,7 @@ button:hover {
   padding: 20px;
   border-radius: 5px;
   text-align: center;
-  width: 50%;
+  width: 25%;
 }
 
 .modal-content button {
