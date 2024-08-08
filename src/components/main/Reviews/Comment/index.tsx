@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import * as commentService from '../../../services/commentService';
+import * as commentService from '../../../../services/commentService';
 import { useSelector } from 'react-redux';
-import './Comment/index.css';
+import './index.css';
 
 export default function Review() {
   const [comments, setComments] = useState<any[]>([]);
