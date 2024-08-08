@@ -16,8 +16,8 @@ import SearchResults from './components/main/Search/Results';
 import Film from './components/main/Movies/Detail';
 import Films from './components/main/Movies';
 import Profile from './components/main/Profile';
+import ProtectedRoute from './ProtectedRoute';
 
-// TODO: add routes for film
 // TODO: make sure /profile/:name shows profile based on params
 function App() {
   return (
@@ -34,7 +34,14 @@ function App() {
           <Route path="admin" element={<Admin />} />
           <Route path="collections" element={<Collections />} />
           <Route path=":name/collection/:titleId" element={<Collection />} />
-          <Route path="collection/create" element={<CreateCollection />} />
+          <Route
+            path="collection/create"
+            element={
+              <ProtectedRoute>
+                <CreateCollection />
+              </ProtectedRoute>
+            }
+          />
           <Route path="reviews" element={<Reviews />} />
           <Route path=":name/review/:rid" element={<Review />} />
           <Route path="films" element={<Films />} />

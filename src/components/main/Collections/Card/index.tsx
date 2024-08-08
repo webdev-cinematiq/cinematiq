@@ -27,7 +27,7 @@ const CollectionCard = ({ collectionData }: { collectionData: any }) => {
     setMovies(collection.movies);
     setTitleId(collection.title_id);
 
-    if (movies.length > 3) {
+    if (movies && movies.length > 3) {
       setMoviePreview(movies.splice(0, 3));
     } else {
       setMoviePreview(movies);

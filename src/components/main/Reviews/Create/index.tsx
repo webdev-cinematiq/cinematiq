@@ -1,7 +1,6 @@
-// src/components/main/Reviews/Create/index.tsx
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Modal, Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import ValidationAlert from '../../Alerts/ValidationAlert';
@@ -20,14 +19,14 @@ export default function CreateReview({
 }: {
   handleClose: () => void;
 }) {
-  const username = 'nanabanana';
-  const shortReview = false;
+  const { currentUser } = useSelector((state: any) => state.accounts);
+  const username = currentUser.name || 'nanabanana';
+  const shortReview = currentUser && currentUser.role === 'VIEWER';
 
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
   const [watchDate, setWatchDate] = useState('');
 
-  const [movies, setMovies] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState<any | null>(null);
@@ -53,7 +52,8 @@ export default function CreateReview({
   const createReview = async (review: any, textId: string) => {
     const newReview = await reviewClient.createReview(username, review);
     console.log('movie to update: ', selectedMovie);
-    console.log('review to add: ', review);
+    console.log('review input: ', review);
+    console.log('review to add: ', newReview);
 
     const updatedMovie = await movieClient.findAndUpdateMovieReviews(
       selectedMovie.id,
@@ -93,6 +93,7 @@ export default function CreateReview({
 
   const handleSelectMovie = (movie: any) => {
     setSelectedMovie(movie);
+    setNextText('PUBLISH');
   };
 
   const validateReview = () => {
@@ -116,7 +117,6 @@ export default function CreateReview({
       setAlertMessage('Tell us more! Be sure to complete the review section.');
       return false;
     }
-    setNextText('PUBLISH');
     return true;
   };
 
@@ -136,7 +136,7 @@ export default function CreateReview({
 
         const newReview = {
           type: 'SHORT',
-          author: username, // TODO: replace with actual user data
+          author: username,
           movie: reviewMovie,
           rating,
           text_id: '',
