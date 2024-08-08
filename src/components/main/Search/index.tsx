@@ -3,6 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import * as movieClient from '../../../services/movieService';
 import './Search.css'
+const TMDB_API = process.env.REACT_APP_TMDB_API;
+const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+const TMDB = `${TMDB_API}`;
+const API_KEY = `api_key=${TMDB_API_KEY}`;
+ 
 
 
 
@@ -13,22 +18,21 @@ export default function Search() {
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
 
-  const movieData = [
-    {
-      "poster_path": "/images/reacher2016.jpg",
-      "overview": "Jack Reacher must uncover the truth behind a major government conspiracy...",
-      "release_date": "2016-10-19",
-      "title": "Jack Reacher: Never Go Back",
-      "genres": ["Action", "Crime", "Thriller"]
-    },
-    {
-      "poster_path": "/images/reacher2012.jpg",
-      "overview": "One morning in an ordinary town, five people are shot dead in a seemingly random attack; all evidence points to a single suspect: an ex-military sniper who is quickly brought into custody; Reacher, an enigmatic ex-Army investigator, believes the authorities have the right man but agrees to help the sniper's defense attorney.. However, the more Reacher delves into the case, the less clear-cut it appears.",
-      "release_date": "2012-12-19",
-      "title": "Jack Reacher",
-      "genres": ["Action", "Crime", "Thriller"]
+
+
+   // Load search term and results from localStorage when the component mounts
+   useEffect(() => {
+    const storedSearchTerm = localStorage.getItem('searchTerm');
+    const storedSearchResults = localStorage.getItem('searchResults');
+    
+    if (storedSearchTerm) {
+      setSearchTerm(storedSearchTerm);
     }
-  ];
+    if (storedSearchResults) {
+      setSearchResults(JSON.parse(storedSearchResults));
+    }
+  }, []);
+
   
   // Handle input change
   const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,15 +41,28 @@ export default function Search() {
 
     if (value.trim() === '') {
       setSearchResults([]);
+
+      localStorage.removeItem('searchTerm');
+      localStorage.removeItem('searchResults');
+
       return;
     }
 
+
     try {
-      const results = await movieClient.findMoviesByPartialTitle(value);
-      setSearchResults(results);
+      const url = `${TMDB_API}/search/movie?api_key=${TMDB_API_KEY}&query=${value}&page=1`;
+      const response = await fetch(url);
+      const data = await response.json();
+      setSearchResults(data.results);
+
+      // Store search term and results in localStorage
+      localStorage.setItem('searchTerm', value);
+      localStorage.setItem('searchResults', JSON.stringify(data.results));
+      
     } catch (error) {
       console.error('Error fetching movie results:', error);
       setSearchResults([]);
+      console.log("search results: ", searchResults);
     }
   };
 
@@ -61,14 +78,15 @@ export default function Search() {
   return (
     <div className="search-page">
       <h1 className="search-heading">SEARCH</h1>
-      <p className="search-subtext">Search by movie title</p>
+      {/* <p className="search-subtext">Search by movie title</p> */}
 
-      <div className="search-bar">
-      
+      <div className="container search-bar">
+        <label htmlFor='search_input_block' className="form-label search-subtext">Search by movie title</label>
         <input 
+          id="search_input_block"
           type="text" 
-          className="search-input" 
-          placeholder="Enter movie title" 
+          className="form-control form-control-lg search-input" 
+          placeholder="Enter a movie title" 
           value={searchTerm}
           onChange={handleSearchChange}/>
         <button className="search-button" onClick={handleSearchClick}>Search</button>
@@ -82,7 +100,7 @@ export default function Search() {
       <div className="movie-card">
         {searchResults.length > 0 ? (
           searchResults.map((movie: any) => (
-            <Link key={movie._id} to={`/search/${movie._id}`} className="card-link">
+            <Link key={movie._id} to={`/search/${movie.id}`} className="card-link">
               <div className="card">
                 <img 
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
@@ -93,7 +111,7 @@ export default function Search() {
             </Link>
           ))
         ) : (
-          <p>No results found</p>
+          <p className="no-results">No results found</p>
         )}
       </div>
     </div>
