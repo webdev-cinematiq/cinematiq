@@ -9,7 +9,7 @@ const store = configureStore({
     movies: moviesReducer,
     reviews: reviewsReducer,
     collections: collectionsReducer,
-    accounts: accountsReducer
+    accounts: accountsReducer,
   },
 });
 

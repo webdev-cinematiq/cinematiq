@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
 import ValidationAlert from '../../Alerts/ValidationAlert';
 import * as collectionClient from '../../../../services/collectionService';
 import * as movieClient from '../../../../services/movieService';
@@ -13,7 +13,8 @@ const TMDB = `${TMDB_API}`;
 const API_KEY = `api_key=${TMDB_API_KEY}`;
 
 export default function CollectionCreate() {
-  const username = 'nanabanana';
+  const { currentUser } = useSelector((state: any) => state.accounts);
+  const username = currentUser.name || 'nanabanana';
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -39,7 +40,9 @@ export default function CollectionCreate() {
       username,
       collection
     );
-    
+
+    console.log('new collection', newCollection);
+
     const updatedMovies = await Promise.all(
       selectedMovies.map(async (m) => {
         const savedMovie = await movieClient.findAndUpdateMovieCollections(
@@ -103,7 +106,7 @@ export default function CollectionCreate() {
         'Every collection needs a name. What should we call this one?'
       );
       return false;
-    } else if (selectedMovies.length === 0) {
+    } else if (selectedMovies && selectedMovies.length === 0) {
       setAlertMessage('A collection must have at least one film!');
       return false;
     } else {

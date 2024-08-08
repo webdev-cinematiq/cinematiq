@@ -4,7 +4,7 @@ import CollectionCard from '../Card/';
 import './index.css';
 
 const CollectionCarousel = ({ collections }: { collections: any[] }) => {
-  if (collections.length === 0) {
+  if (!collections || collections.length === 0) {
     return <p>No collections available.</p>;
   }
 
