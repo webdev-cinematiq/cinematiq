@@ -13,6 +13,7 @@ const ReviewCard = ({ reviewData }: { reviewData: any }) => {
   const [author, setAuthor] = useState<any>({});
   const [avatar, setAvatar] = useState('');
   const [authorName, setAuthorName] = useState('');
+  const [textPreview, setTextPreview] = useState('');
 
   const navigate = useNavigate();
 
@@ -25,6 +26,11 @@ const ReviewCard = ({ reviewData }: { reviewData: any }) => {
     setRating(review.rating);
     setAuthorName(review.author);
     setWatchDate(review.watch_date);
+    if (text && text.length > 50) {
+      setTextPreview(`${text.substring(0, 50)}...`);
+    } else {
+      setTextPreview(text);
+    }
   };
 
   useEffect(() => {
@@ -36,10 +42,7 @@ const ReviewCard = ({ reviewData }: { reviewData: any }) => {
 
     const user = await userClient.findUserForName(authorName);
     setAuthor(user);
-    setAvatar(
-      user.avatar ||
-        'https://avatar.iran.liara.run/username?username=${authorName}'
-    );
+    setAvatar(user.avatar);
   };
 
   useEffect(() => {
@@ -64,7 +67,10 @@ const ReviewCard = ({ reviewData }: { reviewData: any }) => {
       onClick={handleCardClick}
     >
       <img
-        src={avatar}
+        src={
+          avatar ||
+          `https://avatar.iran.liara.run/username?username=${authorName}`
+        }
         alt={`${authorName}-avatar`}
         className="review-carousel-pfp"
         onClick={handleAvatarClick}
@@ -88,9 +94,7 @@ const ReviewCard = ({ reviewData }: { reviewData: any }) => {
         </div>
 
         <div className="review-carousel-separator"></div>
-        <div className="review-carousel-text">
-          {text && text.substring(0, 50)}...
-        </div>
+        <div className="review-carousel-text">{text && textPreview}</div>
       </div>
     </div>
   );

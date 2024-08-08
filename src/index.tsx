@@ -5,6 +5,7 @@ import './theme.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import store from './components/store';
+import Session from './components/main/Account/Session';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -12,7 +13,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-    <App />
+    <Session>
+      <App />
+    </Session>
   </Provider>
 );
 
