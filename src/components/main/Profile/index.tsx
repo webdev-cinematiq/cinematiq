@@ -9,7 +9,6 @@ import * as collectionClient from '../../../services/collectionService';
 import * as userClient from '../../../services/userService';
 import * as reviewClient from '../../../services/reviewService';
 import * as movieClient from '../../../services/movieService';
-// import Rating from '../Reviews/rating';
 import Rating from './rating';
 
 
@@ -112,7 +111,7 @@ export default function Profile() {
     if (!validatePasswords()) return;
 
 
-    // Create a new profile object with updated information
+    // Create a new profile object with updated info
     const updatedProfile = { ...profile, name: newUsername, password };
 
     try {
@@ -371,7 +370,7 @@ export default function Profile() {
 
               console.log(`Collection: ${c.title}`, c);
               return (
-                // <Link key={c.id} to={`/${name}/collection/${c.title_id}`} className="collection-card-link">
+        
                 <div className="collection-card">
                   <h3 className="collection-title">{c.title}</h3>
 
@@ -392,10 +391,10 @@ export default function Profile() {
                   </div>
 
                   <Link to={`/${name}/collection/${c.title_id}`} className="view-button-collection">
-                View
-              </Link>
+                    View
+                  </Link>
                 </div>
-                // </Link>
+              
              );
 })}
         </div>
