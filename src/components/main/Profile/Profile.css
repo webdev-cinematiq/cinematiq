@@ -303,6 +303,11 @@ body {
     color: gold;
 }
 
+.star-container {
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
 .watched-date {
     font-style: italic;
     font-size: 0.8rem;

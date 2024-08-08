@@ -16,6 +16,7 @@ import Rating from './rating';
 export default function Profile() {
   // const { name } = useParams<{ name: string }>(); //add me back once login capability is in
   const name = 'nanabanana'; // Hardcoded username
+  // const name = 'moviebuff99'; // Hardcoded username
 
   const [profile, setProfile] = useState<any>({});
   const [collections, setCollections] = useState<any[]>([]);
@@ -35,6 +36,7 @@ export default function Profile() {
   const [reputation, setReputation] = useState('');
 
   const [rating, setRating] = useState(0);
+  const [moviePosters, setMoviePosters] = useState<any>({});
 
 
   const [isEditing, setIsEditing] = useState(false);
@@ -75,14 +77,15 @@ export default function Profile() {
     console.log('preview collections', previewCollections);
   };
 
+
+
   const fetchReviews = async () => {
     if (!name) return;
     const reviews = await reviewClient.findReviewsByAuthor(name);
     setReviews(reviews);
     console.log('reviews from DB', reviews);
 
-    
-
+   
 
     if (showMoreReviews) {
       setPreviewReviews([...reviews]);
@@ -100,6 +103,9 @@ export default function Profile() {
       }
     }
     console.log('preview Reviews', previewReviews);
+
+    
+  
   };
 
 
@@ -170,6 +176,10 @@ export default function Profile() {
   };
 
 
+
+  const getYear = (dateString: any) => {
+    return new Date(dateString).getFullYear().toString();
+  };
 
   
   const toggleEditMode = () => {
@@ -364,19 +374,31 @@ export default function Profile() {
 
         <div className="collections-container">
           {previewCollections &&
-            previewCollections.map((c: any) => (
-              <div key={c.id} className="collection-card">
-                <h3 className="collection-title">{c.title}</h3>
+            previewCollections.map((c: any) => {
 
-                <p className="collection-description">{c.description}</p>
+              console.log(`Collection: ${c.title}`, c);
+              return (
+                <div key={c.id} className="collection-card">
+                  <h3 className="collection-title">{c.title}</h3>
 
-                {/* <div className="collection-images">
-                {collection.images.map((image, index) => (
-                  <img key={index} src={image} alt={collection.title} className="collection-image" />
-                ))}
-              </div> */}
-              </div>
-            ))}
+                  <p className="collection-description">{c.description}</p>
+
+                  <div className="collection-images">
+                    {c.movies?.slice(0,3).map((movie: any, index:any) => {
+
+                      console.log(`Movie Object ${index}:`, movie);
+
+                      return(
+                        <img 
+                          key={index} 
+                          src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}` || '/images/default-poster.jpg'}  
+                          alt={movie.title} className="collection-image" />
+                      );
+                    })}
+                  </div>
+                </div>
+             );
+})}
         </div>
       </div>
 
@@ -393,31 +415,40 @@ export default function Profile() {
 
         <div className="reviews-container">
           {previewReviews &&
-            previewReviews.map((review: any) => {
+            previewReviews.map((review: any, index) => {
               console.log(`Review ID: ${review._id}, Rating: ${review.rating}`);
+              console.log('Review movie:', review.movie);
               return(
-              <div key={review.id} className="review-card">
+              <div 
+
+                key={index}
+                className="review-card">
                 <img
-                  src={review.poster}
-                  alt={review.movieTitle}
+                  src={`https://image.tmdb.org/t/p/w500${review.movie?.poster_path}` || '/images/default-poster.jpg'} 
+                  alt={review.movie?.title || 'Movie Poster'}
                   className="review-poster"
                 />
 
                 <div className="review-content">
                   <div className="review-header">
-                    <span className="movie-title">{review.movieTitle}</span>
-                    <span className="release-year">({review.releaseYear})</span>
+                    <span className="movie-title">{review.movie?.title || "<Unknown Movie>"}</span>
+                    <span className="release-year">({getYear(review.movie?.release_date)})</span>
                   </div>
+                    
+                  <div className="star-container">                    
+                    <span className="star-rating">
+                      <Rating rating={review.rating}  />                      
+                    </span></div>
 
                   <div className="review-subheader">
                     <span className="review-by">
                       Review by {name} on {formatDate(review.review_date)} 
                     </span>
-                    <span className="star-rating">
+                    {/* <span className="star-rating">
                       <Rating rating={review.rating}  />
                       
                       
-                    </span>
+                    </span> */}
                     <span className="watched-date">
                       watched on {formatDate(review.watch_date)}
                     </span>
