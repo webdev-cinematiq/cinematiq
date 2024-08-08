@@ -54,6 +54,12 @@ export default function CollectionDetail() {
     return <div>Loading...</div>;
   }
 
+  const handleUserClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/profile/${authorName}`);
+  };
+
   return (
     <div className="collection-detail-container">
       {movies[0] && (
@@ -69,8 +75,11 @@ export default function CollectionDetail() {
       )}
       <div className="horizontal-line"></div>
       <div className="collection-header">
-        <p className="collection-author">
-          <img src={author.avatar} alt="Author avatar" />
+        <p className="collection-author" onClick={handleUserClick}>
+          <img
+            src={author.avatar}
+            alt="Author avatar"
+          />
           collection by&nbsp;
           <span className="collection-author-name">{author.name}</span>
         </p>

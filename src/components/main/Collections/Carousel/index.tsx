@@ -4,6 +4,10 @@ import CollectionCard from '../Card/';
 import './index.css';
 
 const CollectionCarousel = ({ collections }: { collections: any[] }) => {
+  if (collections.length === 0) {
+    return <p>No collections available.</p>;
+  }
+
   return (
     <div className="collection-carousel">
       <Carousel>

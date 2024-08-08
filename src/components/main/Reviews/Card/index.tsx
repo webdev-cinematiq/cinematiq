@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Image } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import * as reviewClient from '../../../../services/reviewService';
-import * as movieClient from '../../../../services/movieService';
 import * as userClient from '../../../../services/userService';
 import { Rating } from '../../Reviews/Card/rating';
 import './index.css';
@@ -12,18 +10,11 @@ const ReviewCard = ({ reviewData }: { reviewData: any }) => {
   const [text, setText] = useState('');
   const [rating, setRating] = useState(0);
   const [watchDate, setWatchDate] = useState('');
-  const [releaseDate, setReleaseDate] = useState('');
   const [author, setAuthor] = useState<any>({});
   const [avatar, setAvatar] = useState('');
-  const [movie, setMovie] = useState<any>({});
   const [authorName, setAuthorName] = useState('');
-  const [reviewPreview, setReviewPreview] = useState<any[]>([]);
 
   const navigate = useNavigate();
-
-  const getYear = (dateString: any) => {
-    return new Date(dateString).getFullYear().toString();
-  };
 
   const fetchReview = async () => {
     if (!reviewData) return;
@@ -33,9 +24,7 @@ const ReviewCard = ({ reviewData }: { reviewData: any }) => {
     setText(review.text);
     setRating(review.rating);
     setAuthorName(review.author);
-    setMovie(review.movie);
     setWatchDate(review.watch_date);
-    setReleaseDate(review.release_date);
   };
 
   useEffect(() => {
@@ -49,7 +38,7 @@ const ReviewCard = ({ reviewData }: { reviewData: any }) => {
     setAuthor(user);
     setAvatar(
       user.avatar ||
-        `https://avatar.iran.liara.run/username?username=${authorName}`
+        'https://avatar.iran.liara.run/username?username=${authorName}'
     );
   };
 
@@ -57,29 +46,49 @@ const ReviewCard = ({ reviewData }: { reviewData: any }) => {
     if (author) fetchUser();
   }, [author]);
 
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    navigate(`/${authorName}/review/${review._id}`);
+  };
+
+  const handleAvatarClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/profile/${authorName}`);
+  };
+
   return (
-    <div key={review._id} className="review-carousel-card">
-      <img src={avatar} alt={review} className="review-carousel-pfp" />
+    <div
+      key={review._id}
+      className="review-carousel-card"
+      onClick={handleCardClick}
+    >
+      <img
+        src={avatar}
+        alt={review}
+        className="review-carousel-pfp"
+        onClick={handleAvatarClick}
+      />
 
       <div className="review-carousel-content">
         <div className="review-carousel--header">
           <div className="review-carousel-subheaderr">
             <span className="review-carousel-author">review by</span>
           </div>
-          <span className="profile-movie-title">{authorName}</span>
+          <span>{authorName}</span>
         </div>
 
         <div className="review-carousel-subheaderr">
           <span className="review-carousel-rating">
             <Rating rating={rating} />
           </span>
-          <span className="profile-watched-date">
+          <span className="review-carousel-watched-date">
             watched {new Date(watchDate).toDateString()}
           </span>
         </div>
 
-        <div className="profile-review-separator"></div>
-        <div className="profile-review-text">
+        <div className="review-carousel-separator"></div>
+        <div className="review-carousel-text">
           {text && text.substring(0, 50)}...
         </div>
       </div>

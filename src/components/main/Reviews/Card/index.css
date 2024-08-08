@@ -84,17 +84,17 @@
   color: gold;
 }
 
-.profile-watched-date {
+.review-carousel-watched-date {
   font-style: italic;
   font-size: 0.8rem;
 }
 
-.profile-review-separator {
+.review-carousel-separator {
   border-top: 1px solid var(--color-text);
   margin: 10px 0;
 }
 
-.profile-review-text {
+.review-carousel-text {
   margin-top: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
