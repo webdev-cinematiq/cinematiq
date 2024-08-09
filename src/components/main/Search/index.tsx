@@ -100,7 +100,7 @@ export default function Search() {
       <div className="movie-card">
         {searchResults.length > 0 ? (
           searchResults.map((movie: any) => (
-            <Link key={movie._id} to={`/search/${movie.id}`} className="card-link">
+            <Link key={movie._id} to={`/film/details/${movie.id}`} className="card-link">
               <div className="card">
                 <img 
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
