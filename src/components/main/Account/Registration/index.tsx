@@ -1,54 +1,52 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
+import * as accountService from "../../../../services/accountService";
 import "./index.css"
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../reducer';
 
 export default function Registration() {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState<any>({});
   const [reenterPassword, setReenterPassword] = useState('');
-  const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleRegister = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-    setError('');
+  const handleRegister = async () => {
+    setErrorMessage('');
     setIsLoading(true);
 
     // Basic validation
-    if (!fullName || !email || !password || !reenterPassword) {
-      setError('All fields are required');
+    if (!user.name || !user.password || !reenterPassword) {
+      setErrorMessage('All fields are required');
       setIsLoading(false);
       return;
     }
-    if (password !== reenterPassword) {
-      setError('Passwords do not match');
+    if (user.password !== reenterPassword) {
+      setErrorMessage('Passwords do not match');
       setIsLoading(false);
       return;
     }
 
     try {
-      const response = await axios.post('/api/register', {
-        fullName,
-        email,
-        password
-      });
+      const currentUser = await accountService.signup(user);
 
-      navigate('/');
+      dispatch(setCurrentUser(currentUser));
+
+      navigate('/profile');
     } catch (err: any) {
       if (err.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        setError(err.response.data.message || 'Registration failed. Please try again.');
+        setErrorMessage('Registration failed. Please try again.');
       } else if (err.request) {
         // The request was made but no response was received
-        setError('No response from server. Please check your internet connection.');
+        setErrorMessage('No response from server. Please check your internet connection.');
       } else {
         // Something happened in setting up the request that triggered an Error
-        setError('An unexpected error occurred. Please try again later.');
+        setErrorMessage('An unexpected error occurred. Please try again later.');
       }
     } finally {
       setIsLoading(false);
@@ -69,22 +67,18 @@ export default function Registration() {
             </div>
             <h2>Create a New Account</h2>
             <p>Enter your details to Register</p>
+            {errorMessage && (
+              <div className="error-message">
+                {errorMessage}
+              </div>
+            )}
             <form onSubmit={handleRegister}>
               <input
-                id="full-name"
+                id="name"
                 type="name"
-                placeholder="Full Name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                className="registration-form-input"
-                required
-              />
-              <input
-                id="email"
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Name"
+                value={user.name}
+                onChange={(e) => setUser({ ...user, name: e.target.value, role: "VIEWER", join_date: new Date().toISOString() })}
                 className="registration-form-input"
                 required
               />
@@ -92,8 +86,8 @@ export default function Registration() {
                 id="password"
                 type="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={user.password}
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
                 className="registration-form-input"
                 required
               />

@@ -10,8 +10,8 @@ const store = configureStore({
     movies: moviesReducer,
     reviews: reviewsReducer,
     collections: collectionsReducer,
-    profiles: profileReducer, 
-    accounts: accountsReducer
+    accounts: accountsReducer,
+
   },
 });
 

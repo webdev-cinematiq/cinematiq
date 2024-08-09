@@ -80,13 +80,14 @@
 .btn-signout {
   background-color: var(--color-background1);
   color: var(--color-text);
-  border: none;
-  padding: 5px 12px;
+  border: 1px solid var(--color-text);
+  margin-left: 15px;
+  padding: 5px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
   white-space: nowrap;

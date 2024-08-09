@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Image } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
 import * as movieClient from '../../../../services/movieService';
-import * as userClient from '../../../../services/userService';
 import CollectionCarousel from '../../Collections/Carousel';
 import ReviewCarousel from '../../Reviews/Carousel';
 import { Rating } from '../../Reviews/rating';
@@ -32,7 +31,6 @@ export default function MovieDetail() {
     fetch(url)
       .then((res: any) => res.json())
       .then((json: any) => {
-        // console.log('api response', json);
         setMovie(json);
       })
       .catch((err: any) => console.error('error:' + err));

@@ -4,7 +4,7 @@ import './App.css';
 import Home from './components/main/Home';
 import Search from './components/main/Search';
 import Login from './components/main/Account/Login';
-import Registration from './components/main/Registration';
+import Registration from './components/main/Account/Registration';
 import Admin from './components/main/Admin';
 import Collections from './components/main/Collections';
 import Collection from './components/main/Collections/Detail';
@@ -16,9 +16,9 @@ import SearchResults from './components/main/Search/Results';
 import Film from './components/main/Movies/Detail';
 import Films from './components/main/Movies';
 import Profile from './components/main/Profile';
+import ProtectedRoute from './ProtectedRoute';
 import { useSelector } from 'react-redux';
 
-// TODO: add routes for film
 // TODO: make sure /profile/:name shows profile based on params
 function App() {
   const { currentUser } = useSelector((state: any) => state.accounts);
@@ -39,7 +39,14 @@ function App() {
           <Route path="admin" element={<Admin />} />
           <Route path="collections" element={<Collections />} />
           <Route path=":name/collection/:titleId" element={<Collection />} />
-          <Route path="collection/create" element={<CreateCollection />} />
+          <Route
+            path="collection/create"
+            element={
+              <ProtectedRoute>
+                <CreateCollection />
+              </ProtectedRoute>
+            }
+          />
           <Route path="reviews" element={<Reviews />} />
           <Route path=":name/review/:rid" element={<Review />} />
           <Route path="films" element={<Films />} />

@@ -1,7 +1,8 @@
-export default function Reviews() {
+
+export default function Review() {
   return (
-    <div>
-      <h1>Reviews</h1>
+    <div className="comment-section">
+      <h2>Reviews</h2>
     </div>
   );
-}
+};

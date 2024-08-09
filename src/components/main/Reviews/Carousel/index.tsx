@@ -4,7 +4,7 @@ import ReviewCard from '../Card/';
 import './index.css';
 
 const ReviewCarousel = ({ reviews }: { reviews: any[] }) => {
-  if (reviews.length === 0) {
+  if (!reviews || reviews.length === 0) {
     return <p>No reviews available.</p>;
   }
 
