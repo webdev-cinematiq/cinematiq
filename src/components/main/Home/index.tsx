@@ -142,13 +142,12 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      {currentUser && (
-        <Welcome />
-      )}
       <div className="cover-photo">
         <img src="/images/duneMother.jpg" alt="Cover" />
       </div>
-
+      {currentUser && (
+        <Welcome />
+      )}
       <div id="featured-movies">
         <h2 className="section-header top-header">Featured Movies</h2>
 

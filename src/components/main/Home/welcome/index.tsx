@@ -13,8 +13,8 @@ export default function WelcomeMessage() {
   useEffect(() => {
     const fetchRecentCollection = async () => {
       try {
-        const allCollections = await collectionClient.findCollectionsByAuthor(currentUser.name);
-        setCollections(allCollections);
+        const collections = await collectionClient.findCollectionsByAuthor(currentUser.name);
+        setCollections(collections);
 
         // Sort collections by 'created' date in descending order
         collections.sort((a: any, b: any) => Date.parse(b.created) - Date.parse(a.created));
