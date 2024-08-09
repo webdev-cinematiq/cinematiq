@@ -10,11 +10,19 @@ import * as userClient from '../../../services/userService';
 import * as reviewClient from '../../../services/reviewService';
 import * as movieClient from '../../../services/movieService';
 import Rating from './rating';
-
+import { useSelector } from 'react-redux';
 
 export default function Profile() {
+  const { currentUser } = useSelector((state: any) => state.accounts);
   // const { name } = useParams<{ name: string }>(); //add me back once login capability is in
   const name = 'nanabanana'; // Hardcoded username
+  
+  if (currentUser) {
+    console.log("currentUser name: ", currentUser.name);
+    console.log("currentUser: ", currentUser);
+  }
+
+  // const name = {currentUser?.name}; // Hardcoded username
   // const name = 'moviebuff99'; // Hardcoded username
 
   const [profile, setProfile] = useState<any>({});
