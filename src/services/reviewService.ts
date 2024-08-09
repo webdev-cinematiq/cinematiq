@@ -20,7 +20,8 @@ export const findReviewForId = async (reviewId: any) => {
   return data;
 };
 
-export const findReviewsBtyAuthor = async (name: string) => {
+export const findReviewsByAuthor = async (name: string) => {
+  console.log("Remote Server in reviewService: ", REMOTE_SERVER)
   const response = await axios.get(`${REMOTE_SERVER}/api/${name}/reviews`);
   return response.data;
 };

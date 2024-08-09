@@ -33,14 +33,33 @@ body {
     margin-top: 20px;
 }
 
+.edit-container {
+    margin: 20px;
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+.edit-button {
+    background-color: var(--color-primary1);
+    font-size: 18px;
+    color: var(--color-text);
+    border: none;
+    padding: 10px;
+    margin-left: auto; 
+    cursor: pointer;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+}
+
 
 /* User Info Section */
 .user-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%; /* Full width */
-    padding: 0px; /* Add some padding if needed */
+    width: 100%; 
+    padding: 0px; 
 }
 
 
@@ -88,7 +107,6 @@ body {
     width: 680px; 
     min-height: 640px;
     background-color: var(--color-background1); 
-    /* background-color: blue; */
     border-radius: 8%;
     border: 2px solid ;
     padding: 15px;
@@ -106,6 +124,17 @@ body {
 }
   
 .save-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--color-primary1);
+    color: var(--color-text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.cancel-button {
     margin-top: 20px;
     padding: 10px 20px;
     background-color: var(--color-primary1);
@@ -140,7 +169,6 @@ body {
 
 
 /*    Collections Section    */
-
 .collections-header {
     margin: 60px 0px 5px 0px;
 }
@@ -159,8 +187,30 @@ body {
     text-align: center;
     color: var(--color-text);
     padding: 20px;
+    position: relative;
 
 }
+
+.view-button-collection {
+    display: block; 
+    bottom: 10px;
+    margin: 20px 12px 10px 12px; 
+    background-color: 333;
+    color: white;
+    border: 2px solid var(--color-button); 
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+.view-button-collection:hover {
+    background-color: var(--color-button-hover);
+}
+
+
 
 .collection-title {
     font-size: 1.5rem;
@@ -227,9 +277,12 @@ body {
     border: 1px solid var(--color-text);
     border-radius: 15px;
     padding: 20px;
-    width: 80%;
+    width: 100%;
     max-width: 800px;
+    position: relative;
+   
 }
+
 
 .review-poster {
     flex: 0 0 25%;
@@ -273,6 +326,11 @@ body {
     color: gold;
 }
 
+.star-container {
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
 .watched-date {
     font-style: italic;
     font-size: 0.8rem;
@@ -304,121 +362,35 @@ body {
     color: white;
 }
 
-
-
-/*   Discussions section  */
-.discussions-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; 
-    justify-content: center;
+.profile-reviews {
+    width: 920px;
 }
 
-.discussion-card {
-    background-color: #7f7f7f;
-    border-radius: 8px;
-    padding: 10px;
-    display: flex;
-    
-    gap: 10px;
-    align-items: flex-start;
-    max-width: 400px;
+.view-button {
+    position: absolute; 
+    bottom: 10px;
+    right: 10px; 
+    background-color: var(--color-background1);
+    color: white;
+    border: 2px solid var(--color-button); 
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-decoration: none;
 }
 
-.discussion-image {
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-}
-
-.discussion-content {
-    flex: 1;
-}
-
-.discussion-header {
-
-    gap: 10px;
-    margin-bottom: 5px;
-}
-
-.discussion-title {
-    font-size: 18px;
-    font-weight: bold;
-    flex: 1;
-    
-}
-
-.discussion-author {
-    font-size: 14px;
-    color: #81D3F8;
-    margin: 2px 2px 2px 2px;
-}
-
-.discussion-date {
-    font-size: 12px;
-    color: #fff;
-    white-space: nowrap;
-    margin: 2px 2px 2px 140px;
-}
-
-.discussion-separator {
-    border-top: 1px solid #fff; 
-    margin: 5px 0;
-}
-
-.discussion-text {
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-
-
-/*   Followers/Following section  */
-.follower-card,
-.following-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 10px 150px;
-  border: 1px solid ;
-  border-radius: 50px;
-  border-color: var(--color-primary1);
-  padding: 5px;
-  position: relative;
-}
-
-.follower-username,
-.following-username {
-  font-size: 1rem;
+.view-button:hover {
+    background-color: var(--color-button-hover); 
 }
 
 .row {
-  display: flex;
-  gap: 20px;
-}
-
+    display: flex;
+    gap: 20px;
+  }
+  
 .col {
     flex: 1;
-  }
-
-.follower-image,
-.following-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
 }
 
-
-.trashcan-icon {
-    position: absolute;
-    top: 20px;
-    right: 18px;
-    font-size: 18px;
-    color: white; 
-    display: none;  
-}
-
-  .follower-card.editing .trashcan-icon,
-.following-card.editing .trashcan-icon {
-  display: block;
-}
