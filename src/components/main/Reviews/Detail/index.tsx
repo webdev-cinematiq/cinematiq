@@ -7,6 +7,11 @@ import * as movieClient from '../../../../services/movieService';
 import './reviewDetail.css'; 
 import Rating from  '../../Profile/rating';
 
+const TMDB_API = process.env.REACT_APP_TMDB_API;
+const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+const TMDB = `${TMDB_API}`;
+const API_KEY = `api_key=${TMDB_API_KEY}`;
+
 
 export default function Reviews() {
   const { name, rid } = useParams<{ name: string; rid: string }>();
@@ -79,25 +84,34 @@ export default function Reviews() {
 
   return (
     <div>
-   
-      {movie && (
-        <div       
-          className="review-backdrop-container"
-          style={{
-            backgroundImage: `url(https://image.tmdb.org/t/p/w500/${movie.backdrop_path})`,
-          }}
-        >
+      <div className="hero-section-reviews">
+        {movie && (
+          <div       
+            className="review-backdrop-container"
+            style={{
+              backgroundImage: `url(https://image.tmdb.org/t/p/w500/${movie.backdrop_path})`,
+            }}
+          >
+
+
           <div className="fade-left"></div>
-          <div className="fade-right"></div>      
-        </div>
-      )}
+          <div className="fade-right"></div>   
+          <div className="movie-info-reviews">
+            <h1>
+              {movie.title} ({new Date(movie.release_date).getFullYear()})
+            </h1>
+          </div>
+              
+          </div>
+        )}
+       </div>
 
      <div className="horizontal-line"></div>
      <div className="review-detail-header">
      {movie && (
         <div >     
-          <span className="movie-title">{review.movie?.title || "<Unknown Movie>"}</span>
-          <span className="release-year "> ({getYear(review.movie?.release_date)})</span>
+          {/* <span className="movie-title">{review.movie?.title || "<Unknown Movie>"}</span> */}
+          {/* <span className="release-year "> ({getYear(review.movie?.release_date)})</span> */}
           <span className="star-rating">
             <Rating rating={review.rating}  />                      
           </span>
