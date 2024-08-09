@@ -19,7 +19,7 @@ export const findCommentsByReview = async (reviewId: string) => {
 
 export const createComment = async (comment: any) => {
   const response = await axios.post(
-    `${REMOTE_SERVER}/${comment.author}/comments`,
+    `${COMMENTS_API}/comments`,
     comment
   );
   return response.data;
@@ -31,6 +31,7 @@ export const updateComment = async (comment: any) => {
 };
 
 export const deleteComment = async (commentId: string) => {
+  console.log(commentId)
   const response = await axios.delete(`${COMMENTS_API}/${commentId}`);
   return response.data;
 };
