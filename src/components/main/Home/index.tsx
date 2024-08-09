@@ -20,17 +20,41 @@ export default function Home() {
 
   const [collections, setCollections] = useState<any[]>([]);
   const [reviews, setReviews] = useState<any[]>([]);
+  const [films, setFilms] = useState<any[]>([]);
   const [previewCollections, setPreviewCollections] = useState<any[]>([]);
   const [previewReviews, setPreviewReviews] = useState<any[]>([]);
+  const [previewFilms, setPreviewFilms] = useState<any[]>([]);
 
   const [showMoreMovies, setShowMoreMovies] = useState(false); // collections visible
   const [showMoreCollections, setShowMoreCollections] = useState(false); // collections visible
   const [showMoreReviews, setShowMoreReviews] = useState(false); // reviews visible
 
+
+  const fetchFilms = async () => {
+   
+    const films = await movieClient.fetchAllMovies();
+
+    // Sort movies/films by 'created' field in descending order on vote average
+    const sortedFilms = films.sort((a: any, b: any) => b.vote_average - a.vote_average);
+
+    setFilms(sortedFilms);
+    console.log("films from db", films);
+    if (showMoreMovies) {
+      // setPreviewMovies([...movies]); //choose me if want every movie for all users
+      setPreviewFilms(films.slice(0, 9)); //edit me to set how many movies under show more
+    } else {
+      if (films.length > 1) {
+        console.log("sliced array of films ", films.slice(0, 3));
+        setPreviewFilms(films.slice(0, 3));
+      } else {
+        setPreviewFilms([...movies]);
+      }
+    }
+    console.log('preview films', previewFilms);
+  };
   
   const fetchCollections = async () => {
-    // if (!name) return;
-    // const collections = await collectionClient.findCollectionsByAuthor(name);
+   
     const collections = await collectionClient.findAllCollections();
 
     // Sort collections by 'created' field in descending order
@@ -39,8 +63,8 @@ export default function Home() {
     setCollections(sortedCollections);
     console.log("collections from db", collections);
     if (showMoreCollections) {
-      // setPreviewCollections([...collections]); //choose me if want every collection for all users
-      setPreviewCollections(collections.slice(0, 9)); //edit me to set how many collections under show more
+      setPreviewCollections([...collections]); //choose me if want every collection for all users
+      // setPreviewCollections(collections.slice(0, 9)); //edit me to set how many collections under show more
     } else {
       if (collections.length > 1) {
         console.log("sliced array of collections ", collections.slice(0, 3));
@@ -53,8 +77,7 @@ export default function Home() {
   };
 
   const fetchReviews = async () => {
-    // if (!name) return;
-    // const reviews = await reviewClient.findReviewsByAuthor(name);
+  
     const reviews = await reviewClient.findAllReviews();
 
     // Sort reviews by 'review_date' field in descending order
@@ -67,8 +90,8 @@ export default function Home() {
    
 
     if (showMoreReviews) {
-      // setPreviewReviews([...reviews]); //to see all reviews ever in show more
-      setPreviewReviews(reviews.slice(0, 9)); // to see a certain amount of reviews in show more
+      setPreviewReviews([...reviews]); //to see all reviews ever in show more
+      // setPreviewReviews(reviews.slice(0, 9)); // to see a certain amount of reviews in show more
     } else {
       if (reviews.length > 1) {
         console.log("reviews length where >1: ", reviews.length);
@@ -158,11 +181,11 @@ export default function Home() {
   };
 
   useEffect(() => {
-    
+      fetchFilms();
       fetchCollections();
       fetchReviews();
     
-  }, [showMoreCollections, showMoreReviews]);
+  }, [showMoreMovies, showMoreCollections, showMoreReviews]);
 
 
   return (
@@ -176,7 +199,7 @@ export default function Home() {
 
 
 
-      {/* Movies Section */}
+      {/* Films Section */}
       <div id="featured-movies">
         <h2 className="section-header-home top-header-home">Featured Movies</h2>
 
@@ -186,15 +209,24 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="profile-movie-card">
-          {visibleMovies.map((movie, index) => (
-            <Link key={index} to={`/search/${index}`} >
+        <div className="home-movie-card">
+        {previewFilms &&
+            previewFilms.map((film: any, index) => {
+              console.log(`Film ID: ${film._id}, Film Vote Avg: ${film.vote_average}`);
+              
+              return(
+          
+            <Link key={index} to={`/film/details/${film.id}`} >
               <div key={index} className="card">
-                <img src={movie.poster_path} alt={movie.title} />                
+                <img 
+                src={`https://image.tmdb.org/t/p/w500${film.poster_path}` || '/images/default-poster.jpg'} 
+                alt={film.title} 
+                />                
                 
               </div>
            </Link>
-          ))}
+            );
+          })}
         </div>
       </div>
 
