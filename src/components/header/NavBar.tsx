@@ -31,16 +31,6 @@ export default function NavBar() {
         },
       ]
       : []
-    ),
-    ...(currentUser !== null
-      ? [
-        {
-          label: 'REVIEWS',
-          path: '/reviews',
-          icon: null
-        }
-      ]
-      : []
     )
   ];
 

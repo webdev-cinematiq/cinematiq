@@ -18,10 +18,9 @@
 
 .recent-collection {
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
