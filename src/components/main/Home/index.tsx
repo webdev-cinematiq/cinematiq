@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useState } from "react";
-import './Home.css'; 
+import './Home.css';
+import { useSelector } from 'react-redux';
+import welcome from './welcome';
+import Welcome from './welcome';
 
 
 
@@ -10,7 +13,7 @@ export default function Home() {
   const [showMoreCollections, setShowMoreCollections] = useState(false); // collections visible
   const [showMoreReviews, setShowMoreReviews] = useState(false); // reviews visible
 
-  
+  const { currentUser } = useSelector((state: any) => state.accounts);
 
   const movies = [
     {
@@ -62,14 +65,13 @@ export default function Home() {
       description: "Explore the universe with a selection of the best science fiction movies.",
       images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
     },
-    {id: 4,
+    {
+      id: 4,
       title: "More Action/Sci-Fi Adventures",
       description: "Explore the universe with a selection of the best science fiction movies.",
       images: ["/images/avatarWoW.jpg", "/images/dune.jpg", "/images/avengersIF.jpg"],
     }
   ];
-
-
 
   const reviews = [
     {
@@ -108,7 +110,7 @@ export default function Home() {
   const generateStars = (rating: number) => {
     const fullStars = Math.floor(rating);
     const emptyStars = 5 - fullStars;
-  
+
     const stars = [];
     for (let i = 0; i < fullStars; i++) {
       stars.push(<span key={`full-${i}`} className="profile-star full">★</span>);
@@ -116,7 +118,7 @@ export default function Home() {
     for (let i = 0; i < emptyStars; i++) {
       stars.push(<span key={`empty-${i}`} className="profile-star empty">☆</span>);
     }
-  
+
     return stars;
   };
 
@@ -140,12 +142,12 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      
-
       <div className="cover-photo">
         <img src="/images/duneMother.jpg" alt="Cover" />
       </div>
-
+      {currentUser && (
+        <Welcome />
+      )}
       <div id="featured-movies">
         <h2 className="section-header top-header">Featured Movies</h2>
 
@@ -159,10 +161,10 @@ export default function Home() {
           {visibleMovies.map((movie, index) => (
             <Link key={index} to={`/search/${index}`} >
               <div key={index} className="card">
-                <img src={movie.poster_path} alt={movie.title} />                
-                
+                <img src={movie.poster_path} alt={movie.title} />
+
               </div>
-           </Link>
+            </Link>
           ))}
         </div>
       </div>
