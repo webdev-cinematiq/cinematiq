@@ -451,7 +451,7 @@ export default function Profile() {
                       <div className="review-separator"></div>
                       <div className="review-text">{review.text}</div>
 
-                      <Link to={`/reviews/${review._id}`} className="view-button">
+                      <Link to={`/${name}/review/${review._id}`} className="view-button">
                         View
                       </Link>
                     </div>

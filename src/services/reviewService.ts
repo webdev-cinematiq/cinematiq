@@ -17,6 +17,7 @@ export const findAllReviews = async () => {
 
 export const findReviewForId = async (reviewId: any) => {
   const { data } = await axios.get(`${REVIEWS_API}/${reviewId}`);
+  console.log("reviewService reviewId", reviewId);
   return data;
 };
 
