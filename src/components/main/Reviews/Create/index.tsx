@@ -7,6 +7,7 @@ import ValidationAlert from '../../Alerts/ValidationAlert';
 import * as reviewClient from '../../../../services/reviewService';
 import * as movieClient from '../../../../services/movieService';
 import { Rating } from '../rating';
+
 import './index.css';
 
 const TMDB_API = process.env.REACT_APP_TMDB_API;
