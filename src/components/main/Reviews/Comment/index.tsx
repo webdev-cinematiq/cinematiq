@@ -3,17 +3,15 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import * as commentService from '../../../../services/commentService';
 import * as adminService from '../../../../services/adminService';
 import { useSelector } from 'react-redux';
-import './Comment/index.css';
+import './index.css';
 
-export default function Comment() {
+export default function Comment({ reviewId }: any) {
   const [comments, setComments] = useState<any[]>([]);
   const [newCommentText, setNewCommentText] = useState('');
   const [adminAccess, setAdminAccess] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useSelector((state: any) => state.accounts);
-
-  const reviewId = "66ad4b0fb8231d01a212ff01"
 
   const fetchComments = async () => {
     setIsLoading(true);

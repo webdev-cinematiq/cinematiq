@@ -4,8 +4,9 @@ import { Container, Row, Col, Image } from 'react-bootstrap';
 import * as userClient from '../../../../services/userService';
 import * as reviewClient from '../../../../services/reviewService';
 import * as movieClient from '../../../../services/movieService';
-import './reviewDetail.css'; 
-import Rating from  '../../Profile/rating';
+import './reviewDetail.css';
+import Rating from '../../Profile/rating';
+import Comment from '../Comment';
 
 const TMDB_API = process.env.REACT_APP_TMDB_API;
 const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
@@ -16,12 +17,12 @@ const API_KEY = `api_key=${TMDB_API_KEY}`;
 export default function Reviews() {
   const { name, rid } = useParams<{ name: string; rid: string }>();
   console.log("Name, review detail page: ", name);
-  console.log("rid, review detail page: ",rid);
+  console.log("rid, review detail page: ", rid);
   const [review, setReview] = useState<any>({});
 
   const [author, setAuthor] = useState<any>({});
   const [authorName, setAuthorName] = useState('');
- 
+
   const [movie, setMovie] = useState<any>({});
   const [rating, setRating] = useState(0);
   const [text, setText] = useState('');
@@ -33,7 +34,7 @@ export default function Reviews() {
     if (!name || !rid) return;
 
     console.log("2 Name, review detail page: ", name);
-    console.log("2 rid, review detail page: ",rid);
+    console.log("2 rid, review detail page: ", rid);
     const review = await reviewClient.findReviewById(rid);
     console.log("fetched review: ", review);
     setReview(review);
@@ -41,7 +42,7 @@ export default function Reviews() {
     setRating(review.rating);
     setAuthorName(review.author);
     setText(review.text);
-    
+
   };
 
   useEffect(() => {
@@ -79,14 +80,14 @@ export default function Reviews() {
     return new Date(dateString).getFullYear().toString();
   };
 
-  console.log("Review, Review Detail Page: ",review);
-  console.log("Movie, Review Detail Page: ",movie);
+  console.log("Review, Review Detail Page: ", review);
+  console.log("Movie, Review Detail Page: ", movie);
 
   return (
     <div>
       <div className="hero-section-reviews">
         {movie && (
-          <div       
+          <div
             className="review-backdrop-container"
             style={{
               backgroundImage: `url(https://image.tmdb.org/t/p/w500/${movie.backdrop_path})`,
@@ -94,31 +95,31 @@ export default function Reviews() {
           >
 
 
-          <div className="fade-left"></div>
-          <div className="fade-right"></div>   
-          <div className="movie-info-reviews">
-            <h1>
-              {movie.title} ({new Date(movie.release_date).getFullYear()})
-            </h1>
-          </div>
-              
+            <div className="fade-left"></div>
+            <div className="fade-right"></div>
+            <div className="movie-info-reviews">
+              <h1>
+                {movie.title} ({new Date(movie.release_date).getFullYear()})
+              </h1>
+            </div>
+
           </div>
         )}
-       </div>
+      </div>
 
-     <div className="horizontal-line"></div>
-     <div className="review-detail-header">
-     {movie && (
-        <div >     
-          {/* <span className="movie-title">{review.movie?.title || "<Unknown Movie>"}</span> */}
-          {/* <span className="release-year "> ({getYear(review.movie?.release_date)})</span> */}
-          <span className="star-rating">
-            <Rating rating={review.rating}  />                      
-          </span>
-        </div>
+      <div className="horizontal-line"></div>
+      <div className="review-detail-header">
+        {movie && (
+          <div >
+            {/* <span className="movie-title">{review.movie?.title || "<Unknown Movie>"}</span> */}
+            {/* <span className="release-year "> ({getYear(review.movie?.release_date)})</span> */}
+            <span className="star-rating">
+              <Rating rating={review.rating} />
+            </span>
+          </div>
 
         )}
-    
+
         <div className="review-author-section">
           <div className="review-author" onClick={handleUserClick}>
             <img src={author.avatar} alt="Author avatar" />
@@ -133,14 +134,15 @@ export default function Reviews() {
         <div className="review-text">
           <p>{text}</p>
         </div>
-      
+
 
       </div>
-      <div className="horizontal-line"></div><br/><br/><br/>
+      <Comment reviewId={review._id} />
+      <div className="horizontal-line"></div><br /><br /><br />
 
 
     </div>
 
-         
+
   );
 }
