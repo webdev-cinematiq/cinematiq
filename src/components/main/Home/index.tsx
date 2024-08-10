@@ -135,17 +135,6 @@ export default function Home() {
 
 
 
-
-
-
-
-
-  
-
-  // const visibleMovies = showMoreMovies ? movies : movies.slice(0, 3);
-
-
-
   const toggleShowMoreMovies = () => {
     setShowMoreMovies(!showMoreMovies);
   };
@@ -233,16 +222,14 @@ export default function Home() {
 
                 console.log(`Collection: ${c.title}`, c);
                 return (
-                // {visibleCollections.map((collection) => (
+               
                   <div key={c.id} className="home-collection-card">
 
                     <h3 className="home-collection-title">{c.title}</h3>
                     <p className="home-collection-description">{c.description}</p>
 
                     <div className="home-collection-images">
-                      {/* {collection.images.map((image, index) => (
-                        <img key={index} src={image} alt={collection.title} className="home-collection-image" />
-                      ))} */}
+                     
                       {c.movies?.slice(0,3).map((movie: any, index:any) => {
 
                         console.log(`Movie Object ${index}:`, movie);
@@ -280,7 +267,7 @@ export default function Home() {
         </div>
 
         <div className="home-reviews-container">
-          {/* {visibleReviews.map((review) => ( */}
+       
           {previewReviews &&
             previewReviews.map((review: any, index) => {
               console.log(`Review ID: ${review._id}, Rating: ${review.rating}`);
@@ -309,7 +296,7 @@ export default function Home() {
                       <span className="home-review-by">
                         Review by {review.author} on {formatDate(review.review_date)}
                       </span>
-                      {/* <span className="home-star-rating"> <Rating rating={review.rating}  /> </span> */}
+                  
                       <span className="home-watched-date">watched on {formatDate(review.watch_date)}</span>
                     </div>
 
