@@ -66,6 +66,16 @@ Form textarea.form-control {
   color: #777;
 }
 
+.comment-author {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.comment-author:hover {
+  color: var(--color-primary1);
+}
+
 .toggle-comments-btn {
   background: none;
   border: none;

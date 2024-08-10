@@ -5,6 +5,7 @@ import * as adminService from '../../../../services/adminService';
 import * as reviewService from '../../../../services/reviewService';
 import { useSelector } from 'react-redux';
 import './index.css';
+import { useNavigate } from 'react-router';
 
 export default function Comment({ reviewId }: any) {
   const [comments, setComments] = useState<any[]>([]);
@@ -13,6 +14,8 @@ export default function Comment({ reviewId }: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useSelector((state: any) => state.accounts);
+
+  const navigate = useNavigate();
 
   const fetchComments = async () => {
     setIsLoading(true);
@@ -117,6 +120,13 @@ export default function Comment({ reviewId }: any) {
     }
   };
 
+
+  const handleUserClick = (e: React.MouseEvent<HTMLDivElement>, authorName: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/profile/${authorName}`);
+  };
+
   if (isLoading && comments.length === 0) return <div>Loading comments...</div>;
   if (error) return <div className="error-message">{error}</div>;
 
@@ -128,7 +138,7 @@ export default function Comment({ reviewId }: any) {
       ) : (
         comments.map((comment) => (
           <div key={comment._id} className="comment">
-            <div className='comment-author'>
+            <div className='comment-author' onClick={(e) => handleUserClick(e, comment.author)}>
               <strong>{comment.author}</strong>
             </div>
             <div className="comment-text">
