@@ -31,20 +31,28 @@ body {
   width: 80%;
 }
 
-.section-header {
+.section-header-home {
   font-size: 2rem;
   font-weight: bold;
   text-align: center;
-  color: white;
+  color: var(--color-primary1);
   margin: 0px 0px 5px 0px;
 }
 
-.top-header {
+.top-header-home {
   margin: 60px 0px 5px 0px;
 }
 
 /* Movie Card Detail   */
-.profile-movie-card {
+
+.home-movies-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.home-movie-card {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -61,18 +69,18 @@ body {
 }
 
 /* Popular Collections Detail   */
-.profile-collections-header {
+.home-collections-header {
   margin: 60px 0px 5px 0px;
 }
 
-.profile-collections-container {
+.home-collections-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
 }
 
-.profile-collection-card {
+.home-collection-card {
   width: 300px;
   background-color: #333;
   border-radius: 10px;
@@ -81,40 +89,59 @@ body {
   padding: 20px;
 }
 
-.profile-collection-title {
+.home-collection-title {
   font-size: 1.5rem;
   font-weight: bold;
 }
 
-.profile-collection-description {
+.home-collection-description {
   font-size: 1rem;
   max-height: 60px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.profile-collection-images {
+.home-collection-images {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-bottom: 10px;
 }
 
-.profile-collection-image {
+.home-collection-image {
   width: 80px;
   height: auto;
   border-radius: 5px;
 }
 
+.home-view-button-collection {
+  display: block; 
+  bottom: 10px;
+  margin: 20px 12px 10px 12px; 
+  background-color: 333;
+  color: white;
+  border: 2px solid var(--color-button); 
+  border-radius: 5px;
+  padding: 5px 10px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.9em;
+  text-decoration: none;
+}
+
+.home-view-button-collection:hover {
+  background-color: var(--color-button-hover);
+}
+
 /* Popular Reviews Detail   */
-.profile-reviews-container {
+.home-reviews-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 }
 
-.profile-review-card {
+.home-review-card {
   display: flex;
   flex-direction: row;
   background-color: var(--color-background1);
@@ -123,77 +150,102 @@ body {
   padding: 20px;
   width: 80%;
   max-width: 800px;
+  position: relative;
 }
 
-.profile-review-poster {
+.home-review-poster {
   flex: 0 0 25%;
   max-width: 150px;
   border-radius: 10px;
   margin-right: 20px;
 }
 
-.profile-review-content {
+.home-review-content {
   flex: 1;
 }
 
-.profile-review-header {
+.home-review-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.profile-movie-title {
+.home-movie-title {
   font-weight: bold;
   font-size: 1.4em;
 }
 
-.profile-release-year {
+.home-release-year {
   color: darkgray;
 }
 
-.profile-review-subheader {
+.home-review-subheader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
 }
 
-.profile-review-by {
+.home-review-by {
   font-style: italic;
   font-size: 0.8rem;
 }
 
-.profile-star-rating {
+.home-star-rating {
   color: gold;
 }
 
-.profile-watched-date {
+.home-star-container {
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+.home-watched-date {
   font-style: italic;
   font-size: 0.8rem;
 }
 
-.profile-review-separator {
+.home-review-separator {
   border-top: 1px solid var(--color-text);
   margin: 10px 0;
 }
 
-.profile-review-text {
+.home-review-text {
   margin-top: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.profile-star {
+.home-star {
   font-size: 1.5em;
   margin: 0 2px;
 }
 
-.profile-star.full {
+.home-star.full {
   color: gold;
 }
 
-.profile-star.empty {
+.home-star.empty {
   color: white;
+}
+
+.home-view-button {
+  position: absolute; 
+  bottom: 10px;
+  right: 10px; 
+  background-color: var(--color-background1);
+  color: white;
+  border: 2px solid var(--color-button); 
+  border-radius: 5px;
+  padding: 5px 10px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.9em;
+  text-decoration: none;
+}
+
+.home-view-button:hover {
+  background-color: var(--color-button-hover); 
 }
 
 /* Show More Button   */
@@ -204,7 +256,7 @@ body {
 }
 
 .show-more-button {
-  background-color: black;
+  background-color: var(--color-background1);
   color: white;
   border: none;
   padding: 10px 20px;

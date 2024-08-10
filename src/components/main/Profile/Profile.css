@@ -173,14 +173,14 @@ body {
     margin: 60px 0px 5px 0px;
 }
   
-.collections-container {
+.profile-collections-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px; 
     justify-content: center;
 }
   
-.collection-card {
+.profile-collection-card {
     width: 300px; 
     background-color: #333;
     border-radius: 10px;
@@ -212,13 +212,13 @@ body {
 
 
 
-.collection-title {
+.profile-collection-title {
     font-size: 1.5rem;
     font-weight: bold;
    
 }
 
-.collection-description {
+.profile-collection-description {
     font-size: 1rem;
     max-height: 60px; 
     overflow: hidden;
@@ -226,7 +226,7 @@ body {
 
 }
 
-.collection-images {
+.profile-collection-images {
     display: flex;
     justify-content: center;
     gap: 10px; 

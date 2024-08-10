@@ -10,11 +10,19 @@ import * as userClient from '../../../services/userService';
 import * as reviewClient from '../../../services/reviewService';
 import * as movieClient from '../../../services/movieService';
 import Rating from './rating';
-
+import { useSelector } from 'react-redux';
 
 export default function Profile() {
+  const { currentUser } = useSelector((state: any) => state.accounts);
   // const { name } = useParams<{ name: string }>(); //add me back once login capability is in
   const name = 'nanabanana'; // Hardcoded username
+  
+  if (currentUser) {
+    console.log("currentUser name: ", currentUser.name);
+    console.log("currentUser: ", currentUser);
+  }
+
+  // const name = {currentUser?.name}; // Hardcoded username
   // const name = 'moviebuff99'; // Hardcoded username
 
   const [profile, setProfile] = useState<any>({});
@@ -364,20 +372,24 @@ export default function Profile() {
           </button>
         </div>
 
-        <div className="collections-container">
+        <div className="profile-collections-container">
           {previewCollections &&
             previewCollections.map((c: any) => {
 
               console.log(`Collection: ${c.title}`, c);
               return (
 
-                <div className="collection-card">
-                  <h3 className="collection-title">{c.title}</h3>
+        
+                <div className="profile-collection-card">
+                  <h3 className="profile-collection-title">{c.title}</h3>
 
-                  <p className="collection-description">{c.description}</p>
 
-                  <div className="collection-images">
-                    {c.movies?.slice(0, 3).map((movie: any, index: any) => {
+                  <p className="profile-collection-description">{c.description}</p>
+
+
+                  <div className="profile-collection-images">
+                    {c.movies?.slice(0,3).map((movie: any, index:any) => {
+
 
                       console.log(`Movie Object ${index}:`, movie);
 
