@@ -1,0 +1,10 @@
+
+.rating {
+    display: flex;
+  }
+  
+  .star {
+    color: gold; /* or any color you prefer */
+    margin-right: 2px;
+  }
+  

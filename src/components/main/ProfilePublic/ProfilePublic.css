@@ -1,0 +1,396 @@
+body {
+    background-color: var(--color-background1);
+    color: var(--color-text);
+    font: var(--font-main);
+}
+  
+
+    
+
+/* Profile Section */
+.profile-header {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10px;
+}
+  
+.profile-picture {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    
+}
+  
+.username {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+  
+.profile-section {
+    margin-top: 20px;
+}
+
+.edit-container {
+    margin: 20px;
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+.edit-button {
+    background-color: var(--color-primary1);
+    font-size: 18px;
+    color: var(--color-text);
+    border: none;
+    padding: 10px;
+    margin-left: auto; 
+    cursor: pointer;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+}
+
+
+/* User Info Section */
+.user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; 
+    padding: 0px; 
+}
+
+
+
+
+.public-info {
+    width: 680px; 
+    height: 300px; 
+    background-color: var(--color-background1); 
+    border-radius: 8%;
+    padding: 15px;
+    border: 2px solid ;
+    border-color: white;
+    
+}
+
+
+  
+.label {
+    color: white;
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 1px; /* Space between label and value */
+    border: none;
+}
+
+.value {    
+    margin-bottom: 2px;
+    color: var(--color-primary1);
+}
+
+.italic {
+    font-style: italic;
+}
+
+.separator {
+    width: 90%;
+    height: 2px;
+    background-color: white;
+    margin: 0px 20;
+}
+
+
+.edit-info {
+    width: 680px; 
+    min-height: 640px;
+    background-color: var(--color-background1); 
+    border-radius: 8%;
+    border: 2px solid ;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.value-input {
+    width: 80%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+  
+.save-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--color-primary1);
+    color: var(--color-text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.cancel-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: var(--color-primary1);
+    color: var(--color-text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.edit-reminder-text {
+    margin-bottom: 5px;
+    margin-left: 15px;
+    color: #566573;
+
+}
+
+/* Separators and Headers */
+.separator-red {
+    border-top: 1px solid var(--color-primary1); 
+    margin: 80px auto 20px auto; 
+    width: 80%; 
+}
+
+.section-header {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: var(--color-primary1);
+    margin: 0px 0px 5px 0px;
+}
+
+
+/*    Collections Section    */
+.collections-header {
+    margin: 60px 0px 5px 0px;
+}
+  
+.profile-collections-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; 
+    justify-content: center;
+}
+  
+.profile-collection-card {
+    width: 300px; 
+    background-color: #333;
+    border-radius: 10px;
+    text-align: center;
+    color: var(--color-text);
+    padding: 20px;
+    position: relative;
+
+}
+
+.view-button-collection {
+    display: block; 
+    bottom: 10px;
+    margin: 20px 12px 10px 12px; 
+    background-color: 333;
+    color: white;
+    border: 2px solid var(--color-button); 
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+.view-button-collection:hover {
+    background-color: var(--color-button-hover);
+}
+
+
+
+.profile-collection-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+   
+}
+
+.profile-collection-description {
+    font-size: 1rem;
+    max-height: 60px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.profile-collection-images {
+    display: flex;
+    justify-content: center;
+    gap: 10px; 
+    margin-bottom: 10px;
+}
+
+.collection-image {
+    width: 80px; 
+    height: auto; 
+    border-radius: 5px;
+}
+
+.show-more-container {
+    display: flex;
+    justify-content: flex-end; 
+    margin: 0px 0px; /* t/b and r/l margin for button container*/
+}
+
+.show-more-button {
+    background-color: var(--color-background1);
+    color: var(--color-text);
+    border: none;
+    padding: 5px 20px;
+    margin: 5px 10px; /* t/b and r/l margin for button */
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: var(--font-main);
+}
+  
+.show-more-button:hover {
+    background-color: var(--color-button-hover);
+}
+
+
+
+/*    Reviews Section    */
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.review-card {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--color-background1);
+    border: 1px solid var(--color-text);
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+   
+}
+
+
+.review-poster {
+    flex: 0 0 25%;
+    max-width: 150px;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.review-content {
+    flex: 1;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.movie-title {
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+.release-year {
+    color: darkgray;
+}
+
+.review-subheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.review-by {
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+.star-rating {
+    color: gold;
+}
+
+.star-container {
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+.watched-date {
+    font-style: italic;
+    font-size: 0.8rem;
+
+}
+
+.review-separator {
+    border-top: 1px solid var(--color-text);
+    margin: 10px 0;
+}
+
+.review-text {
+    margin-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.star {
+    font-size: 1.5em;
+    margin: 0 2px;
+}
+  
+.star.full {
+    color: gold;
+}
+  
+.star.empty {
+    color: white;
+}
+
+.profile-reviews {
+    width: 920px;
+}
+
+.view-button {
+    position: absolute; 
+    bottom: 10px;
+    right: 10px; 
+    background-color: var(--color-background1);
+    color: white;
+    border: 2px solid var(--color-button); 
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+.view-button:hover {
+    background-color: var(--color-button-hover); 
+}
+
+.row {
+    display: flex;
+    gap: 20px;
+  }
+  
+.col {
+    flex: 1;
+}
+

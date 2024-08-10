@@ -16,6 +16,7 @@ import SearchResults from './components/main/Search/Results';
 import Film from './components/main/Movies/Detail';
 import Films from './components/main/Movies';
 import Profile from './components/main/Profile';
+import ProfilePublic from './components/main/ProfilePublic';
 import ProtectedRoute from './ProtectedRoute';
 import { useSelector } from 'react-redux';
 
@@ -51,8 +52,10 @@ function App() {
           <Route path=":name/review/:rid" element={<Review />} />
           <Route path="films" element={<Films />} />
           <Route path="film/details/:tmdbId" element={<Film />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="profile/:name" element={<Profile />} />
+          <Route 
+            path="profile" 
+            element={currentUser ? <Profile /> : <Login />} />
+          <Route path="profile/:name" element={<ProfilePublic />} />
         </Routes>
       </div>
     </HashRouter>
