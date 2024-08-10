@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState } from 'react';
 import './Home.css'; 
 import { useParams, Link } from 'react-router-dom';
@@ -9,6 +10,10 @@ import * as reviewClient from '../../../services/reviewService';
 import * as movieClient from '../../../services/movieService';
 import Rating from '../Profile/rating';
 import { useSelector } from 'react-redux';
+
+import welcome from './welcome';
+import Welcome from './welcome';
+
 
 
 
@@ -47,7 +52,7 @@ export default function Home() {
         console.log("sliced array of films ", films.slice(0, 3));
         setPreviewFilms(films.slice(0, 3));
       } else {
-        setPreviewFilms([...movies]);
+        setPreviewFilms([...films]);
       }
     }
     console.log('preview films', previewFilms);
@@ -127,36 +132,8 @@ export default function Home() {
     return new Date(dateString).getFullYear().toString();
   };
 
-  const movies = [
-    {
-      "poster_path": "/images/reacher2016.jpg",
-      "overview": "Jack Reacher must uncover the truth behind a major government conspiracy...",
-      "release_date": "2016-10-19",
-      "title": "Jack Reacher: Never Go Back",
-      "genres": ["Action", "Crime", "Thriller"]
-    },
-    {
-      "poster_path": "/images/reacher2012.jpg",
-      "overview": "One morning in an ordinary town, five people are shot dead in a seemingly random attack; all evidence points to a single suspect: an ex-military sniper who is quickly brought into custody; Reacher, an enigmatic ex-Army investigator, believes the authorities have the right man but agrees to help the sniper's defense attorney.. However, the more Reacher delves into the case, the less clear-cut it appears.",
-      "release_date": "2012-12-19",
-      "title": "Jack Reacher",
-      "genres": ["Action", "Crime", "Thriller"]
-    },
-    {
-      "poster_path": "/images/dune.jpg",
-      "overview": "On the planet known as Dune...",
-      "release_date": "2021-10-22",
-      "title": "Dune",
-      "genres": ["Action", "Sci-Fi", "Thriller"]
-    },
-    {
-      "poster_path": "/images/dune2.jpg",
-      "overview": "Returning to the planet known as Dune...",
-      "release_date": "2021-11-17",
-      "title": "Dune: Part Two",
-      "genres": ["Action", "Sci-Fi", "Thriller"]
-    }
-  ];
+
+
 
 
 
@@ -164,7 +141,8 @@ export default function Home() {
 
 
   
-  const visibleMovies = showMoreMovies ? movies : movies.slice(0, 3);
+
+  // const visibleMovies = showMoreMovies ? movies : movies.slice(0, 3);
 
 
 
@@ -190,16 +168,20 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      
+     
 
       {/* Header Section */}
       <div className="cover-photo">
         <img src="/images/duneMother.jpg" alt="Cover" />
       </div>
+     
 
+      
+      {currentUser && (
+        <Welcome />
+      )}
 
-
-      {/* Films Section */}
+     {/* Films Section */}
       <div id="featured-movies">
         <h2 className="section-header-home top-header-home">Featured Movies</h2>
 
@@ -218,6 +200,7 @@ export default function Home() {
           
             <Link key={index} to={`/film/details/${film.id}`} >
               <div key={index} className="card">
+
                 <img 
                 src={`https://image.tmdb.org/t/p/w500${film.poster_path}` || '/images/default-poster.jpg'} 
                 alt={film.title} 
@@ -227,6 +210,7 @@ export default function Home() {
            </Link>
             );
           })}
+
         </div>
       </div>
 

@@ -35,7 +35,7 @@ export default function Profile() {
   const [newUsername, setNewUsername] = useState('');
 
   const [role, setRole] = useState('');
-  const[joinDate, setJoinDate] = useState('');
+  const [joinDate, setJoinDate] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [reputation, setReputation] = useState('');
@@ -90,7 +90,7 @@ export default function Profile() {
     setReviews(reviews);
     console.log('reviews from DB', reviews);
 
-   
+
 
     if (showMoreReviews) {
       setPreviewReviews([...reviews]);
@@ -99,7 +99,7 @@ export default function Profile() {
         console.log("reviews length where >1: ", reviews.length);
         setPreviewReviews(reviews.slice(0, 3));
         console.log("check length of sliced PreviewReviews array where >1: ", previewReviews.length);
-        console.log("sliced array of reviews",reviews.slice(0, 3));
+        console.log("sliced array of reviews", reviews.slice(0, 3));
 
       } else {
         console.log("reviews length where <1: ", reviews.length);
@@ -109,8 +109,8 @@ export default function Profile() {
     }
     console.log('preview Reviews', previewReviews);
 
-    
-  
+
+
   };
 
 
@@ -137,16 +137,16 @@ export default function Profile() {
       alert("Failed to update profile. Please try again.");
     }
   };
-    
 
-  
+
+
 
   useEffect(() => {
     if (name) {
       fetchCollections();
       fetchReviews();
     }
-  }, [name,showMore, showMoreReviews]);
+  }, [name, showMore, showMoreReviews]);
 
   useEffect(() => {
     console.log('Updated previewReviews:', previewReviews);
@@ -186,7 +186,7 @@ export default function Profile() {
     return new Date(dateString).getFullYear().toString();
   };
 
-  
+
   const toggleEditMode = () => {
     setIsEditing(!isEditing);
   };
@@ -203,11 +203,11 @@ export default function Profile() {
 
   return (
     <div className="profile-container">
-     
+
       <div className='edit-container'>
         <button className="btn-large edit-button float-end" onClick={toggleEditMode}>
-            <BsPencil className='me-1'/>
-              Edit
+          <BsPencil className='me-1' />
+          Edit
         </button>
       </div>
 
@@ -233,7 +233,7 @@ export default function Profile() {
               <div className="col">
                 <div className="label ">Join Date</div>
                 <div className="value italic" id="profile-induction-date">
-                {formatDate(joinDate)}
+                  {formatDate(joinDate)}
                 </div>
               </div>
             </div>
@@ -247,9 +247,9 @@ export default function Profile() {
               </div>
               <div className="col">
                 {/* empty column */}
-                
+
               </div>
-            </div>{' '}<br/>
+            </div>{' '}<br />
             <div className="row">
               <div className="col">
                 <div className="label">Collections</div>
@@ -263,9 +263,9 @@ export default function Profile() {
                   {reviews.length}
                 </div>
               </div>
-            </div>{' '} 
+            </div>{' '}
 
-           
+
           </div>
         )}
 
@@ -298,9 +298,9 @@ export default function Profile() {
               </div>
               <div className="col">
                 {/* empty column */}
-                
+
               </div>
-            </div>{' '}<br/>
+            </div>{' '}<br />
             <div className="row">
               <div className="col">
                 <div className="label">Collections</div>
@@ -314,8 +314,8 @@ export default function Profile() {
                   {reviews.length}
                 </div>
               </div>
-            </div>{' '} 
-          
+            </div>{' '}
+
             <div className="separator"></div>
             <div className="row">
               <div className="col">
@@ -378,21 +378,25 @@ export default function Profile() {
 
               console.log(`Collection: ${c.title}`, c);
               return (
+
         
                 <div className="profile-collection-card">
                   <h3 className="profile-collection-title">{c.title}</h3>
 
+
                   <p className="profile-collection-description">{c.description}</p>
+
 
                   <div className="profile-collection-images">
                     {c.movies?.slice(0,3).map((movie: any, index:any) => {
 
+
                       console.log(`Movie Object ${index}:`, movie);
 
-                      return(
-                        <img 
-                          key={index} 
-                          src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}` || '/images/default-poster.jpg'}  
+                      return (
+                        <img
+                          key={index}
+                          src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}` || '/images/default-poster.jpg'}
                           alt={movie.title} className="collection-image" />
                       );
                     })}
@@ -402,9 +406,9 @@ export default function Profile() {
                     View
                   </Link>
                 </div>
-              
-             );
-})}
+
+              );
+            })}
         </div>
       </div>
 
@@ -424,57 +428,55 @@ export default function Profile() {
             previewReviews.map((review: any, index) => {
               console.log(`Review ID: ${review._id}, Rating: ${review.rating}`);
               console.log('Review movie:', review.movie);
-              return(
-             
+              return (
+                <div key={review._id} className="review-card">
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${review.movie?.poster_path}` || '/images/default-poster.jpg'}
+                    alt={review.movie?.title || 'Movie Poster'}
+                    className="review-poster"
+                  />
 
-                  <div key={review._id} className="review-card">
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500${review.movie?.poster_path}` || '/images/default-poster.jpg'} 
-                      alt={review.movie?.title || 'Movie Poster'}
-                      className="review-poster"
-                    />
-
-                    <div className="review-content">
-                      <div className="review-header">
-                        <span className="movie-title">{review.movie?.title || "<Unknown Movie>"}</span>
-                        <span className="release-year">({getYear(review.movie?.release_date)})</span>
-                      </div>
-                        
-                      <div className="star-container">                    
-                        <span className="star-rating">
-                          <Rating rating={review.rating}  />                      
-                        </span>
-                      </div>
-
-                      <div className="review-subheader">
-                        <span className="review-by">
-                          Review by {name} on {formatDate(review.review_date)} 
-                        </span>
-
-                        <span className="watched-date">
-                          watched on {formatDate(review.watch_date)}
-                        </span>
-                      </div>
-
-                      <div className="review-separator"></div>
-                      <div className="review-text">{review.text}</div>
-
-                      <Link to={`/reviews/${review._id}`} className="view-button">
-                        View
-                      </Link>
+                  <div className="review-content">
+                    <div className="review-header">
+                      <span className="movie-title">{review.movie?.title || "<Unknown Movie>"}</span>
+                      <span className="release-year">({getYear(review.movie?.release_date)})</span>
                     </div>
+
+                    <div className="star-container">
+                      <span className="star-rating">
+                        <Rating rating={review.rating} />
+                      </span>
+                    </div>
+
+                    <div className="review-subheader">
+                      <span className="review-by">
+                        Review by {name} on {formatDate(review.review_date)}
+                      </span>
+
+                      <span className="watched-date">
+                        watched on {formatDate(review.watch_date)}
+                      </span>
+                    </div>
+
+                    <div className="review-separator"></div>
+                    <div className="review-text">{review.text}</div>
+
+                    <Link to={`/${name}/review/${review._id}`} className="view-button">
+                      View
+                    </Link>
                   </div>
-        
-      
+                </div>
+
+
               );
             })}
         </div><br /> <br />
-      </div> 
+      </div>
 
 
 
       <div className="row">
-       
+
       </div>
       <br />
       <br />

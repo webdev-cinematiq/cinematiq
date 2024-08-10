@@ -1,4 +1,8 @@
 .comment-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
   margin-top: 20px;
   padding-top: 20px;
   display: flex;
@@ -7,8 +11,9 @@
 }
 
 Form {
-  width: 30%;
-
+  width: 100%;
+  font-family: var(--font-main);
+  font-weight: bold;
 }
 
 Form Button {
@@ -16,14 +21,36 @@ Form Button {
   background-color: var(--color-primary1) !important;
   border-radius: 25px !important;
   border: none !important;
-  height: 45px;
-  width: 80px;
+  height: 40px;
+  width: 100%;
 }
 
+Form textarea.form-control {
+  font-family: var(--font-main);
+  font-weight: 500;
+  font-size: 1.2em;
+}
+
+.Row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Row small {
+  position: relative;
+  top: 6px;
+}
 
 .comment {
+  width: 100%;
   margin-bottom: 15px;
   padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.comment-text {
+  align-self: right;
+  font-size: 1.2em;
 }
 
 .comment strong {
@@ -50,4 +77,21 @@ Form Button {
 
 .toggle-comments-btn:hover {
   text-decoration: underline;
+}
+
+.delete-comment-btn {
+  margin-left: 10px;
+  padding: 2px 8px;
+  font-size: 0.8em;
+  align-self: flex-start;
+  background-color: var(--color-primary1) !important;
+  border: none !important;
+  border-radius: 25px !important;
+}
+
+/* Add responsive design for smaller screens */
+@media (max-width: 768px) {
+  .comment-container {
+    width: 95%;
+  }
 }
