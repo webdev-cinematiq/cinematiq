@@ -67,6 +67,7 @@ Form textarea.form-control {
 }
 
 .comment-author {
+  max-width: 0px !important;
   display: flex;
   align-items: center;
   cursor: pointer;
