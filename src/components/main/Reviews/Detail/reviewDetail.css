@@ -86,6 +86,10 @@ body {
     width: 45px;
     height: 45px;
 }
+
+.review-author:hover {
+    color: var(--color-primary1);
+  }
   
 .review-author-name {
     font-weight: 900; /* Make the author name bolder */

@@ -1,5 +1,5 @@
 
-import './Profile.css';
+import './ProfilePublic.css';
 import { FaTrash } from 'react-icons/fa';
 import { BsPencil } from 'react-icons/bs';
 import React, { useEffect, useState } from 'react';
@@ -12,12 +12,11 @@ import * as movieClient from '../../../services/movieService';
 import Rating from './rating';
 import { useSelector } from 'react-redux';
 
-export default function Profile() {
-  const { currentUser } = useSelector((state: any) => state.accounts);
+export default function ProfilePublic() {
+ 
+  const { name } = useParams<{ name: string }>(); 
   
-
-  const profileName = currentUser.name;
-  
+ 
 
   const [profile, setProfile] = useState<any>({});
   const [collections, setCollections] = useState<any[]>([]);
@@ -44,8 +43,8 @@ export default function Profile() {
 
 
   const fetchProfile = async () => {
-    if (!profileName) return;
-    const profile = await userClient.findUserForName(profileName);
+    if (!name) return;
+    const profile = await userClient.findUserForName(name);
     setProfile(profile);
     setRole(profile.role);
     setJoinDate(profile.join_date);
@@ -55,12 +54,12 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    if (profileName) fetchProfile();
-  }, [profileName]);
+    if (name) fetchProfile();
+  }, [name]);
 
   const fetchCollections = async () => {
-    if (!profileName) return;
-    const collections = await collectionClient.findCollectionsByAuthor(profileName);
+    if (!name) return;
+    const collections = await collectionClient.findCollectionsByAuthor(name);
     setCollections(collections);
     console.log("collections from db", collections);
     if (showMore) {
@@ -79,8 +78,8 @@ export default function Profile() {
 
 
   const fetchReviews = async () => {
-    if (!profileName) return;
-    const reviews = await reviewClient.findReviewsByAuthor(profileName);
+    if (!name) return;
+    const reviews = await reviewClient.findReviewsByAuthor(name);
     setReviews(reviews);
     console.log('reviews from DB', reviews);
 
@@ -125,7 +124,6 @@ export default function Profile() {
       await fetchCollections();
       await fetchReviews();
 
-      toggleEditMode(); // Exit edit mode after saving
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Failed to update profile. Please try again.");
@@ -136,11 +134,11 @@ export default function Profile() {
 
 
   useEffect(() => {
-    if (profileName) {
+    if (name) {
       fetchCollections();
       fetchReviews();
     }
-  }, [profileName, showMore, showMoreReviews]);
+  }, [name, showMore, showMoreReviews]);
 
   useEffect(() => {
     console.log('Updated previewReviews:', previewReviews);
@@ -181,10 +179,6 @@ export default function Profile() {
   };
 
 
-  const toggleEditMode = () => {
-    setIsEditing(!isEditing);
-  };
-
   const toggleShowMore = () => {
     setShowMore(!showMore);
   };
@@ -198,12 +192,6 @@ export default function Profile() {
   return (
     <div className="profile-container">
 
-      <div className='edit-container'>
-        <button className="btn-large edit-button float-end" onClick={toggleEditMode}>
-          <BsPencil className='me-1' />
-          Edit
-        </button>
-      </div>
 
       <div className="profile-header">
         <img
@@ -211,11 +199,11 @@ export default function Profile() {
           alt="Profile"
           className="profile-picture"
         />
-        <h2 className="username">{profileName || 'Username'}</h2>
+        <h2 className="username">{name || 'Username'}</h2>
       </div>
 
       <div id="user-info" className="user-container">
-        {!isEditing && (
+      
           <div className="public-info">
             <div className="row">
               <div className="col">
@@ -261,98 +249,7 @@ export default function Profile() {
 
 
           </div>
-        )}
 
-        {isEditing && (
-          <div className="rectangle edit-info">
-            <div className="edit-reminder-text italic">
-              *denotes a required field
-            </div>
-            <div className="row">
-              <div className="col">
-                <div className="label">Role</div>
-                <div className="value italic" id="profile-induction-date">
-                  {role}
-                </div>
-              </div>
-              <div className="col">
-                <div className="label ">Join Date</div>
-                <div className="value italic" id="profile-induction-date">
-                  {formatDate(joinDate)}
-                </div>
-              </div>
-            </div>
-            <div className="separator"></div>
-            <div className="row">
-              <div className="col">
-                <div className="label">Reputation</div>
-                <div className="value italic" id="profile-film">
-                  {reputation}
-                </div>
-              </div>
-              <div className="col">
-                {/* empty column */}
-
-              </div>
-            </div>{' '}<br />
-            <div className="row">
-              <div className="col">
-                <div className="label">Collections</div>
-                <div className="value italic" id="profile-film">
-                  {collections.length}
-                </div>
-              </div>
-              <div className="col">
-                <div className="label">Reviews</div>
-                <div className="value italic" id="profile-director">
-                  {reviews.length}
-                </div>
-              </div>
-            </div>{' '}
-
-            <div className="separator"></div>
-            <div className="row">
-              <div className="col">
-                <div className="label">Username</div>
-                <div className="value italic" id="profile-name">
-                  {profileName}
-                </div>
-              </div>
-              <div className="col">
-              </div>
-            </div>{' '}
-            <br />
-            <div className="row">
-              <div className="col">
-                <div className="label">Password*</div>
-                <input
-                  type="text"
-                  defaultValue={password}
-                  className="value-input"
-                  id="profile-password-edit"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div className="col">
-                <div className="label">Confirm Password*</div>
-                <input
-                  type="password"
-                  defaultValue={confirmPassword}
-                  className="value-input"
-                  id="profile-confirm-password-edit"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </div>
-            </div>{' '}
-            <br />
-            <button className="save-button" onClick={updateProfile}>
-              Save
-            </button>
-            <button className="cancel-button" onClick={toggleEditMode}>
-              Cancel
-            </button>
-          </div>
-        )}
       </div>
 
       <div className="separator-red"></div>
@@ -396,7 +293,7 @@ export default function Profile() {
                     })}
                   </div>
 
-                  <Link to={`/${profileName}/collection/${c.title_id}`} className="view-button-collection">
+                  <Link to={`/${name}/collection/${c.title_id}`} className="view-button-collection">
                     View
                   </Link>
                 </div>
@@ -444,7 +341,7 @@ export default function Profile() {
 
                     <div className="review-subheader">
                       <span className="review-by">
-                        Review by {profileName} on {formatDate(review.review_date)}
+                        Review by {name} on {formatDate(review.review_date)}
                       </span>
 
                       <span className="watched-date">
@@ -455,7 +352,7 @@ export default function Profile() {
                     <div className="review-separator"></div>
                     <div className="review-text">{review.text}</div>
 
-                    <Link to={`/${profileName}/review/${review._id}`} className="view-button">
+                    <Link to={`/${name}/review/${review._id}`} className="view-button">
                       View
                     </Link>
                   </div>

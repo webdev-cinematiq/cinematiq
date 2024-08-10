@@ -65,6 +65,12 @@
   align-items: center;
   justify-content: flex-start; /* Align to the left */
   margin-left: 7%; /* Match the left margin with collection-title */
+  cursor: pointer;
+  max-width: 261px;
+}
+
+.collection-author:hover {
+  color: var(--color-primary1);
 }
 
 .collection-author img {
