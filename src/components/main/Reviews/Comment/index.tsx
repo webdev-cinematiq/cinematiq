@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import * as commentService from '../../../../services/commentService';
 import * as adminService from '../../../../services/adminService';
+import * as reviewService from '../../../../services/reviewService';
 import { useSelector } from 'react-redux';
 import './index.css';
 
@@ -17,7 +18,6 @@ export default function Comment({ reviewId }: any) {
     setIsLoading(true);
     setError(null);
     try {
-      console.log("fetchComments user", currentUser)
       const fetchedComments = await commentService.findCommentsByReview(reviewId);
 
       setComments(fetchedComments);
@@ -75,6 +75,12 @@ export default function Comment({ reviewId }: any) {
       };
 
       const createdComment = await commentService.createComment(newComment);
+
+      const currentReview = await reviewService.findReviewById(reviewId);
+
+      currentReview.comments.push(createdComment);
+
+      await reviewService.updateReview(currentReview);
       setComments([...comments, createdComment]);
       setNewCommentText('');
     } catch (error) {
@@ -93,6 +99,15 @@ export default function Comment({ reviewId }: any) {
     setError(null);
     try {
       await commentService.deleteComment(commentId);
+
+      const currentReview = await reviewService.findReviewById(reviewId);
+
+      currentReview.comments = currentReview.comments.filter(
+        (id: string) => id !== commentId
+      );
+
+      await reviewService.updateReview(currentReview);
+
       setComments(comments.filter(comment => comment._id !== commentId));
     } catch (error) {
       console.error('Error deleting comment:', error);

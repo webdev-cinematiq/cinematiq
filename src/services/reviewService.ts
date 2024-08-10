@@ -39,7 +39,7 @@ export const findReviewById = async (reviewId: string) => {
   return response.data;
 };
 
-export const updateReview = async (name: string, review: any) => {
+export const updateReview = async (review: any) => {
   const response = await axios.put(`${REVIEWS_API}/${review._id}`, review);
   return response.data;
 };
