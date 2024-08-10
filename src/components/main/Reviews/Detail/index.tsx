@@ -134,10 +134,8 @@ export default function Reviews() {
         <div className="review-text">
           <p>{text}</p>
         </div>
-
-
       </div>
-      <Comment reviewId={review._id} />
+      <Comment reviewId={rid} />
       <div className="horizontal-line"></div><br /><br /><br />
 
 

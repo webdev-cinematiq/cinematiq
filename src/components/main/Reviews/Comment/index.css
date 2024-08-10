@@ -1,5 +1,5 @@
 .comment-section {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   width: 100%;
@@ -28,6 +28,7 @@ Form Button {
 Form textarea.form-control {
   font-family: var(--font-main);
   font-weight: 500;
+  font-size: 1.2em;
 }
 
 .Row {
@@ -49,6 +50,7 @@ Form textarea.form-control {
 
 .comment-text {
   align-self: right;
+  font-size: 1.2em;
 }
 
 .comment strong {

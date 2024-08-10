@@ -98,13 +98,16 @@ export default function Comment({ reviewId }: any) {
 
   return (
     <div className="comment-section">
+      <h2>Comments</h2>
       {comments.length === 0 ? (
         <p>No comments yet. Be the first to comment!</p>
       ) : (
         comments.map((comment) => (
           <div key={comment._id} className="comment">
-            <div className="comment-text">
+            <div className='comment-author'>
               <strong>{comment.author}</strong>
+            </div>
+            <div className="comment-text">
               <p>{comment.text}</p>
             </div>
             <div className='Row'>
