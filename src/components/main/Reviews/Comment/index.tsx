@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import * as commentService from '../../../../services/commentService';
 import * as adminService from '../../../../services/adminService';
+import * as reviewService from '../../../../services/reviewService';
 import { useSelector } from 'react-redux';
 import './index.css';
+import { useNavigate } from 'react-router';
 
 export default function Comment({ reviewId }: any) {
   const [comments, setComments] = useState<any[]>([]);
@@ -13,11 +15,12 @@ export default function Comment({ reviewId }: any) {
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useSelector((state: any) => state.accounts);
 
+  const navigate = useNavigate();
+
   const fetchComments = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      console.log("fetchComments user", currentUser)
       const fetchedComments = await commentService.findCommentsByReview(reviewId);
 
       setComments(fetchedComments);
@@ -75,6 +78,12 @@ export default function Comment({ reviewId }: any) {
       };
 
       const createdComment = await commentService.createComment(newComment);
+
+      const currentReview = await reviewService.findReviewById(reviewId);
+
+      currentReview.comments.push(createdComment);
+
+      await reviewService.updateReview(currentReview);
       setComments([...comments, createdComment]);
       setNewCommentText('');
     } catch (error) {
@@ -93,6 +102,15 @@ export default function Comment({ reviewId }: any) {
     setError(null);
     try {
       await commentService.deleteComment(commentId);
+
+      const currentReview = await reviewService.findReviewById(reviewId);
+
+      currentReview.comments = currentReview.comments.filter(
+        (id: string) => id !== commentId
+      );
+
+      await reviewService.updateReview(currentReview);
+
       setComments(comments.filter(comment => comment._id !== commentId));
     } catch (error) {
       console.error('Error deleting comment:', error);
@@ -100,6 +118,13 @@ export default function Comment({ reviewId }: any) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+
+  const handleUserClick = (e: React.MouseEvent<HTMLDivElement>, authorName: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/profile/${authorName}`);
   };
 
   if (isLoading && comments.length === 0) return <div>Loading comments...</div>;
@@ -113,7 +138,7 @@ export default function Comment({ reviewId }: any) {
       ) : (
         comments.map((comment) => (
           <div key={comment._id} className="comment">
-            <div className='comment-author'>
+            <div className='comment-author' onClick={(e) => handleUserClick(e, comment.author)}>
               <strong>{comment.author}</strong>
             </div>
             <div className="comment-text">
