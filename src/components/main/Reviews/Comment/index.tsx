@@ -17,6 +17,7 @@ export default function Comment({ reviewId }: any) {
     setIsLoading(true);
     setError(null);
     try {
+      console.log("fetchComments user", currentUser)
       const fetchedComments = await commentService.findCommentsByReview(reviewId);
 
       setComments(fetchedComments);
@@ -34,10 +35,14 @@ export default function Comment({ reviewId }: any) {
 
   const canDeleteComments = async () => {
     try {
-      const admin = await adminService.findAdminByUserId(currentUser._id)
+      if (currentUser !== null) {
+        const admin = await adminService.findAdminByUserId(currentUser._id)
 
-      if (admin) {
-        setAdminAccess(admin.permissions.includes('manage_content'));
+        if (admin) {
+          setAdminAccess(admin.permissions.includes('manage_content'));
+        } else {
+          return;
+        }
       } else {
         return;
       }
@@ -50,9 +55,12 @@ export default function Comment({ reviewId }: any) {
 
   };
 
-  canDeleteComments();
+  if (currentUser !== null) {
+    canDeleteComments();
+  }
 
   const handleSubmitComment = async (e: React.FormEvent) => {
+    if (currentUser === null) return;
     e.preventDefault();
     if (newCommentText.trim() === '') return;
 
@@ -78,6 +86,7 @@ export default function Comment({ reviewId }: any) {
   };
 
   const handleDeleteComment = async (commentId: string) => {
+    if (currentUser === null) return;
     if (!adminAccess) return;
 
     setIsLoading(true);
@@ -98,13 +107,16 @@ export default function Comment({ reviewId }: any) {
 
   return (
     <div className="comment-section">
+      <h2>Comments</h2>
       {comments.length === 0 ? (
-        <p>No comments yet. Be the first to comment!</p>
+        <p>No comments yet. Be the first to comment or sign in!</p>
       ) : (
         comments.map((comment) => (
           <div key={comment._id} className="comment">
-            <div className="comment-text">
+            <div className='comment-author'>
               <strong>{comment.author}</strong>
+            </div>
+            <div className="comment-text">
               <p>{comment.text}</p>
             </div>
             <div className='Row'>
@@ -122,20 +134,23 @@ export default function Comment({ reviewId }: any) {
           </div>
         ))
       )}
-      <Form onSubmit={handleSubmitComment}>
-        <Form.Group controlId="newComment">
-          <Form.Control
-            as="textarea"
-            rows={3}
-            value={newCommentText}
-            onChange={(e) => setNewCommentText(e.target.value)}
-            placeholder="Write a comment..."
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit" disabled={isLoading}>
-          {isLoading ? 'Posting...' : 'Post'}
-        </Button>
-      </Form>
+      {currentUser &&
+        <Form onSubmit={handleSubmitComment}>
+          <Form.Group controlId="newComment">
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={newCommentText}
+              onChange={(e) => setNewCommentText(e.target.value)}
+              placeholder="Write a comment..."
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit" disabled={isLoading}>
+            {isLoading ? 'Posting...' : 'Post'}
+          </Button>
+        </Form>
+      }
+
     </div>
   );
 }

@@ -30,8 +30,7 @@ export default function NavBar() {
           icon: <MdAdminPanelSettings className="icon" />,
         },
       ]
-      : []
-    )
+      : []),
   ];
 
   const handleSignOut = async () => {
