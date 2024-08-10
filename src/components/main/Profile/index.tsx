@@ -372,19 +372,19 @@ export default function Profile() {
           </button>
         </div>
 
-        <div className="collections-container">
+        <div className="profile-collections-container">
           {previewCollections &&
             previewCollections.map((c: any) => {
 
               console.log(`Collection: ${c.title}`, c);
               return (
         
-                <div className="collection-card">
-                  <h3 className="collection-title">{c.title}</h3>
+                <div className="profile-collection-card">
+                  <h3 className="profile-collection-title">{c.title}</h3>
 
-                  <p className="collection-description">{c.description}</p>
+                  <p className="profile-collection-description">{c.description}</p>
 
-                  <div className="collection-images">
+                  <div className="profile-collection-images">
                     {c.movies?.slice(0,3).map((movie: any, index:any) => {
 
                       console.log(`Movie Object ${index}:`, movie);

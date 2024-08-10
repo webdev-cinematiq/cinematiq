@@ -272,6 +272,10 @@ export default function Home() {
                         })}
                     </div>
 
+                    <Link to={`/${c.author}/collection/${c.title_id}`} className="home-view-button-collection">
+                      View
+                    </Link>
+
                   </div>
                 );
             })}
@@ -327,6 +331,10 @@ export default function Home() {
 
                     <div className="home-review-separator"></div>
                     <div className="home-review-text">{review.text}</div>
+
+                    <Link to={`/${review.author}/review/${review._id}`} className="home-view-button">
+                        View
+                    </Link>
                   </div>
                 </div>
               );
