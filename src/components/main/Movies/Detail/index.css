@@ -116,6 +116,14 @@ html {
   gap: 10px;
 }
 
+.collection-card {
+  cursor: pointer;
+}
+
+.review-card {
+  cursor: pointer;
+}
+
 @media (max-width: 950px) {
   .hero-section {
     height: 90vh;
@@ -159,6 +167,7 @@ html {
 }
 
 @media (max-width: 768px) {
+
   .collections-section,
   .reviews-section {
     padding: 5px;
@@ -178,6 +187,7 @@ html {
 }
 
 @media (max-width: 576px) {
+
   .collections-section,
   .reviews-section {
     padding: 2px;
