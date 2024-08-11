@@ -8,11 +8,6 @@
   font-weight: bold;
 }
 
-.col {
-  flex: 0 0 500px;
-  margin: 0 20px;
-}
-
 .left-container {
   display: flex;
   justify-content: right;
