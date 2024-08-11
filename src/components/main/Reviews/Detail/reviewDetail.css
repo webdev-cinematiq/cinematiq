@@ -12,9 +12,10 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    margin-bottom: 0; /* Remove bottom margin */
+    margin-bottom: 0;
+    /* Remove bottom margin */
 }
-  
+
 .fade-left,
 .fade-right {
     position: absolute;
@@ -24,7 +25,7 @@ body {
     background: linear-gradient(to right, var(--color-background1), transparent);
     z-index: 1;
 }
-  
+
 .fade-right {
     right: 0;
     left: auto;
@@ -35,11 +36,12 @@ body {
     width: 100%;
     height: 2px;
     background-color: var(--color-button);
-    margin: 0 auto 20px auto; /* Set margin-bottom to 20px */
+    margin: 0 auto 20px auto;
+    /* Set margin-bottom to 20px */
 }
 
 .review-detail-header {
-    margin:20px;
+    margin: 20px;
 }
 
 .movie-header {
@@ -63,7 +65,7 @@ body {
 .star-rating {
     flex-grow: 1;
     text-align: right;
-    font-size:1.8em;
+    font-size: 1.8em;
     margin-top: 5px;
 }
 
@@ -73,7 +75,7 @@ body {
     justify-content: space-between;
     margin-top: 30px;
 }
-  
+
 .review-author {
     display: flex;
     align-items: center;
@@ -87,12 +89,9 @@ body {
     height: 45px;
 }
 
-.review-author:hover {
-    color: var(--color-primary1);
-  }
-  
 .review-author-name {
-    font-weight: 900; /* Make the author name bolder */
+    font-weight: 900;
+    /* Make the author name bolder */
 }
 
 .review-date {
@@ -125,9 +124,9 @@ body {
     align-items: center;
     justify-content: center;
     background-color: var(--color-background1);
-  }
-  
-  .hero-section-reviews img.backdrop {
+}
+
+.hero-section-reviews img.backdrop {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -137,22 +136,22 @@ body {
     top: 0;
     left: 0;
     z-index: 0;
-  }
-  
-  .movie-info-reviews {
+}
+
+.movie-info-reviews {
     margin-left: 50px;
     color: white;
     background: var(--color-transparent);
     padding: 10px;
     border-radius: 10px;
-  }
-  
-  .movie-info-reviews h1 {
+}
+
+.movie-info-reviews h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
     margin-top: 30px;
-  }
-  
-  .movie-info-reviews p {
+}
+
+.movie-info-reviews p {
     font-size: 1.2rem;
-  }
+}
