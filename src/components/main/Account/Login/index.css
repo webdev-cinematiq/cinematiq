@@ -24,12 +24,12 @@
 }
 
 .login-form {
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: white;
   height: 100%;
-  padding: 20px;
   box-sizing: border-box;
 }
 
@@ -104,8 +104,6 @@
 }
 
 .register-text {
-  position: relative;
-  top: 20px;
   color: #ffffff;
   text-align: right;
   font-size: 0.9rem;
