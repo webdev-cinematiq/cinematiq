@@ -135,7 +135,7 @@ button:hover {
   padding: 20px;
   border-radius: 5px;
   text-align: center;
-  width: 25%;
+  width: 25% !important;
 }
 
 .modal-content button {
