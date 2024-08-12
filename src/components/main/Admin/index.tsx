@@ -5,17 +5,19 @@ import * as userClient from '../../../services/userService';
 import * as reviewClient from '../../../services/reviewService';
 import * as adminClient from '../../../services/adminService';
 
-import './index.css'
+import './index.css';
 import { useSelector } from 'react-redux';
 
 export default function Admin() {
-
   const [users, setUsers] = useState<any[]>([]);
   const [reviews, setReviews] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState('users');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [confirmAction, setConfirmAction] = useState<{ action: () => void, message: string } | null>(null);
+  const [confirmAction, setConfirmAction] = useState<{
+    action: () => void;
+    message: string;
+  } | null>(null);
   const [adminPermissions, setAdminPermissions] = useState<string[]>([]);
   const [showAdminModal, setShowAdminModal] = useState(false);
   const [newAdminUser, setNewAdminUser] = useState<any>(null);
@@ -24,7 +26,6 @@ export default function Admin() {
   const { currentUser } = useSelector((state: any) => state.accounts);
 
   const fetchData = async () => {
-
     setIsLoading(true);
     setError(null);
     try {
@@ -35,7 +36,7 @@ export default function Admin() {
 
       const [usersRes, reviewsRes] = await Promise.all([
         userClient.fetchAllUsers(),
-        reviewClient.findAllReviews()
+        reviewClient.findAllReviews(),
       ]);
 
       setUsers(usersRes);
@@ -69,40 +70,49 @@ export default function Admin() {
         setShowAdminModal(true);
       } else {
         if (updatedUser.role !== 'ADMIN') {
-          const adminToDelete = await adminClient.findAdminByUserId(updatedUser._id);
+          const adminToDelete = await adminClient.findAdminByUserId(
+            updatedUser._id
+          );
           if (adminToDelete) {
             await adminClient.deleteAdmin(adminToDelete._id);
           }
         }
 
         const result = await userClient.updateUser(updatedUser);
-        setUsers(users.map(user => user._id === result._id ? result : user));
+        setUsers(
+          users.map((user) => (user._id === result._id ? result : user))
+        );
       }
     } catch (err) {
       setError('Failed to update user. Please try again.');
       console.error('Error updating user:', err);
     }
-  }
+  };
 
   const handlePermissionChange = (permission: string) => {
-    setNewAdminPermissions(prev =>
+    setNewAdminPermissions((prev) =>
       prev.includes(permission)
-        ? prev.filter(p => p !== permission)
+        ? prev.filter((p) => p !== permission)
         : [...prev, permission]
     );
-  }
+  };
 
   const handleCreateAdmin = async () => {
     try {
       await adminClient.createAdmin({
         user: newAdminUser._id,
         name: newAdminUser.name,
-        permissions: newAdminPermissions
+        permissions: newAdminPermissions,
       });
 
-      const updatedUser = await userClient.updateUser({ ...newAdminUser, role: 'ADMIN' });
+      const updatedUser = await userClient.updateUser({
+        ...newAdminUser,
+        role: 'ADMIN',
+      });
 
-      setUsers(users.map(user => user._id === updatedUser._id ? updatedUser : user));
+      setUsers(
+        users.map((user) => (user._id === updatedUser._id ? updatedUser : user))
+      );
 
       setShowAdminModal(false);
       setNewAdminUser(null);
@@ -111,7 +121,7 @@ export default function Admin() {
       setError('Failed to create admin. Please try again.');
       console.error('Error creating admin:', err);
     }
-  }
+  };
 
   const AdminModal = () => (
     <div className="permissions-modal-overlay">
@@ -138,11 +148,15 @@ export default function Admin() {
           </label>
         </div>
         <button onClick={handleCreateAdmin}>Confirm</button>
-        <button onClick={() => {
-          setShowAdminModal(false);
-          setNewAdminUser(null);
-          setNewAdminPermissions([]);
-        }}>Cancel</button>
+        <button
+          onClick={() => {
+            setShowAdminModal(false);
+            setNewAdminUser(null);
+            setNewAdminPermissions([]);
+          }}
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );
@@ -150,7 +164,7 @@ export default function Admin() {
   const handleReputationKeyPress = (e: any, user: any) => {
     console.log(e.target.value);
     if (e.key === 'Enter') {
-      handleUpdateUser({ ...user, reputation: Number(e.target.value) })
+      handleUpdateUser({ ...user, reputation: Number(e.target.value) });
       e.currentTarget.blur();
     } else if (e.key === 'Escape') {
       e.currentTarget.blur();
@@ -159,7 +173,7 @@ export default function Admin() {
 
   const removeUser = async (userId: string) => {
     try {
-      const userToDelete = users.find(user => user._id === userId);
+      const userToDelete = users.find((user) => user._id === userId);
       if (userToDelete && userToDelete.role === 'ADMIN') {
         const adminToDelete = await adminClient.findAdminByUserId(userId);
         if (adminToDelete) {
@@ -168,8 +182,8 @@ export default function Admin() {
       }
 
       await userClient.deleteUser(userId);
-      setUsers(users.filter(user => user._id !== userId));
-      setReviews(reviews.filter(review => review.userId !== userId));
+      setUsers(users.filter((user) => user._id !== userId));
+      setReviews(reviews.filter((review) => review.userId !== userId));
     } catch (err) {
       setError('Failed to remove user. Please try again.');
       console.error('Error removing user:', err);
@@ -179,14 +193,22 @@ export default function Admin() {
   const removeReview = async (reviewId: string) => {
     try {
       await reviewClient.deleteReview(reviewId);
-      setReviews(reviews.filter(review => review._id !== reviewId));
+      // setReviews(reviews.filter((review) => review._id !== reviewId));
     } catch (err) {
       setError('Failed to remove review. Please try again.');
       console.error('Error removing review:', err);
     }
   };
 
-  const ConfirmationModal = ({ onConfirm, onCancel, message }: { onConfirm: () => void, onCancel: () => void, message: string }) => (
+  const ConfirmationModal = ({
+    onConfirm,
+    onCancel,
+    message,
+  }: {
+    onConfirm: () => void;
+    onCancel: () => void;
+    message: string;
+  }) => (
     <div className="modal-overlay">
       <div className="modal-content">
         <p>{message}</p>
@@ -207,9 +229,13 @@ export default function Admin() {
       <h1>Admin Dashboard</h1>
       <div className="dashboard-content">
         {canManageUsers && (
-          <div className={`dashboard-column ${(canManageUsers && canManageContent) ? '' : 'single-column'}`}>
+          <div
+            className={`dashboard-column ${
+              canManageUsers && canManageContent ? '' : 'single-column'
+            }`}
+          >
             <h2>Users</h2>
-            <table className='user-table'>
+            <table className="user-table">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -219,13 +245,15 @@ export default function Admin() {
                 </tr>
               </thead>
               <tbody>
-                {users.map(user => (
+                {users.map((user) => (
                   <tr key={user._id}>
                     <td>{user.name}</td>
                     <td>
                       <select
                         defaultValue={user.role}
-                        onChange={(e) => handleUpdateUser({ ...user, role: e.target.value })}
+                        onChange={(e) =>
+                          handleUpdateUser({ ...user, role: e.target.value })
+                        }
                       >
                         <option value="VIEWER">Viewer</option>
                         <option value="CRITIC">Critic</option>
@@ -240,24 +268,31 @@ export default function Admin() {
                       />
                     </td>
                     <td>
-                      <button onClick={() => setConfirmAction({
-                        action: () => removeUser(user),
-                        message: `Are you sure you want to remove ${user.name}?`
-                      })}>
+                      <button
+                        onClick={() =>
+                          setConfirmAction({
+                            action: () => removeUser(user),
+                            message: `Are you sure you want to remove ${user.name}?`,
+                          })
+                        }
+                      >
                         Remove
                       </button>
                     </td>
                   </tr>
                 ))}
-
               </tbody>
             </table>
           </div>
         )}
         {canManageContent && (
-          <div className={`dashboard-column ${(canManageUsers && canManageContent) ? '' : 'single-column'}`}>
+          <div
+            className={`dashboard-column ${
+              canManageUsers && canManageContent ? '' : 'single-column'
+            }`}
+          >
             <h2>Reviews</h2>
-            <table className='reviews-table'>
+            <table className="reviews-table">
               <thead>
                 <tr>
                   <th>User Name</th>
@@ -267,16 +302,21 @@ export default function Admin() {
                 </tr>
               </thead>
               <tbody>
-                {reviews.map(review => (
+                {reviews.map((review) => (
                   <tr key={review._id}>
                     <td>{review.author}</td>
                     <td>{review.movie?.title || 'N/A'}</td>
                     <td>{review.rating}</td>
                     <td>
-                      <button onClick={() => setConfirmAction({
-                        action: () => removeReview(review._id),
-                        message: 'Are you sure you want to remove this review?'
-                      })}>
+                      <button
+                        onClick={() =>
+                          setConfirmAction({
+                            action: () => removeReview(review._id),
+                            message:
+                              'Are you sure you want to remove this review?',
+                          })
+                        }
+                      >
                         Remove
                       </button>
                     </td>
