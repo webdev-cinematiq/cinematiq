@@ -193,7 +193,7 @@ export default function Admin() {
   const removeReview = async (reviewId: string) => {
     try {
       await reviewClient.deleteReview(reviewId);
-      // setReviews(reviews.filter((review) => review._id !== reviewId));
+      setReviews(reviews.filter((review) => review._id !== reviewId));
     } catch (err) {
       setError('Failed to remove review. Please try again.');
       console.error('Error removing review:', err);
