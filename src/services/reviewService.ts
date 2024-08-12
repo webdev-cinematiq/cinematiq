@@ -44,7 +44,9 @@ export const updateReview = async (review: any) => {
   return response.data;
 };
 
-export const deleteReview = async (review: any) => {
-  const response = await axios.delete(`${REVIEWS_API}/${review._id}`);
+export const deleteReview = async (reviewId: any) => {
+  const response = await axios.delete(
+    `${REMOTE_SERVER}/api/reviews/${reviewId}`
+  );
   return response.data;
 };
