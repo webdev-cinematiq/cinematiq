@@ -171,9 +171,9 @@ export default function Admin() {
     }
   };
 
-  const removeUser = async (userId: string) => {
+  const removeUser = async (userToDelete: any) => {
     try {
-      const userToDelete = users.find((user) => user._id === userId);
+      const userId = userToDelete._id;
       if (userToDelete && userToDelete.role === 'ADMIN') {
         const adminToDelete = await adminClient.findAdminByUserId(userId);
         if (adminToDelete) {
@@ -181,7 +181,7 @@ export default function Admin() {
         }
       }
 
-      await userClient.deleteUser(userId);
+      await userClient.deleteUser(userToDelete);
       setUsers(users.filter((user) => user._id !== userId));
       setReviews(reviews.filter((review) => review.userId !== userId));
     } catch (err) {
@@ -230,9 +230,8 @@ export default function Admin() {
       <div className="dashboard-content">
         {canManageUsers && (
           <div
-            className={`dashboard-column ${
-              canManageUsers && canManageContent ? '' : 'single-column'
-            }`}
+            className={`dashboard-column ${canManageUsers && canManageContent ? '' : 'single-column'
+              }`}
           >
             <h2>Users</h2>
             <table className="user-table">
@@ -287,9 +286,8 @@ export default function Admin() {
         )}
         {canManageContent && (
           <div
-            className={`dashboard-column ${
-              canManageUsers && canManageContent ? '' : 'single-column'
-            }`}
+            className={`dashboard-column ${canManageUsers && canManageContent ? '' : 'single-column'
+              }`}
           >
             <h2>Reviews</h2>
             <table className="reviews-table">
