@@ -92,22 +92,25 @@ html {
 }
 
 .movie-preview {
-  display: flex;
-  align-items: center;
-  background-color: var(--color-background1);
-  border-radius: 4px;
-  padding: 4px;
-  margin-bottom: 4px;
-  width: 100%;
-  justify-content: space-between;
+  display: flex !important;
+  align-items: center !important;
+  background-color: var(--color-background1) !important;
+  border-radius: 4px !important;
+  padding: 4px !important;
+  margin-bottom: 4px !important;
+  width: 100% !important;
+  justify-content: left !important;
 }
 
 .create-collection-container .remove-button {
-  margin-left: auto;
-  font-size: 24px;
-  color: var(--color-text);
-  background: none;
-  border: none;
+  margin-left: auto !important;
+  font-size: 24px !important;
+  color: var(--color-text) !important;
+  background: none !important;
+  border: none !important;
+  width: 16px !important;
+  margin: 10px !important;
+  justify-content: space-between !important;
 }
 
 .movie-preview img {
