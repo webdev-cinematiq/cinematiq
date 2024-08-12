@@ -80,11 +80,11 @@ export default function Comment({ reviewId }: any) {
 
       const createdComment = await commentService.createComment(newComment);
 
-      const currentReview = await reviewService.findReviewById(reviewId);
+      // const currentReview = await reviewService.findReviewById(reviewId);
 
-      currentReview.comments.push(createdComment._id);
+      // currentReview.comments.push(createdComment._id);
 
-      await reviewService.updateReview(currentReview);
+      // await reviewService.updateReview(currentReview);
       setComments([...comments, createdComment]);
       setNewCommentText('');
     } catch (error) {
