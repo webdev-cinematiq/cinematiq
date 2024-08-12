@@ -64,8 +64,9 @@ export default function Comment({ reviewId }: any) {
 
   const handleSubmitComment = async (e: React.FormEvent) => {
     if (currentUser === null) return;
-    e.preventDefault();
     if (newCommentText.trim() === '') return;
+
+    e.preventDefault();
 
     setIsLoading(true);
     setError(null);
@@ -81,7 +82,7 @@ export default function Comment({ reviewId }: any) {
 
       const currentReview = await reviewService.findReviewById(reviewId);
 
-      currentReview.comments.push(createdComment);
+      currentReview.comments.push(createdComment._id);
 
       await reviewService.updateReview(currentReview);
       setComments([...comments, createdComment]);
