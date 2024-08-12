@@ -50,7 +50,7 @@ export default function CreateReview({
     return textId;
   };
 
-  const createReview = async (review: any, textId: string) => {
+  const createReview = async (review: any) => {
     const newReview = await reviewClient.createReview(username, review);
     console.log('movie to update: ', selectedMovie);
     console.log('review input: ', review);
@@ -64,7 +64,7 @@ export default function CreateReview({
     console.log('saved movie response', updatedMovie);
 
     handleClose();
-    navigate(`/${username}/review/${textId}`);
+    navigate(`/${username}/review/${newReview._id}`);
   };
 
   const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -147,7 +147,7 @@ export default function CreateReview({
         };
         const textId = formatTitleForUrl(newReview);
         newReview.text_id = textId;
-        createReview(newReview, textId);
+        createReview(newReview);
       } catch (error) {
         console.error('Error creating review:', error);
         setAlertMessage('Failed to create review. Please try again.');
