@@ -40,6 +40,7 @@
   padding: 20px;
   width: 80%;
   max-width: 800px;
+  cursor: pointer;
 }
 
 .review-carousel-pfp {

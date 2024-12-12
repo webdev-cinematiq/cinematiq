@@ -2,7 +2,8 @@
   background-color: var(--color-background1);
   color: var(--color-text);
   text-align: center;
-  padding-bottom: 20px; /* Add some padding to the bottom */
+  padding-bottom: 20px;
+  /* Add some padding to the bottom */
 }
 
 .collection-backdrop-container {
@@ -13,7 +14,8 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  margin-bottom: 0; /* Remove bottom margin */
+  margin-bottom: 0;
+  /* Remove bottom margin */
 }
 
 .fade-left,
@@ -36,11 +38,13 @@
   width: 100%;
   height: 2px;
   background-color: var(--color-button);
-  margin: 0 auto 20px auto; /* Set margin-bottom to 20px */
+  margin: 0 auto 20px auto;
+  /* Set margin-bottom to 20px */
 }
 
 .collection-header {
-  text-align: left; /* Align text to the left */
+  text-align: left;
+  /* Align text to the left */
   margin-left: 10%;
   margin-right: 10%;
 }
@@ -53,7 +57,8 @@
 
 .collection-title {
   font-family: var(--font-title);
-  font-size: 2.5rem; /* Slightly larger to match the image */
+  font-size: 2.5rem;
+  /* Slightly larger to match the image */
   font-weight: bold;
 }
 
@@ -63,8 +68,10 @@
   color: var(--color-secondary);
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Align to the left */
-  margin-left: 7%; /* Match the left margin with collection-title */
+  justify-content: flex-start;
+  /* Align to the left */
+  margin-left: 7%;
+  /* Match the left margin with collection-title */
   cursor: pointer;
   max-width: 261px;
 }
@@ -80,12 +87,14 @@
 }
 
 .collection-author-name {
-  font-weight: 900; /* Make the author name bolder */
+  font-weight: 900;
+  /* Make the author name bolder */
 }
 
 .collection-description {
   font-family: var(--font-main);
-  font-size: 1.1rem; /* Slightly larger */
+  font-size: 1.1rem;
+  /* Slightly larger */
   margin-top: 10px;
 }
 
@@ -100,6 +109,7 @@
   position: relative;
   text-align: center;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .movie-poster-container {
@@ -108,7 +118,8 @@
 }
 
 .movie-poster {
-  width: 200px; /* Smaller size */
+  width: 200px;
+  /* Smaller size */
   height: auto;
   border-radius: 8px;
 }
@@ -120,13 +131,16 @@
   background-color: var(--color-primary1);
   color: var(--color-text);
   border-radius: 50%;
-  width: 24px; /* Smaller size */
-  height: 24px; /* Smaller size */
+  width: 24px;
+  /* Smaller size */
+  height: 24px;
+  /* Smaller size */
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-title);
-  font-size: 1rem; /* Smaller size */
+  font-size: 1rem;
+  /* Smaller size */
   font-weight: bold;
 }
 
